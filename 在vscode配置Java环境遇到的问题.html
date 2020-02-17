@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="interview," />
+  <meta name="keywords" content="IDE," />
 
 
 
@@ -83,23 +83,19 @@
 
 
 
-<meta name="description" content="一. 前言在写SSM项目的过程中，遇到了一些小问题，不知道如何解决。其实对于框架的很多问题，很多时候都是因为框架的封装性，然后自身没有理解框架的内部逻辑而导致的。于是这次想花点时间好好读一下Servlet的源码，这样可以更好地理解JavaWeb底层，遇到问题也能更加地游刃有余。当然此次阅读源码只是比较浅显的，先看官方文档，然后在有目的性地读一部分源码来感受文档的内容。如果要认真看那肯定要看很久，目">
+<meta name="description" content="​        之前一直把vscode当作一个sublime的强化版，仅仅把它当作一个编辑器而已。虽然一直也清楚这是一个很好的IDE，但却没有好好利用，可能是因为之前一直觉得IntelliJ IDEA已经满足了我的需求罢。直到最近，IDEA真的是变本加厉，只要一输入（拿着键盘随便乱敲），那么CPU就会暴增。cpu暴增一般情况下倒没什么所谓，反正没有超100就行吧（刚打开的时候还真的会升到100）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="阅读Servlet的源码">
-<meta property="og:url" content="https://hongscar.cn/2020/02/17/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81/index.html">
+<meta property="og:title" content="在vscode配置Java环境遇到的问题">
+<meta property="og:url" content="https://hongscar.github.io/%E5%9C%A8vscode%E9%85%8D%E7%BD%AEJava%E7%8E%AF%E5%A2%83%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html">
 <meta property="og:site_name" content="Hong&#39;s Blog">
-<meta property="og:description" content="一. 前言在写SSM项目的过程中，遇到了一些小问题，不知道如何解决。其实对于框架的很多问题，很多时候都是因为框架的封装性，然后自身没有理解框架的内部逻辑而导致的。于是这次想花点时间好好读一下Servlet的源码，这样可以更好地理解JavaWeb底层，遇到问题也能更加地游刃有余。当然此次阅读源码只是比较浅显的，先看官方文档，然后在有目的性地读一部分源码来感受文档的内容。如果要认真看那肯定要看很久，目">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/5.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/2.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/3.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/4.jpg">
-<meta property="article:published_time" content="2020-02-17T03:14:10.000Z">
-<meta property="article:modified_time" content="2020-02-17T04:02:09.093Z">
+<meta property="og:description" content="​        之前一直把vscode当作一个sublime的强化版，仅仅把它当作一个编辑器而已。虽然一直也清楚这是一个很好的IDE，但却没有好好利用，可能是因为之前一直觉得IntelliJ IDEA已经满足了我的需求罢。直到最近，IDEA真的是变本加厉，只要一输入（拿着键盘随便乱敲），那么CPU就会暴增。cpu暴增一般情况下倒没什么所谓，反正没有超100就行吧（刚打开的时候还真的会升到100）">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/vscode_1.png">
+<meta property="article:published_time" content="2020-02-17T03:13:59.000Z">
+<meta property="article:modified_time" content="2020-02-17T06:20:12.587Z">
 <meta property="article:author" content="Hong">
-<meta property="article:tag" content="interview">
+<meta property="article:tag" content="IDE">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg">
+<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/vscode_1.png">
 
 
 
@@ -129,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://hongscar.cn/2020/02/17/阅读Servlet的源码/"/>
+  <link rel="canonical" href="https://hongscar.github.io/在vscode配置Java环境遇到的问题.html"/>
 
 
 
 
 
-  <title>阅读Servlet的源码 | Hong's Blog</title>
+  <title>在vscode配置Java环境遇到的问题 | Hong's Blog</title>
   
 
 
@@ -296,7 +292,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/2020/02/17/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81/">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.github.io/%E5%9C%A8vscode%E9%85%8D%E7%BD%AEJava%E7%8E%AF%E5%A2%83%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hong">
@@ -313,7 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">阅读Servlet的源码</h1>
+          <h1 class="post-title" itemprop="name headline">在vscode配置Java环境遇到的问题</h1>
         
 
         <div class="post-meta">
@@ -325,7 +321,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:14:10+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:13:59+08:00">
                 2020-02-17
               </time>
             
@@ -348,8 +344,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Servlet/" itemprop="url" rel="index">
-                    <span itemprop="name">Servlet</span>
+                  <a href="/categories/IDE/" itemprop="url" rel="index">
+                    <span itemprop="name">IDE</span>
                   </a>
                 </span>
 
@@ -390,34 +386,10 @@
       
 
       
-        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>在写SSM项目的过程中，遇到了一些小问题，不知道如何解决。其实对于框架的很多问题，很多时候都是因为框架的封装性，然后自身没有理解框架的内部逻辑而导致的。于是这次想花点时间好好读一下Servlet的源码，这样可以更好地理解JavaWeb底层，遇到问题也能更加地游刃有余。当然此次阅读源码只是比较浅显的，先看官方文档，然后在有目的性地读一部分源码来感受文档的内容。如果要认真看那肯定要看很久，目前还没这个时间。<br>    <strong>首先是Servlet API包含了两个软件包，javax.servlet和javax.servlet.http</strong>，为什么会有两个呢，因为早先设计该规范的人认为Servlet是一种服务模型，不一定要依赖于某种网络协议之上，于是就抽象出了一个javax.servlet，同时再提供一个基于HTTP协议上的接口拓展。但目前看来，似乎还没有发现有其他协议上实现的Servlet技术。</p>
-<a id="more"></a>
-
-<hr>
-<h3 id="二-HTTPServlet抽象类"><a href="#二-HTTPServlet抽象类" class="headerlink" title="二. HTTPServlet抽象类"></a>二. HTTPServlet抽象类</h3><p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg" alt="img">)](<a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg" target="_blank" rel="noopener">https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg</a>)<br>官方解析：<br>    <em>Provides an abstract class to be subclassed to create an HTTP servlet suitable for a Web site.A subclass of HttpServlet must override at leat one method usually one of these: doGet,doPost,doPut,doDelete.</em><br>    提供一个抽象类，使得它的子类可以更方便地创建一个标准HTTP Servlet。子类必须至少实现以下方法的其中一个：<strong>doGet，doPost，doPut，doDelete</strong><br>    <strong>标准Servlet接口有一个service方法</strong>，即service的标准服务方法。但是service方法没必要override，因为HTTPServlet已经把service方法写好了，把标准的HTTP请求通过它们的HTTP request类型(即请求的doXXX)，分别转发到具体的处理方法中。比如类型是doGet，就转发到doGet方法中。<br>HttpServlet里的service方法源码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> ServletException, IOException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    String method = req.getMethod();</span><br><span class="line">    <span class="keyword">if</span> (method.equals(METHOD_GET)) &#123;</span><br><span class="line">        <span class="keyword">long</span> lastModified = getLastModified(req);</span><br><span class="line">        <span class="keyword">if</span> (lastModified == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// servlet doesn't support if-modified-since, no reason</span></span><br><span class="line">        <span class="comment">// to go through further expensive logic</span></span><br><span class="line">        doGet(req, resp);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">long</span> ifModifiedSince = req.getDateHeader(HEADER_IFMODSINCE);</span><br><span class="line">        <span class="keyword">if</span> (ifModifiedSince &lt; (lastModified / <span class="number">1000</span> * <span class="number">1000</span>)) &#123;</span><br><span class="line">            <span class="comment">// If the servlet mod time is later, call doGet()</span></span><br><span class="line">                    <span class="comment">// Round down to the nearest second for a proper compare</span></span><br><span class="line">                    <span class="comment">// A ifModifiedSince of -1 will always be less</span></span><br><span class="line">            maybeSetLastModified(resp, lastModified);</span><br><span class="line">            doGet(req, resp);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_HEAD)) &#123;</span><br><span class="line">        <span class="keyword">long</span> lastModified = getLastModified(req);</span><br><span class="line">        maybeSetLastModified(resp, lastModified);</span><br><span class="line">        doHead(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_POST)) &#123;</span><br><span class="line">        doPost(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_PUT)) &#123;</span><br><span class="line">        doPut(req, resp);    </span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_DELETE)) &#123;</span><br><span class="line">        doDelete(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_OPTIONS)) &#123;</span><br><span class="line">        doOptions(req,resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_TRACE)) &#123;</span><br><span class="line">        doTrace(req,resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">// Note that this means NO servlet supports whatever</span></span><br><span class="line">        <span class="comment">// method was requested, anywhere on this server.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        String errMsg = lStrings.getString(<span class="string">"http.method_not_implemented"</span>);</span><br><span class="line">        Object[] errArgs = <span class="keyword">new</span> Object[<span class="number">1</span>];</span><br><span class="line">        errArgs[<span class="number">0</span>] = method;</span><br><span class="line">        errMsg = MessageFormat.format(errMsg, errArgs);</span><br><span class="line">        resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, errMsg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​        可以看到是通过Java反射的机制，获取了HttpServletRequest的方法，返回了一个method的字符串，根据method来判定到底是属于哪一个doXXX，再分别调用doXXX方法。这里我钻了一下牛角尖，HttpServletRequest里有多个方法，getMethod方法的内部逻辑是如何返回的呢。HttpServletRequest只是一个接口，寻找了很久只找到了一个实现类HttpServletRequestWrapper，然而还是没有具体的getMethod实现。最后知道了这个HttpServletRequest是由J2EE的容器来实现的，比如Tomcat，webLogic。看来我们是不能得知getMethod的具体逻辑了，只需要知道它可以返回HTTP报文头的method是什么就行。<br>​        然后如果是METHOD_XXX方法，就调用doXXX方法。好几个方法都没有特别，直接调用。但HEAD方法和GET方法多了一个逻辑，用于验证文件是否已经被修改。HEAD和GET都是获取服务器上的资源，但HEAD不需要返回消息体，只请求返回报文头，空的消息体，也就是说，它可以用于检测资源是否有效，是否存在，网站是否有篡改等。当需要这类操作的时候，就不需要用GET了，用HEAD即可。如果本地有缓存文件，和要GET的文件是相同的，没有修改过的，那么此时就会返回状态码304，表示文件没有被修改。虽然返回304的时候已经做了一次数据库查询，但可以避免接下来更多的数据库查询。对于HEAD方法，只返回HTTP报文头，更是降低了带宽的消耗。<br>​    最终到达了doXXX的方法，以GET方法为例，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    String protocol = req.getProtocol();</span><br><span class="line">    String msg = lStrings.getString(<span class="string">"http.method_get_not_supported"</span>);</span><br><span class="line">    <span class="keyword">if</span> (protocol.endsWith(<span class="string">"1.1"</span>)) &#123;</span><br><span class="line">        resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        resp.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 这里有个特别的地方是，虽然doXXX方法有具体的实现，但它是无论如何都会返回错误的，即sendError。这是避免了具体子类直接调用HttpServlet的doXXX方法。因此子类必须重写至少1个doXXX方法，然后再通过HTTP的method判断要调用哪个doXXX方法，进而调用子类重写的doXXX方法。</p>
-<hr>
-<h3 id="三-Servlet-ServiceConfig接口"><a href="#三-Servlet-ServiceConfig接口" class="headerlink" title="三. Servlet, ServiceConfig接口"></a>三. Servlet, ServiceConfig接口</h3><p>​    一个Java Servlet具有生命周期，这个生命周期定义了一个Servlet如何被载入并被初始化，如何接受请求并对请求的响应，如何从服务中被清除等等。Servlet的生命周期被javax.servlet.Servlet这个接口所定义。<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/5.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/5.jpg" alt="img"></a><br>​    所有的Java Servlet都会直接或间接地实现javax.servlet.Servlet接口，这样它才能在一个servlet引擎中运行。servlet引擎是web服务器按照Java Servlet API定制的拓展。Servlet引擎提供网络服务，能够理解MIME请求，并提供一个运行Servlet的容器。<br>​    只有实现了Servlet接口的才是Servlet，然后才包含Servlet的生命周期。当然，继承了HttpServlet，就是继承了GenericServlet，就是实现了Servlet接口。<br>​    ServletConfig就是用于获取Servlet的配置，比如初始化参数，参数名等等，还可以获取该Servlet的ServletContext对象。</p>
-<hr>
-<h3 id="四-ServletContext接口"><a href="#四-ServletContext接口" class="headerlink" title="四. ServletContext接口"></a>四. ServletContext接口</h3><p>​    Servlet上下文，服务器会为工程建立一个全局唯一的ServletContext对象，工程内部所有的Servlet都共享这个对象，可以用于读取全局配置参数，搜索资源文件等等。</p>
-<hr>
-<h3 id="五-ServletRequest接口等"><a href="#五-ServletRequest接口等" class="headerlink" title="五. ServletRequest接口等"></a>五. ServletRequest接口等</h3><p>ServletRequest接口，请求时产生的对象，ServletResponse接口，响应时产生的对象。<br>SingleThreadModel接口，使得Servlet成为单线程。（只接受1个请求）<br>GenericServlet类，实现了Servlet接口，使得编写Servlet更方便。<br>ServletInputStream，ServletOutputStream抽象类，继承InputStream，OutputStream<br>ServletException，UnavailableException类，没什么好说的。</p>
-<hr>
-<h3 id="六-Filter接口"><a href="#六-Filter接口" class="headerlink" title="六. Filter接口"></a>六. Filter接口</h3><p>​    用于对request，response等任务进行过滤，一般是用doFilter方法来过滤，可以通过FilterConfig的对象来获取Filter的初始化参数。包含了destroy，init，doFilter方法。<br>生命周期：当有Servlet的service方法要被执行时，被init，直到所有的service方法已经执行完毕doFilter，或者过了一定的时间之后，就会执行destroy方法。<br>​    对具体实现类的基本要求：<br>①要对request进行验证检查。<br>②对request和response可以选择自定义实现类去包装<br>③当有多个过滤方法的时候，需要用到过滤链FilterChain，并且在当前的Filter没执行完之前，当前的数据都不会被通过。执行完之后会继续执行chain里的下一个filter<br>④在过滤链调用下一个filter的时候，就要直接设置当前的response header（避免窜数据）<br>FilterChain的多个filter执行顺序在web.xml的filter-mapping里控制<br>FilterConfig，对Filter的初始化配置参数等等。</p>
-<hr>
-<h3 id="七-RequestDispatcher接口"><a href="#七-RequestDispatcher接口" class="headerlink" title="七. RequestDispatcher接口"></a>七. RequestDispatcher接口</h3><p>​    直译就是请求分发器。具备两个方法，forward和include。<br>定义了一个对象，从客户端接受请求之后，需要将请求发给服务器。有的时候需要传递给另一个资源去响应。比如用户请求资源A，A可以在接受请求后，在A上面做一些准备工作，再从A转发转发大都B，由B去响应例子。<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/2.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/2.jpg" alt="img"></a><br>第一个request就是A的准备工作，第二个就是转发到B，由B去响应。</p>
-<p>include不是转发，是包含某个资源，比如Servlet，JSP，HTML页面<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/3.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/3.jpg" alt="img"></a></p>
-<hr>
-<h3 id="八-HttpServletRequest，HttpServletResponse接口"><a href="#八-HttpServletRequest，HttpServletResponse接口" class="headerlink" title="八. HttpServletRequest，HttpServletResponse接口"></a>八. HttpServletRequest，HttpServletResponse接口</h3><p>继承ServletRequest，ServletResponse接口，用于处理一个HTTP格式的请求/响应<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/4.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/4.jpg" alt="img"></a><br>主要方法，setAttribute，getAttribute(继承得来的),getSession等等。Response同理。</p>
-<hr>
-<h3 id="九-HTTPSession接口"><a href="#九-HTTPSession接口" class="headerlink" title="九. HTTPSession接口"></a>九. HTTPSession接口</h3><p>创建一个HTTP会话。<br>方法主要是获取Session的参数(ID，creationTime，最长存在时间等等),以及setAttribute。。</p>
-<p>HttpSessionBindingListener接口。HTTPSession监听器，添加到Session中，监听Session，此处是监听binding，绑定事件。<br>还有其他的Session的Listener，比如Attribute，Activation监听器。（也就是HttpSessionAttributeListener,HttpSessionActivationListener）</p>
-<p>HttpSessionBindingEvent类，实现了HttpSessionBindingListener接口。只多了两个成员属性。<br>HttpUtils类，收集HTTP Servlet使用的静态的有效方法。</p>
+        <p>​        之前一直把vscode当作一个sublime的强化版，仅仅把它当作一个编辑器而已。虽然一直也清楚这是一个很好的IDE，但却没有好好利用，可能是因为之前一直觉得IntelliJ IDEA已经满足了我的需求罢。直到最近，IDEA真的是变本加厉，只要一输入（拿着键盘随便乱敲），那么CPU就会暴增。cpu暴增一般情况下倒没什么所谓，反正没有超100就行吧（刚打开的时候还真的会升到100），可是我这破电脑只要CPU稍微高一点，风扇就开始呜呜呜地，像一台发电机。明天等待工具到了真的要把它拆开来除一下灰尘，但无论如何，IDEA过于臃肿已经是显而易见的问题了，还是需要认真考虑一下如何使用vscode吧。说实话，真的没想到我这么快就会想跟IDEA说再见，还记得当时刚开始学C++，非要听信那个菜比老师，用vs2010，体验极差，而我竟然用了两年多。大二的时候开始学Java，一开始是使用Eclipse，感觉也是比vs2010提升了一个档次。后来接触到了IDEA，真的是感觉神仙一样的软件，各种智能补全。当然了，中途还因为学数媒的原因，下载了一个vs2013，那个的体验其实也很好的，反正真的应该大一的时候就直接用vs2013，而不是那脑残的vs2010。总而言之，技术永远是在进步的，需求也是在增加的，对于用户，程序员，都是一样的。</p>
+<a id="more"></a>        其实还考虑过优化IDEA，但参照了一下网上的做法，无论是修改JVM参数，还是关闭所有代码检查，都无济于事。说实话，一开始也不抱什么希望，因为我是只要键入就会飙升，那真的不太行。
+<pre><code>然后开始搞vscode，突然想到了以前也尝试过，未遂。当时遇到的问题就是，它说我的JDK指向路径是空的，是version 0，可我指向的确切就是我一直使用的JDK8，我的IDEA都是在使用这个的。其实比较麻烦的是，我对vscode的各种参数，各种setting，包括快捷键，真的是几乎一无所知。当时仅仅也只是下载了几个plugins，当个普通的编辑器就完事了。最无奈的是，一直显示我没有配置JDK，或者准确地说应该是配置失败，但我直接使用一个Code Runner的插件时，直接使用alt+B就能成功运行了，可即便如此，还是不能直接点最上方的运行/ 调试，点了就报错。如果这个插件可以调试我可能就这样先暂时用着了，可是它似乎真的只能run，那只好继续处理。既然说是这个JDK有问题，那我便直接去下一个JDK吧，我下载了一个JDK12，修改了JAVA_HOME，重启电脑。结果发现java -version仍然是1.8。经过了许久的处理才发现，我以前在配置JDK的时候太过不求甚解了，导致遗留下来了很多错误。就是说，虽然这样做可以运行，但并不是正确的做法。比如JAVA_HOME其实就是用于存放JDK的一个路径，之后如果要放到ClassPath，或者Path等等的，都可以引用这个参数，%JAVA_HOME%，后面紧接着/bin，/lib等等的，差不多也就是可重用可维护了，以后如果要换JDK，直接改JAVA_HOME就行了。可我当时在ClassPath里使用了这个参数，在Path里却没有，说明当时根本就没有理解这个参数的作用。然后我把Path的绝对路径改成了JAVA_HOME，发现仍然不行。再仔细一看，原来这个根本就没有用上，因为上面还有3个不知道是什么的JavaPath，有什么AdoptOpenJDK，有Oracle commons files等等。在一台电脑上如果存在多个JavaPath，那么是最上方（win7应该就是最左方）的生效。所以我一直以为整台电脑都使用了的E盘的library下的JDK，原来根本就没有，我的环境变量竟然一直是OpenJDK，也就是说classpath跟path使用了两个不同的JDK罢了。把以前的蜜汁path都去掉之后，再把自己新增的%JAVA_HOME%/bin移动到了最上方，这下总算就成功了，java -version也成功改成了12。那么IDEA里一直用的1.8，会不会因此不能运行？答案是不会，因为IDEA根本就不需要环境变量的那个Path参数，那个是在cmd里，全局里生效的，相当于IDEA是在本地自己使用了另一个JDK。我一开始觉得JDK有点奇怪，使用java -verbose查看JDK路径，我还好奇为什么会是在C盘的一个OpenJDK里，原来是当时留下的各种错误啊。
+JDK总算配置好了，但vscode依然不能运行，显示不能找到主类。这会我又没有动脑子，直接去改参数瞎搞。其实这个问题我在看编程思想的第一章就应该碰到过了，因为vscode毕竟不是传统的IDEA，它本体就是一个编辑器，非常轻量级，只有40M，但它可以通过各种plugins来增强功能罢了。因此，可能就是vscode确实就是直接使用环境变量里的ClassPath跟Path，直接命令行运行程序的，而IDEA这种还有更多的改进。那么直接在cmd里编译运行java程序会有一个什么经典的问题呢，就是package。最开始学java 的时候都尝试过cmd里编译运行，结果有一天会发现，自己明明第一个程序在cmd里是可行的，但在eclipse或者IDEA把代码复制过去便是找不到主类的。唯一的区别便是package，package其实就是一个文件夹，对于javac，java命令，这个还没智能到直接跳入到相应的位置去执行正确的文件，所以当时我们的解决方案是这样的，直接删掉package语句，然后就可以运行了，但显然并不是长远之计，难道以后写的程序都不加package了吗？于是正经的方案是这样的，给命令增加一个-d参数，还有一个什么什么的，忘记了，然后就可以根据package语句进入相应的路径去执行正确的文件了。所以，在vscode里也是要对基本的命令进行修改，比如默认是java test，那么就改成 java -d …… test。所以最后是在settings里增加这段代码：</code></pre><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/vscode_1.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/vscode_1.png" alt="settings代码"></a><br>        进入相应的$dir，然后再进行javac跟java，那么就大功告成（看起来还是跟-d有所区别的）至于其他的注释，便是针对其他的语言，这里无须理会。最后把vscode进行reload，程序就成功运行了。</p>
 
       
     </div>
@@ -435,7 +407,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/interview/" rel="tag"># interview</a>
+            <a href="/tags/IDE/" rel="tag"># IDE</a>
           
         </div>
       
@@ -448,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/17/%E5%9C%A8vscode%E9%85%8D%E7%BD%AEJava%E7%8E%AF%E5%A2%83%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" rel="next" title="在vscode配置Java环境遇到的问题">
-                <i class="fa fa-chevron-left"></i> 在vscode配置Java环境遇到的问题
+              <a href="/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%9C%8D%E5%8A%A1%E5%99%A8CPU100%25%E7%9A%84%E9%97%AE%E9%A2%98.html" rel="next" title="记一次服务器CPU100%的问题">
+                <i class="fa fa-chevron-left"></i> 记一次服务器CPU100%的问题
               </a>
             
           </div>
@@ -458,8 +430,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/17/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C/" rel="prev" title="Github的简要操作">
-                Github的简要操作 <i class="fa fa-chevron-right"></i>
+              <a href="/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81.html" rel="prev" title="阅读Servlet的源码">
+                阅读Servlet的源码 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -518,17 +490,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -615,22 +578,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-HTTPServlet抽象类"><span class="nav-number">2.</span> <span class="nav-text">二. HTTPServlet抽象类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-Servlet-ServiceConfig接口"><span class="nav-number">3.</span> <span class="nav-text">三. Servlet, ServiceConfig接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-ServletContext接口"><span class="nav-number">4.</span> <span class="nav-text">四. ServletContext接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-ServletRequest接口等"><span class="nav-number">5.</span> <span class="nav-text">五. ServletRequest接口等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-Filter接口"><span class="nav-number">6.</span> <span class="nav-text">六. Filter接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-RequestDispatcher接口"><span class="nav-number">7.</span> <span class="nav-text">七. RequestDispatcher接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八-HttpServletRequest，HttpServletResponse接口"><span class="nav-number">8.</span> <span class="nav-text">八. HttpServletRequest，HttpServletResponse接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九-HTTPSession接口"><span class="nav-number">9.</span> <span class="nav-text">九. HTTPSession接口</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

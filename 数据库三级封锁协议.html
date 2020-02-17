@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="IDE," />
+  <meta name="keywords" content="interview," />
 
 
 
@@ -83,19 +83,26 @@
 
 
 
-<meta name="description" content="​        之前一直把vscode当作一个sublime的强化版，仅仅把它当作一个编辑器而已。虽然一直也清楚这是一个很好的IDE，但却没有好好利用，可能是因为之前一直觉得IntelliJ IDEA已经满足了我的需求罢。直到最近，IDEA真的是变本加厉，只要一输入（拿着键盘随便乱敲），那么CPU就会暴增。cpu暴增一般情况下倒没什么所谓，反正没有超100就行吧（刚打开的时候还真的会升到100）">
+<meta name="description" content="一. 前言数据库并发会导致各种问题（即多线程下导致的同步问题），需要用lock来解决。 一般会导致的问题：脏读，不可重复读，第一类更新丢失，第二类更新丢失 为了解决这些问题，需要使用锁机制，数据库一般有三级封锁协议。本文阐述了这些问题具体是什么，锁机制如何解决这些问题。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在vscode配置Java环境遇到的问题">
-<meta property="og:url" content="https://hongscar.cn/2020/02/17/%E5%9C%A8vscode%E9%85%8D%E7%BD%AEJava%E7%8E%AF%E5%A2%83%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="数据库三级封锁协议">
+<meta property="og:url" content="https://hongscar.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE.html">
 <meta property="og:site_name" content="Hong&#39;s Blog">
-<meta property="og:description" content="​        之前一直把vscode当作一个sublime的强化版，仅仅把它当作一个编辑器而已。虽然一直也清楚这是一个很好的IDE，但却没有好好利用，可能是因为之前一直觉得IntelliJ IDEA已经满足了我的需求罢。直到最近，IDEA真的是变本加厉，只要一输入（拿着键盘随便乱敲），那么CPU就会暴增。cpu暴增一般情况下倒没什么所谓，反正没有超100就行吧（刚打开的时候还真的会升到100）">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/vscode_1.png">
-<meta property="article:published_time" content="2020-02-17T03:13:59.000Z">
-<meta property="article:modified_time" content="2020-02-17T06:20:12.587Z">
+<meta property="og:description" content="一. 前言数据库并发会导致各种问题（即多线程下导致的同步问题），需要用lock来解决。 一般会导致的问题：脏读，不可重复读，第一类更新丢失，第二类更新丢失 为了解决这些问题，需要使用锁机制，数据库一般有三级封锁协议。本文阐述了这些问题具体是什么，锁机制如何解决这些问题。">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_1.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_2.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_3.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_4.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_5.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_6.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_7.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_8.jpg">
+<meta property="article:published_time" content="2020-02-17T03:46:44.000Z">
+<meta property="article:modified_time" content="2020-02-17T04:01:35.523Z">
 <meta property="article:author" content="Hong">
-<meta property="article:tag" content="IDE">
+<meta property="article:tag" content="interview">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/vscode_1.png">
+<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_1.jpg">
 
 
 
@@ -125,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://hongscar.cn/2020/02/17/在vscode配置Java环境遇到的问题/"/>
+  <link rel="canonical" href="https://hongscar.github.io/数据库三级封锁协议.html"/>
 
 
 
 
 
-  <title>在vscode配置Java环境遇到的问题 | Hong's Blog</title>
+  <title>数据库三级封锁协议 | Hong's Blog</title>
   
 
 
@@ -292,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/2020/02/17/%E5%9C%A8vscode%E9%85%8D%E7%BD%AEJava%E7%8E%AF%E5%A2%83%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hong">
@@ -309,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">在vscode配置Java环境遇到的问题</h1>
+          <h1 class="post-title" itemprop="name headline">数据库三级封锁协议</h1>
         
 
         <div class="post-meta">
@@ -321,7 +328,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:13:59+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:46:44+08:00">
                 2020-02-17
               </time>
             
@@ -344,8 +351,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/IDE/" itemprop="url" rel="index">
-                    <span itemprop="name">IDE</span>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
                   </a>
                 </span>
 
@@ -386,10 +393,35 @@
       
 
       
-        <p>​        之前一直把vscode当作一个sublime的强化版，仅仅把它当作一个编辑器而已。虽然一直也清楚这是一个很好的IDE，但却没有好好利用，可能是因为之前一直觉得IntelliJ IDEA已经满足了我的需求罢。直到最近，IDEA真的是变本加厉，只要一输入（拿着键盘随便乱敲），那么CPU就会暴增。cpu暴增一般情况下倒没什么所谓，反正没有超100就行吧（刚打开的时候还真的会升到100），可是我这破电脑只要CPU稍微高一点，风扇就开始呜呜呜地，像一台发电机。明天等待工具到了真的要把它拆开来除一下灰尘，但无论如何，IDEA过于臃肿已经是显而易见的问题了，还是需要认真考虑一下如何使用vscode吧。说实话，真的没想到我这么快就会想跟IDEA说再见，还记得当时刚开始学C++，非要听信那个菜比老师，用vs2010，体验极差，而我竟然用了两年多。大二的时候开始学Java，一开始是使用Eclipse，感觉也是比vs2010提升了一个档次。后来接触到了IDEA，真的是感觉神仙一样的软件，各种智能补全。当然了，中途还因为学数媒的原因，下载了一个vs2013，那个的体验其实也很好的，反正真的应该大一的时候就直接用vs2013，而不是那脑残的vs2010。总而言之，技术永远是在进步的，需求也是在增加的，对于用户，程序员，都是一样的。</p>
-<a id="more"></a>        其实还考虑过优化IDEA，但参照了一下网上的做法，无论是修改JVM参数，还是关闭所有代码检查，都无济于事。说实话，一开始也不抱什么希望，因为我是只要键入就会飙升，那真的不太行。
-<pre><code>然后开始搞vscode，突然想到了以前也尝试过，未遂。当时遇到的问题就是，它说我的JDK指向路径是空的，是version 0，可我指向的确切就是我一直使用的JDK8，我的IDEA都是在使用这个的。其实比较麻烦的是，我对vscode的各种参数，各种setting，包括快捷键，真的是几乎一无所知。当时仅仅也只是下载了几个plugins，当个普通的编辑器就完事了。最无奈的是，一直显示我没有配置JDK，或者准确地说应该是配置失败，但我直接使用一个Code Runner的插件时，直接使用alt+B就能成功运行了，可即便如此，还是不能直接点最上方的运行/ 调试，点了就报错。如果这个插件可以调试我可能就这样先暂时用着了，可是它似乎真的只能run，那只好继续处理。既然说是这个JDK有问题，那我便直接去下一个JDK吧，我下载了一个JDK12，修改了JAVA_HOME，重启电脑。结果发现java -version仍然是1.8。经过了许久的处理才发现，我以前在配置JDK的时候太过不求甚解了，导致遗留下来了很多错误。就是说，虽然这样做可以运行，但并不是正确的做法。比如JAVA_HOME其实就是用于存放JDK的一个路径，之后如果要放到ClassPath，或者Path等等的，都可以引用这个参数，%JAVA_HOME%，后面紧接着/bin，/lib等等的，差不多也就是可重用可维护了，以后如果要换JDK，直接改JAVA_HOME就行了。可我当时在ClassPath里使用了这个参数，在Path里却没有，说明当时根本就没有理解这个参数的作用。然后我把Path的绝对路径改成了JAVA_HOME，发现仍然不行。再仔细一看，原来这个根本就没有用上，因为上面还有3个不知道是什么的JavaPath，有什么AdoptOpenJDK，有Oracle commons files等等。在一台电脑上如果存在多个JavaPath，那么是最上方（win7应该就是最左方）的生效。所以我一直以为整台电脑都使用了的E盘的library下的JDK，原来根本就没有，我的环境变量竟然一直是OpenJDK，也就是说classpath跟path使用了两个不同的JDK罢了。把以前的蜜汁path都去掉之后，再把自己新增的%JAVA_HOME%/bin移动到了最上方，这下总算就成功了，java -version也成功改成了12。那么IDEA里一直用的1.8，会不会因此不能运行？答案是不会，因为IDEA根本就不需要环境变量的那个Path参数，那个是在cmd里，全局里生效的，相当于IDEA是在本地自己使用了另一个JDK。我一开始觉得JDK有点奇怪，使用java -verbose查看JDK路径，我还好奇为什么会是在C盘的一个OpenJDK里，原来是当时留下的各种错误啊。
-JDK总算配置好了，但vscode依然不能运行，显示不能找到主类。这会我又没有动脑子，直接去改参数瞎搞。其实这个问题我在看编程思想的第一章就应该碰到过了，因为vscode毕竟不是传统的IDEA，它本体就是一个编辑器，非常轻量级，只有40M，但它可以通过各种plugins来增强功能罢了。因此，可能就是vscode确实就是直接使用环境变量里的ClassPath跟Path，直接命令行运行程序的，而IDEA这种还有更多的改进。那么直接在cmd里编译运行java程序会有一个什么经典的问题呢，就是package。最开始学java 的时候都尝试过cmd里编译运行，结果有一天会发现，自己明明第一个程序在cmd里是可行的，但在eclipse或者IDEA把代码复制过去便是找不到主类的。唯一的区别便是package，package其实就是一个文件夹，对于javac，java命令，这个还没智能到直接跳入到相应的位置去执行正确的文件，所以当时我们的解决方案是这样的，直接删掉package语句，然后就可以运行了，但显然并不是长远之计，难道以后写的程序都不加package了吗？于是正经的方案是这样的，给命令增加一个-d参数，还有一个什么什么的，忘记了，然后就可以根据package语句进入相应的路径去执行正确的文件了。所以，在vscode里也是要对基本的命令进行修改，比如默认是java test，那么就改成 java -d …… test。所以最后是在settings里增加这段代码：</code></pre><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/vscode_1.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/vscode_1.png" alt="settings代码"></a><br>        进入相应的$dir，然后再进行javac跟java，那么就大功告成（看起来还是跟-d有所区别的）至于其他的注释，便是针对其他的语言，这里无须理会。最后把vscode进行reload，程序就成功运行了。</p>
+        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>数据库并发会导致各种问题（即多线程下导致的同步问题），需要用lock来解决。</p>
+<p>一般会导致的问题：<strong><em>脏读，不可重复读，第一类更新丢失，第二类更新丢失</em></strong></p>
+<p>为了解决这些问题，需要使用锁机制，数据库一般有三级封锁协议。本文阐述了这些问题具体是什么，锁机制如何解决这些问题。</p>
+<a id="more"></a>
+
+<h3 id="二-数据库并发导致的问题"><a href="#二-数据库并发导致的问题" class="headerlink" title="二. 数据库并发导致的问题"></a>二. 数据库并发导致的问题</h3><hr>
+<p>①<strong><em>脏读</em></strong>（<em>dirty read</em>）：事务A update了data，事务B读取了update后的data，此时事务A rollback，导致B读取的是错误的数据，即dirty data</p>
+<hr>
+<p>②<strong><em>不可重复读</em></strong>（<em>unrepeatable read</em>）：B读取了data，A读取了data并且进行了update，此时B再次读取data，两次获取到的data并不一致。</p>
+<hr>
+<p>③<strong><em>第一类更新丢失</em></strong>：A读取了data①，B读取了data并且进行update，commit。A同时又对data进行update，而这个update是在①的基础上操作的，最终B的更新就会被丢失。</p>
+<hr>
+<p>④<strong><em>第二类更新丢失</em></strong>：B读取了data，A读取了data。B对data进行update，然后commit。接着A又对data进行update，commit。同样的，B的更新会被丢失。</p>
+<hr>
+<h3 id="三-数据库的锁机制"><a href="#三-数据库的锁机制" class="headerlink" title="三. 数据库的锁机制"></a>三. 数据库的锁机制</h3><p>数据库有两种锁，S锁和X锁：<br><strong>S锁（shared）：事务可读不可写。（其他事务可以同时添加S锁）</strong><br><strong>X锁（exclusive）：事务可读可写。（其他事务不可以同时添加任何锁）</strong><br>锁之间的兼容性，设定有两个锁a1，a2，用f(a1, a2)来表示两个锁的兼容性，如果f = 1，则表示兼容。如果f = 0，则不兼容。<br>f(s, s) = 1;其他诸如：f(x, x)= f(x, s)= f(s, x) = 0;<br><strong><em>即X锁不能与其他锁同时存在。而s锁与s锁之间可以同时存在。</em></strong></p>
+<hr>
+<p><strong>1.一级锁协议：</strong>事务T修改数据R之前，先加X锁，直到事务结束时释放（无论是正常结束commit还是非正常结束rollback）<br>作用：可防止 更新丢失问题。<br>不能防止： 脏读，不可重复读，幻读等。<br>PS：任何数据库都至少满足一级锁的协议，因为更新丢失是不能接受的错误，所以更新丢失一般只存在于理论讨论中，实际应用中基本不会出现这个问题。</p>
+<hr>
+<p><strong>2.二级锁协议：</strong>在一级锁的条件下，T在读取R之前先加S锁，读完后释放。<br>作用：可防止更新丢失，脏读。<br>不能防止： 不可重复读，幻读。</p>
+<hr>
+<p><strong>3.三级锁协议：</strong>在一级锁的条件下，T在读取R之前先加S锁，事务结束后释放。<br>作用：可防止 更新丢失，脏读，不可重复读，幻读。</p>
+<hr>
+<hr>
+<h3 id="四-具体例子来说明锁的作用机制："><a href="#四-具体例子来说明锁的作用机制：" class="headerlink" title="四. 具体例子来说明锁的作用机制："></a>四. 具体例子来说明锁的作用机制：</h3><h5 id="①不使用锁导致的更新丢失问题："><a href="#①不使用锁导致的更新丢失问题：" class="headerlink" title="①不使用锁导致的更新丢失问题："></a>①不使用锁导致的更新丢失问题：</h5><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_1.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_1.jpg" alt=""></a></p>
+<h5 id="②使用一级锁解决更新丢失问题："><a href="#②使用一级锁解决更新丢失问题：" class="headerlink" title="②使用一级锁解决更新丢失问题："></a>②使用一级锁解决更新丢失问题：</h5><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_2.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_2.jpg" alt=""></a><br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_3.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_3.jpg" alt=""></a></p>
+<h5 id="③为什么一级锁不能解决脏读问题："><a href="#③为什么一级锁不能解决脏读问题：" class="headerlink" title="③为什么一级锁不能解决脏读问题："></a>③为什么一级锁不能解决脏读问题：</h5><p>脏读例子：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_4.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_4.jpg" alt=""></a><br>用一级锁的情况：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_5.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_5.jpg" alt=""></a></p>
+<h5 id="④使用二级锁解决脏读问题："><a href="#④使用二级锁解决脏读问题：" class="headerlink" title="④使用二级锁解决脏读问题："></a>④使用二级锁解决脏读问题：</h5><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_6.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_6.jpg" alt=""></a></p>
+<h5 id="⑤为什么二级锁不能解决不可重复读问题："><a href="#⑤为什么二级锁不能解决不可重复读问题：" class="headerlink" title="⑤为什么二级锁不能解决不可重复读问题："></a>⑤为什么二级锁不能解决不可重复读问题：</h5><p>不可重复读例子：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_7.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_7.jpg" alt=""></a><br>使用二级锁的情况：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_8.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_8.jpg" alt=""></a></p>
+<h5 id="⑥三级锁解决不可重复读："><a href="#⑥三级锁解决不可重复读：" class="headerlink" title="⑥三级锁解决不可重复读："></a>⑥三级锁解决不可重复读：</h5><p>三级锁相当于，完全串行化。即一个事务开始了，其他事务都完全不能开始进行，无论是读还是写。因此就上述的例子，一定是A完全执行完毕，才轮到B执行。那么就必定不会出现不可重复读的问题。（三级锁的完全串行化，也就是，为了解决并行化带来的问题，直接不使用并行，改为串行执行。）</p>
 
       
     </div>
@@ -407,7 +439,7 @@ JDK总算配置好了，但vscode依然不能运行，显示不能找到主类�
       
         <div class="post-tags">
           
-            <a href="/tags/IDE/" rel="tag"># IDE</a>
+            <a href="/tags/interview/" rel="tag"># interview</a>
           
         </div>
       
@@ -420,8 +452,8 @@ JDK总算配置好了，但vscode依然不能运行，显示不能找到主类�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/17/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%9C%8D%E5%8A%A1%E5%99%A8CPU100%25%E7%9A%84%E9%97%AE%E9%A2%98/" rel="next" title="记一次服务器CPU100%的问题">
-                <i class="fa fa-chevron-left"></i> 记一次服务器CPU100%的问题
+              <a href="/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C.html" rel="next" title="Github的简要操作">
+                <i class="fa fa-chevron-left"></i> Github的简要操作
               </a>
             
           </div>
@@ -430,8 +462,8 @@ JDK总算配置好了，但vscode依然不能运行，显示不能找到主类�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/17/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81/" rel="prev" title="阅读Servlet的源码">
-                阅读Servlet的源码 <i class="fa fa-chevron-right"></i>
+              <a href="/JVM%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86.html" rel="prev" title="JVM知识整理">
+                JVM知识整理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -490,8 +522,17 @@ JDK总算配置好了，但vscode依然不能运行，显示不能找到主类�
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -578,6 +619,22 @@ JDK总算配置好了，但vscode依然不能运行，显示不能找到主类�
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-数据库并发导致的问题"><span class="nav-number">2.</span> <span class="nav-text">二. 数据库并发导致的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-数据库的锁机制"><span class="nav-number">3.</span> <span class="nav-text">三. 数据库的锁机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-具体例子来说明锁的作用机制："><span class="nav-number">4.</span> <span class="nav-text">四. 具体例子来说明锁的作用机制：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#①不使用锁导致的更新丢失问题："><span class="nav-number">4.0.1.</span> <span class="nav-text">①不使用锁导致的更新丢失问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#②使用一级锁解决更新丢失问题："><span class="nav-number">4.0.2.</span> <span class="nav-text">②使用一级锁解决更新丢失问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#③为什么一级锁不能解决脏读问题："><span class="nav-number">4.0.3.</span> <span class="nav-text">③为什么一级锁不能解决脏读问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#④使用二级锁解决脏读问题："><span class="nav-number">4.0.4.</span> <span class="nav-text">④使用二级锁解决脏读问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑤为什么二级锁不能解决不可重复读问题："><span class="nav-number">4.0.5.</span> <span class="nav-text">⑤为什么二级锁不能解决不可重复读问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑥三级锁解决不可重复读："><span class="nav-number">4.0.6.</span> <span class="nav-text">⑥三级锁解决不可重复读：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

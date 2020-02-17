@@ -83,26 +83,23 @@
 
 
 
-<meta name="description" content="一. 前言数据库并发会导致各种问题（即多线程下导致的同步问题），需要用lock来解决。 一般会导致的问题：脏读，不可重复读，第一类更新丢失，第二类更新丢失 为了解决这些问题，需要使用锁机制，数据库一般有三级封锁协议。本文阐述了这些问题具体是什么，锁机制如何解决这些问题。">
+<meta name="description" content="一. 前言在写SSM项目的过程中，遇到了一些小问题，不知道如何解决。其实对于框架的很多问题，很多时候都是因为框架的封装性，然后自身没有理解框架的内部逻辑而导致的。于是这次想花点时间好好读一下Servlet的源码，这样可以更好地理解JavaWeb底层，遇到问题也能更加地游刃有余。当然此次阅读源码只是比较浅显的，先看官方文档，然后在有目的性地读一部分源码来感受文档的内容。如果要认真看那肯定要看很久，目">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库三级封锁协议">
-<meta property="og:url" content="https://hongscar.cn/2020/02/17/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:title" content="阅读Servlet的源码">
+<meta property="og:url" content="https://hongscar.github.io/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81.html">
 <meta property="og:site_name" content="Hong&#39;s Blog">
-<meta property="og:description" content="一. 前言数据库并发会导致各种问题（即多线程下导致的同步问题），需要用lock来解决。 一般会导致的问题：脏读，不可重复读，第一类更新丢失，第二类更新丢失 为了解决这些问题，需要使用锁机制，数据库一般有三级封锁协议。本文阐述了这些问题具体是什么，锁机制如何解决这些问题。">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_1.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_2.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_3.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_4.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_5.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_6.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_7.jpg">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_8.jpg">
-<meta property="article:published_time" content="2020-02-17T03:46:44.000Z">
-<meta property="article:modified_time" content="2020-02-17T04:01:35.523Z">
+<meta property="og:description" content="一. 前言在写SSM项目的过程中，遇到了一些小问题，不知道如何解决。其实对于框架的很多问题，很多时候都是因为框架的封装性，然后自身没有理解框架的内部逻辑而导致的。于是这次想花点时间好好读一下Servlet的源码，这样可以更好地理解JavaWeb底层，遇到问题也能更加地游刃有余。当然此次阅读源码只是比较浅显的，先看官方文档，然后在有目的性地读一部分源码来感受文档的内容。如果要认真看那肯定要看很久，目">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/5.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/2.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/3.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/4.jpg">
+<meta property="article:published_time" content="2020-02-17T03:14:10.000Z">
+<meta property="article:modified_time" content="2020-02-17T04:02:09.093Z">
 <meta property="article:author" content="Hong">
 <meta property="article:tag" content="interview">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_1.jpg">
+<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg">
 
 
 
@@ -132,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="https://hongscar.cn/2020/02/17/数据库三级封锁协议/"/>
+  <link rel="canonical" href="https://hongscar.github.io/阅读Servlet的源码.html"/>
 
 
 
 
 
-  <title>数据库三级封锁协议 | Hong's Blog</title>
+  <title>阅读Servlet的源码 | Hong's Blog</title>
   
 
 
@@ -299,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/2020/02/17/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE/">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.github.io/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hong">
@@ -316,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据库三级封锁协议</h1>
+          <h1 class="post-title" itemprop="name headline">阅读Servlet的源码</h1>
         
 
         <div class="post-meta">
@@ -328,7 +325,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:46:44+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:14:10+08:00">
                 2020-02-17
               </time>
             
@@ -351,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
+                  <a href="/categories/Servlet/" itemprop="url" rel="index">
+                    <span itemprop="name">Servlet</span>
                   </a>
                 </span>
 
@@ -393,35 +390,34 @@
       
 
       
-        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>数据库并发会导致各种问题（即多线程下导致的同步问题），需要用lock来解决。</p>
-<p>一般会导致的问题：<strong><em>脏读，不可重复读，第一类更新丢失，第二类更新丢失</em></strong></p>
-<p>为了解决这些问题，需要使用锁机制，数据库一般有三级封锁协议。本文阐述了这些问题具体是什么，锁机制如何解决这些问题。</p>
+        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>在写SSM项目的过程中，遇到了一些小问题，不知道如何解决。其实对于框架的很多问题，很多时候都是因为框架的封装性，然后自身没有理解框架的内部逻辑而导致的。于是这次想花点时间好好读一下Servlet的源码，这样可以更好地理解JavaWeb底层，遇到问题也能更加地游刃有余。当然此次阅读源码只是比较浅显的，先看官方文档，然后在有目的性地读一部分源码来感受文档的内容。如果要认真看那肯定要看很久，目前还没这个时间。<br>    <strong>首先是Servlet API包含了两个软件包，javax.servlet和javax.servlet.http</strong>，为什么会有两个呢，因为早先设计该规范的人认为Servlet是一种服务模型，不一定要依赖于某种网络协议之上，于是就抽象出了一个javax.servlet，同时再提供一个基于HTTP协议上的接口拓展。但目前看来，似乎还没有发现有其他协议上实现的Servlet技术。</p>
 <a id="more"></a>
 
-<h3 id="二-数据库并发导致的问题"><a href="#二-数据库并发导致的问题" class="headerlink" title="二. 数据库并发导致的问题"></a>二. 数据库并发导致的问题</h3><hr>
-<p>①<strong><em>脏读</em></strong>（<em>dirty read</em>）：事务A update了data，事务B读取了update后的data，此时事务A rollback，导致B读取的是错误的数据，即dirty data</p>
 <hr>
-<p>②<strong><em>不可重复读</em></strong>（<em>unrepeatable read</em>）：B读取了data，A读取了data并且进行了update，此时B再次读取data，两次获取到的data并不一致。</p>
+<h3 id="二-HTTPServlet抽象类"><a href="#二-HTTPServlet抽象类" class="headerlink" title="二. HTTPServlet抽象类"></a>二. HTTPServlet抽象类</h3><p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg" alt="img">)](<a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg" target="_blank" rel="noopener">https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/1.jpg</a>)<br>官方解析：<br>    <em>Provides an abstract class to be subclassed to create an HTTP servlet suitable for a Web site.A subclass of HttpServlet must override at leat one method usually one of these: doGet,doPost,doPut,doDelete.</em><br>    提供一个抽象类，使得它的子类可以更方便地创建一个标准HTTP Servlet。子类必须至少实现以下方法的其中一个：<strong>doGet，doPost，doPut，doDelete</strong><br>    <strong>标准Servlet接口有一个service方法</strong>，即service的标准服务方法。但是service方法没必要override，因为HTTPServlet已经把service方法写好了，把标准的HTTP请求通过它们的HTTP request类型(即请求的doXXX)，分别转发到具体的处理方法中。比如类型是doGet，就转发到doGet方法中。<br>HttpServlet里的service方法源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> ServletException, IOException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    String method = req.getMethod();</span><br><span class="line">    <span class="keyword">if</span> (method.equals(METHOD_GET)) &#123;</span><br><span class="line">        <span class="keyword">long</span> lastModified = getLastModified(req);</span><br><span class="line">        <span class="keyword">if</span> (lastModified == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// servlet doesn't support if-modified-since, no reason</span></span><br><span class="line">        <span class="comment">// to go through further expensive logic</span></span><br><span class="line">        doGet(req, resp);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">long</span> ifModifiedSince = req.getDateHeader(HEADER_IFMODSINCE);</span><br><span class="line">        <span class="keyword">if</span> (ifModifiedSince &lt; (lastModified / <span class="number">1000</span> * <span class="number">1000</span>)) &#123;</span><br><span class="line">            <span class="comment">// If the servlet mod time is later, call doGet()</span></span><br><span class="line">                    <span class="comment">// Round down to the nearest second for a proper compare</span></span><br><span class="line">                    <span class="comment">// A ifModifiedSince of -1 will always be less</span></span><br><span class="line">            maybeSetLastModified(resp, lastModified);</span><br><span class="line">            doGet(req, resp);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_HEAD)) &#123;</span><br><span class="line">        <span class="keyword">long</span> lastModified = getLastModified(req);</span><br><span class="line">        maybeSetLastModified(resp, lastModified);</span><br><span class="line">        doHead(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_POST)) &#123;</span><br><span class="line">        doPost(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_PUT)) &#123;</span><br><span class="line">        doPut(req, resp);    </span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_DELETE)) &#123;</span><br><span class="line">        doDelete(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_OPTIONS)) &#123;</span><br><span class="line">        doOptions(req,resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_TRACE)) &#123;</span><br><span class="line">        doTrace(req,resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">// Note that this means NO servlet supports whatever</span></span><br><span class="line">        <span class="comment">// method was requested, anywhere on this server.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        String errMsg = lStrings.getString(<span class="string">"http.method_not_implemented"</span>);</span><br><span class="line">        Object[] errArgs = <span class="keyword">new</span> Object[<span class="number">1</span>];</span><br><span class="line">        errArgs[<span class="number">0</span>] = method;</span><br><span class="line">        errMsg = MessageFormat.format(errMsg, errArgs);</span><br><span class="line">        resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, errMsg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        可以看到是通过Java反射的机制，获取了HttpServletRequest的方法，返回了一个method的字符串，根据method来判定到底是属于哪一个doXXX，再分别调用doXXX方法。这里我钻了一下牛角尖，HttpServletRequest里有多个方法，getMethod方法的内部逻辑是如何返回的呢。HttpServletRequest只是一个接口，寻找了很久只找到了一个实现类HttpServletRequestWrapper，然而还是没有具体的getMethod实现。最后知道了这个HttpServletRequest是由J2EE的容器来实现的，比如Tomcat，webLogic。看来我们是不能得知getMethod的具体逻辑了，只需要知道它可以返回HTTP报文头的method是什么就行。<br>​        然后如果是METHOD_XXX方法，就调用doXXX方法。好几个方法都没有特别，直接调用。但HEAD方法和GET方法多了一个逻辑，用于验证文件是否已经被修改。HEAD和GET都是获取服务器上的资源，但HEAD不需要返回消息体，只请求返回报文头，空的消息体，也就是说，它可以用于检测资源是否有效，是否存在，网站是否有篡改等。当需要这类操作的时候，就不需要用GET了，用HEAD即可。如果本地有缓存文件，和要GET的文件是相同的，没有修改过的，那么此时就会返回状态码304，表示文件没有被修改。虽然返回304的时候已经做了一次数据库查询，但可以避免接下来更多的数据库查询。对于HEAD方法，只返回HTTP报文头，更是降低了带宽的消耗。<br>​    最终到达了doXXX的方法，以GET方法为例，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    String protocol = req.getProtocol();</span><br><span class="line">    String msg = lStrings.getString(<span class="string">"http.method_get_not_supported"</span>);</span><br><span class="line">    <span class="keyword">if</span> (protocol.endsWith(<span class="string">"1.1"</span>)) &#123;</span><br><span class="line">        resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        resp.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 这里有个特别的地方是，虽然doXXX方法有具体的实现，但它是无论如何都会返回错误的，即sendError。这是避免了具体子类直接调用HttpServlet的doXXX方法。因此子类必须重写至少1个doXXX方法，然后再通过HTTP的method判断要调用哪个doXXX方法，进而调用子类重写的doXXX方法。</p>
 <hr>
-<p>③<strong><em>第一类更新丢失</em></strong>：A读取了data①，B读取了data并且进行update，commit。A同时又对data进行update，而这个update是在①的基础上操作的，最终B的更新就会被丢失。</p>
+<h3 id="三-Servlet-ServiceConfig接口"><a href="#三-Servlet-ServiceConfig接口" class="headerlink" title="三. Servlet, ServiceConfig接口"></a>三. Servlet, ServiceConfig接口</h3><p>​    一个Java Servlet具有生命周期，这个生命周期定义了一个Servlet如何被载入并被初始化，如何接受请求并对请求的响应，如何从服务中被清除等等。Servlet的生命周期被javax.servlet.Servlet这个接口所定义。<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/5.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/5.jpg" alt="img"></a><br>​    所有的Java Servlet都会直接或间接地实现javax.servlet.Servlet接口，这样它才能在一个servlet引擎中运行。servlet引擎是web服务器按照Java Servlet API定制的拓展。Servlet引擎提供网络服务，能够理解MIME请求，并提供一个运行Servlet的容器。<br>​    只有实现了Servlet接口的才是Servlet，然后才包含Servlet的生命周期。当然，继承了HttpServlet，就是继承了GenericServlet，就是实现了Servlet接口。<br>​    ServletConfig就是用于获取Servlet的配置，比如初始化参数，参数名等等，还可以获取该Servlet的ServletContext对象。</p>
 <hr>
-<p>④<strong><em>第二类更新丢失</em></strong>：B读取了data，A读取了data。B对data进行update，然后commit。接着A又对data进行update，commit。同样的，B的更新会被丢失。</p>
+<h3 id="四-ServletContext接口"><a href="#四-ServletContext接口" class="headerlink" title="四. ServletContext接口"></a>四. ServletContext接口</h3><p>​    Servlet上下文，服务器会为工程建立一个全局唯一的ServletContext对象，工程内部所有的Servlet都共享这个对象，可以用于读取全局配置参数，搜索资源文件等等。</p>
 <hr>
-<h3 id="三-数据库的锁机制"><a href="#三-数据库的锁机制" class="headerlink" title="三. 数据库的锁机制"></a>三. 数据库的锁机制</h3><p>数据库有两种锁，S锁和X锁：<br><strong>S锁（shared）：事务可读不可写。（其他事务可以同时添加S锁）</strong><br><strong>X锁（exclusive）：事务可读可写。（其他事务不可以同时添加任何锁）</strong><br>锁之间的兼容性，设定有两个锁a1，a2，用f(a1, a2)来表示两个锁的兼容性，如果f = 1，则表示兼容。如果f = 0，则不兼容。<br>f(s, s) = 1;其他诸如：f(x, x)= f(x, s)= f(s, x) = 0;<br><strong><em>即X锁不能与其他锁同时存在。而s锁与s锁之间可以同时存在。</em></strong></p>
+<h3 id="五-ServletRequest接口等"><a href="#五-ServletRequest接口等" class="headerlink" title="五. ServletRequest接口等"></a>五. ServletRequest接口等</h3><p>ServletRequest接口，请求时产生的对象，ServletResponse接口，响应时产生的对象。<br>SingleThreadModel接口，使得Servlet成为单线程。（只接受1个请求）<br>GenericServlet类，实现了Servlet接口，使得编写Servlet更方便。<br>ServletInputStream，ServletOutputStream抽象类，继承InputStream，OutputStream<br>ServletException，UnavailableException类，没什么好说的。</p>
 <hr>
-<p><strong>1.一级锁协议：</strong>事务T修改数据R之前，先加X锁，直到事务结束时释放（无论是正常结束commit还是非正常结束rollback）<br>作用：可防止 更新丢失问题。<br>不能防止： 脏读，不可重复读，幻读等。<br>PS：任何数据库都至少满足一级锁的协议，因为更新丢失是不能接受的错误，所以更新丢失一般只存在于理论讨论中，实际应用中基本不会出现这个问题。</p>
+<h3 id="六-Filter接口"><a href="#六-Filter接口" class="headerlink" title="六. Filter接口"></a>六. Filter接口</h3><p>​    用于对request，response等任务进行过滤，一般是用doFilter方法来过滤，可以通过FilterConfig的对象来获取Filter的初始化参数。包含了destroy，init，doFilter方法。<br>生命周期：当有Servlet的service方法要被执行时，被init，直到所有的service方法已经执行完毕doFilter，或者过了一定的时间之后，就会执行destroy方法。<br>​    对具体实现类的基本要求：<br>①要对request进行验证检查。<br>②对request和response可以选择自定义实现类去包装<br>③当有多个过滤方法的时候，需要用到过滤链FilterChain，并且在当前的Filter没执行完之前，当前的数据都不会被通过。执行完之后会继续执行chain里的下一个filter<br>④在过滤链调用下一个filter的时候，就要直接设置当前的response header（避免窜数据）<br>FilterChain的多个filter执行顺序在web.xml的filter-mapping里控制<br>FilterConfig，对Filter的初始化配置参数等等。</p>
 <hr>
-<p><strong>2.二级锁协议：</strong>在一级锁的条件下，T在读取R之前先加S锁，读完后释放。<br>作用：可防止更新丢失，脏读。<br>不能防止： 不可重复读，幻读。</p>
+<h3 id="七-RequestDispatcher接口"><a href="#七-RequestDispatcher接口" class="headerlink" title="七. RequestDispatcher接口"></a>七. RequestDispatcher接口</h3><p>​    直译就是请求分发器。具备两个方法，forward和include。<br>定义了一个对象，从客户端接受请求之后，需要将请求发给服务器。有的时候需要传递给另一个资源去响应。比如用户请求资源A，A可以在接受请求后，在A上面做一些准备工作，再从A转发转发大都B，由B去响应例子。<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/2.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/2.jpg" alt="img"></a><br>第一个request就是A的准备工作，第二个就是转发到B，由B去响应。</p>
+<p>include不是转发，是包含某个资源，比如Servlet，JSP，HTML页面<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/3.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/3.jpg" alt="img"></a></p>
 <hr>
-<p><strong>3.三级锁协议：</strong>在一级锁的条件下，T在读取R之前先加S锁，事务结束后释放。<br>作用：可防止 更新丢失，脏读，不可重复读，幻读。</p>
+<h3 id="八-HttpServletRequest，HttpServletResponse接口"><a href="#八-HttpServletRequest，HttpServletResponse接口" class="headerlink" title="八. HttpServletRequest，HttpServletResponse接口"></a>八. HttpServletRequest，HttpServletResponse接口</h3><p>继承ServletRequest，ServletResponse接口，用于处理一个HTTP格式的请求/响应<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/4.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/4.jpg" alt="img"></a><br>主要方法，setAttribute，getAttribute(继承得来的),getSession等等。Response同理。</p>
 <hr>
-<hr>
-<h3 id="四-具体例子来说明锁的作用机制："><a href="#四-具体例子来说明锁的作用机制：" class="headerlink" title="四. 具体例子来说明锁的作用机制："></a>四. 具体例子来说明锁的作用机制：</h3><h5 id="①不使用锁导致的更新丢失问题："><a href="#①不使用锁导致的更新丢失问题：" class="headerlink" title="①不使用锁导致的更新丢失问题："></a>①不使用锁导致的更新丢失问题：</h5><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_1.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_1.jpg" alt=""></a></p>
-<h5 id="②使用一级锁解决更新丢失问题："><a href="#②使用一级锁解决更新丢失问题：" class="headerlink" title="②使用一级锁解决更新丢失问题："></a>②使用一级锁解决更新丢失问题：</h5><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_2.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_2.jpg" alt=""></a><br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_3.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_3.jpg" alt=""></a></p>
-<h5 id="③为什么一级锁不能解决脏读问题："><a href="#③为什么一级锁不能解决脏读问题：" class="headerlink" title="③为什么一级锁不能解决脏读问题："></a>③为什么一级锁不能解决脏读问题：</h5><p>脏读例子：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_4.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_4.jpg" alt=""></a><br>用一级锁的情况：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_5.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_5.jpg" alt=""></a></p>
-<h5 id="④使用二级锁解决脏读问题："><a href="#④使用二级锁解决脏读问题：" class="headerlink" title="④使用二级锁解决脏读问题："></a>④使用二级锁解决脏读问题：</h5><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_6.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_6.jpg" alt=""></a></p>
-<h5 id="⑤为什么二级锁不能解决不可重复读问题："><a href="#⑤为什么二级锁不能解决不可重复读问题：" class="headerlink" title="⑤为什么二级锁不能解决不可重复读问题："></a>⑤为什么二级锁不能解决不可重复读问题：</h5><p>不可重复读例子：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_7.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_7.jpg" alt=""></a><br>使用二级锁的情况：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_8.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/mysql_8.jpg" alt=""></a></p>
-<h5 id="⑥三级锁解决不可重复读："><a href="#⑥三级锁解决不可重复读：" class="headerlink" title="⑥三级锁解决不可重复读："></a>⑥三级锁解决不可重复读：</h5><p>三级锁相当于，完全串行化。即一个事务开始了，其他事务都完全不能开始进行，无论是读还是写。因此就上述的例子，一定是A完全执行完毕，才轮到B执行。那么就必定不会出现不可重复读的问题。（三级锁的完全串行化，也就是，为了解决并行化带来的问题，直接不使用并行，改为串行执行。）</p>
+<h3 id="九-HTTPSession接口"><a href="#九-HTTPSession接口" class="headerlink" title="九. HTTPSession接口"></a>九. HTTPSession接口</h3><p>创建一个HTTP会话。<br>方法主要是获取Session的参数(ID，creationTime，最长存在时间等等),以及setAttribute。。</p>
+<p>HttpSessionBindingListener接口。HTTPSession监听器，添加到Session中，监听Session，此处是监听binding，绑定事件。<br>还有其他的Session的Listener，比如Attribute，Activation监听器。（也就是HttpSessionAttributeListener,HttpSessionActivationListener）</p>
+<p>HttpSessionBindingEvent类，实现了HttpSessionBindingListener接口。只多了两个成员属性。<br>HttpUtils类，收集HTTP Servlet使用的静态的有效方法。</p>
 
       
     </div>
@@ -452,8 +448,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/17/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C/" rel="next" title="Github的简要操作">
-                <i class="fa fa-chevron-left"></i> Github的简要操作
+              <a href="/%E5%9C%A8vscode%E9%85%8D%E7%BD%AEJava%E7%8E%AF%E5%A2%83%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98.html" rel="next" title="在vscode配置Java环境遇到的问题">
+                <i class="fa fa-chevron-left"></i> 在vscode配置Java环境遇到的问题
               </a>
             
           </div>
@@ -462,8 +458,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/17/JVM%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" rel="prev" title="JVM知识整理">
-                JVM知识整理 <i class="fa fa-chevron-right"></i>
+              <a href="/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C.html" rel="prev" title="Github的简要操作">
+                Github的简要操作 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -629,7 +625,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-数据库并发导致的问题"><span class="nav-number">2.</span> <span class="nav-text">二. 数据库并发导致的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-数据库的锁机制"><span class="nav-number">3.</span> <span class="nav-text">三. 数据库的锁机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-具体例子来说明锁的作用机制："><span class="nav-number">4.</span> <span class="nav-text">四. 具体例子来说明锁的作用机制：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#①不使用锁导致的更新丢失问题："><span class="nav-number">4.0.1.</span> <span class="nav-text">①不使用锁导致的更新丢失问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#②使用一级锁解决更新丢失问题："><span class="nav-number">4.0.2.</span> <span class="nav-text">②使用一级锁解决更新丢失问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#③为什么一级锁不能解决脏读问题："><span class="nav-number">4.0.3.</span> <span class="nav-text">③为什么一级锁不能解决脏读问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#④使用二级锁解决脏读问题："><span class="nav-number">4.0.4.</span> <span class="nav-text">④使用二级锁解决脏读问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑤为什么二级锁不能解决不可重复读问题："><span class="nav-number">4.0.5.</span> <span class="nav-text">⑤为什么二级锁不能解决不可重复读问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑥三级锁解决不可重复读："><span class="nav-number">4.0.6.</span> <span class="nav-text">⑥三级锁解决不可重复读：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-HTTPServlet抽象类"><span class="nav-number">2.</span> <span class="nav-text">二. HTTPServlet抽象类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-Servlet-ServiceConfig接口"><span class="nav-number">3.</span> <span class="nav-text">三. Servlet, ServiceConfig接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-ServletContext接口"><span class="nav-number">4.</span> <span class="nav-text">四. ServletContext接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-ServletRequest接口等"><span class="nav-number">5.</span> <span class="nav-text">五. ServletRequest接口等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-Filter接口"><span class="nav-number">6.</span> <span class="nav-text">六. Filter接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-RequestDispatcher接口"><span class="nav-number">7.</span> <span class="nav-text">七. RequestDispatcher接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八-HttpServletRequest，HttpServletResponse接口"><span class="nav-number">8.</span> <span class="nav-text">八. HttpServletRequest，HttpServletResponse接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九-HTTPSession接口"><span class="nav-number">9.</span> <span class="nav-text">九. HTTPSession接口</span></a></li></ol></div>
             
 
           </div>

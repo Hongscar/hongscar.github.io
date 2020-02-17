@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="interview," />
+  <meta name="keywords" content="blog," />
 
 
 
@@ -83,19 +83,17 @@
 
 
 
-<meta name="description" content="一. 类的生命周期：加载→连接→初始化→使用→销毁连接 包括：①验证（确保被加载的类的正确性）②准备（为静态变量分配内存，并将其初始化为默认值（指0，false，null等），同时将static final值转换为具体的常量③初始化：为静态变量执行赋值语句（static，非final），执行静态块PS：初始化只有在对类主动使用时才会执行，包括以下：①new②访问静态域的时候③反射（如Class.f">
+<meta name="description" content="前言​        Hexo是一个很流行的博客框架。之前一直想构建一个博客，也花费过很多功夫。其实一开始是想着完全自己从零实现，不使用框架，主要是为了学习一遍web开发。很可惜，到了后面愈发感觉力不从心。不套用博客框架自己实现，确实自由度非常广，可是要用到的知识也非常的多。对于后端，我用的是SSM+Redis，前端用的是Bootstrap和jQuery。最后让我放弃的是前端原因，我感觉自己对前端">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM知识整理">
-<meta property="og:url" content="https://hongscar.cn/2020/02/17/JVM%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/index.html">
+<meta property="og:title" content="Hexo搭建记录">
+<meta property="og:url" content="https://hongscar.github.io/Hexo%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95.html">
 <meta property="og:site_name" content="Hong&#39;s Blog">
-<meta property="og:description" content="一. 类的生命周期：加载→连接→初始化→使用→销毁连接 包括：①验证（确保被加载的类的正确性）②准备（为静态变量分配内存，并将其初始化为默认值（指0，false，null等），同时将static final值转换为具体的常量③初始化：为静态变量执行赋值语句（static，非final），执行静态块PS：初始化只有在对类主动使用时才会执行，包括以下：①new②访问静态域的时候③反射（如Class.f">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/jvm_1.png">
-<meta property="article:published_time" content="2020-02-17T03:48:09.000Z">
-<meta property="article:modified_time" content="2020-02-17T06:18:09.748Z">
+<meta property="og:description" content="前言​        Hexo是一个很流行的博客框架。之前一直想构建一个博客，也花费过很多功夫。其实一开始是想着完全自己从零实现，不使用框架，主要是为了学习一遍web开发。很可惜，到了后面愈发感觉力不从心。不套用博客框架自己实现，确实自由度非常广，可是要用到的知识也非常的多。对于后端，我用的是SSM+Redis，前端用的是Bootstrap和jQuery。最后让我放弃的是前端原因，我感觉自己对前端">
+<meta property="article:published_time" content="2020-02-17T03:11:38.000Z">
+<meta property="article:modified_time" content="2020-02-17T04:01:51.574Z">
 <meta property="article:author" content="Hong">
-<meta property="article:tag" content="interview">
+<meta property="article:tag" content="blog">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/jvm_1.png">
 
 
 
@@ -125,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://hongscar.cn/2020/02/17/JVM知识整理/"/>
+  <link rel="canonical" href="https://hongscar.github.io/Hexo搭建记录.html"/>
 
 
 
 
 
-  <title>JVM知识整理 | Hong's Blog</title>
+  <title>Hexo搭建记录 | Hong's Blog</title>
   
 
 
@@ -292,7 +290,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/2020/02/17/JVM%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.github.io/Hexo%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hong">
@@ -309,7 +307,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JVM知识整理</h1>
+          <h1 class="post-title" itemprop="name headline">Hexo搭建记录</h1>
         
 
         <div class="post-meta">
@@ -321,7 +319,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:48:09+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:11:38+08:00">
                 2020-02-17
               </time>
             
@@ -344,8 +342,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -386,42 +384,43 @@
       
 
       
-        <h3 id="一-类的生命周期：加载→连接→初始化→使用→销毁"><a href="#一-类的生命周期：加载→连接→初始化→使用→销毁" class="headerlink" title="一. 类的生命周期：加载→连接→初始化→使用→销毁"></a>一. 类的生命周期：加载→连接→初始化→使用→销毁</h3><h5 id="连接-包括："><a href="#连接-包括：" class="headerlink" title="连接 包括："></a>连接 包括：</h5><p>①验证（确保被加载的类的正确性）<br>②准备（为静态变量分配内存，并将其初始化为默认值（指0，false，null等），同时将static final值转换为具体的常量<br>③初始化：为静态变量执行赋值语句（static，非final），执行静态块<br>PS：初始化只有在对类主动使用时才会执行，包括以下：<br>①new<br>②访问静态域的时候<br>③反射（如Class.forName)<br>④初始化某个类时，其父类也会初始化<br>⑤运行main方法时，该类加载</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>​        Hexo是一个很流行的博客框架。之前一直想构建一个博客，也花费过很多功夫。其实一开始是想着完全自己从零实现，不使用框架，主要是为了学习一遍web开发。很可惜，到了后面愈发感觉力不从心。不套用博客框架自己实现，确实自由度非常广，可是要用到的知识也非常的多。对于后端，我用的是SSM+Redis，前端用的是Bootstrap和jQuery。最后让我放弃的是前端原因，我感觉自己对前端仅限于读懂，或者写一些简单的界面，或者是在别人的界面上进行修改。在找前端模板的过程中，我就想着不如试试Hexo吧，反正学习目的已经达到了，于是记录一下Hexo搭建博客的过程遇到的问题。<strong><em>这里使用的hexo版本是：4.2.0</em></strong></p>
 <a id="more"></a>
 
-<hr>
-<h5 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器:"></a>类加载器:</h5><p><em>①Bootstarp ClassLoader</em>（启动类加载器，由C++实现的类，无法获取实例）<br>负责加载JDK下/lib的类库（如java.*等关键类，是最底层的Class Loader)</p>
-<p><em>②Extension ClassLoader</em>（拓展类加载器<br>负责加载JDK下 /lib/ext目录，即额外的类库</p>
-<p><em>③Application ClassLoader</em>（应用程序类加载器负责加载用户类路径的类，即ClassPath</p>
-<p><em>④其他自定义的类加载器    User Class Loader</em><br>PS：这里的加载器并不是通过继承组成的关系，而是组合。    ②③④都继承自java.lang.ClassLoader</p>
-<hr>
-<h4 id="question1：为什么类加载机制是双亲委派模型（即优先加载父类加载器的类）"><a href="#question1：为什么类加载机制是双亲委派模型（即优先加载父类加载器的类）" class="headerlink" title="question1：为什么类加载机制是双亲委派模型（即优先加载父类加载器的类）"></a>question1：为什么类加载机制是双亲委派模型（即优先加载父类加载器的类）</h4><p>ans：双亲委派模型：当一个Class loader收到了加载类的请求，它不会立刻加载，而是先交给父类加载器加载，但父类加载器找不到那个类，才传递回给子类加载器。即优先在Bootstarp中加载，然后是Extension，然后就才是Application。<br>这样做的好处：<br>①只有1个classloader加载了类，防止内存中会出现同样的字节码<br>②增强了安全性，避免用户自己定义了java预定义的类并成功覆盖。比如用户自定义了一个java.lang.Object的类，这时候它会优先从Bootstrap中加载，而Bootstrap中加载的是java预定义的Object类，而不是用户自定义的Object类，这样就避免了用户的Object类覆盖。如果是先从Application Class loader中加载，那么就是先加载用户自定义的Object类，而Java预定义的Object类被覆盖掉。</p>
-<hr>
-<hr>
-<h3 id="二-JVM的内存结构："><a href="#二-JVM的内存结构：" class="headerlink" title="二. JVM的内存结构："></a>二. JVM的内存结构：</h3><p><strong>JDK1.6： Heap + PermGen（Method Area）永久区，方法区 + Stack + Program Counter Register</strong><br>同时：<strong>①Stack = JVM Stack + Native Method Stack</strong><br>Stack用于描述Java方法执行的内存模型，每个方法执行时都会创建一个栈帧（Stack Frame），用于存储局部变量表，操作栈，动态链接，方法出口，基本类型和对象的引用等等。每一个方法从被调用直至执行完成的过程，就对应一个栈帧在JVM Stack中从入栈到出栈的过程。<br>（Native同理，只是作用与本地方法）<br>PS：如果线程请求的栈深度大于JVM所允许的深度，抛出StackOverflowError。<br>如果JVM Stack可以动态拓展，拓展时无法申请到足够的内存，抛出OutOfMemoryError</p>
-<hr>
-<p><strong>②Heap = Young Generation年轻代 + Old Generation 老年代</strong><br><strong>Young = Eden + From Survivor  + To Survivor</strong><br>通过各种参数可以控制各区域的内存大小，进而达到JVM调优效果<br>-Xms， -Xmx：设置Heap的最小，最大空间的大小<br>-XX:NewSize， -XX:MaxNewSize： 设置年轻代最小，最大空间的大小<br>-XX:PermSize, -XX:MaxPermSize： 设置永久区最小， 最大空间的大小<br>-Xss：设置每个JVM Stack的大小<br>（PS：Perm是永久区，要设置老年代只能通过 Heap - Young来间接控制）<br>PS：在Heap区中，有可能抛出OutOfMemoryError</p>
-<hr>
-<p><strong>③Program Counter Register</strong><br>较小的内存空间，是当前字节码的行号指示器（用于分支，跳转等待）<br>如果执行的是Java方法，记录正在执行的JVM字节码的指令地址。<br>如果是Native方法，那么为空（Undefined）<br>（此区域是JVM唯一无OutOfMemoryError的区域，因为一般不会在这里抛异常）</p>
-<p><strong>④PermGen（Method Area）方法区，永久区</strong><br>用于存储已经被JVM加载的类信息，常量，静态变量，JNI编译后的代码·<br>（会抛出OutOfMemoryError）<br>PS：Heap 和Method Area在线程间是会共享资源的，而Stack和Counter是线程私有的。</p>
-<hr>
-<p><strong><em>JDK各版本的区别： (1.6 ~ 1.8)</em></strong><br>JDK1.6中，各种常量池是放在方法区中的<br>JDK1.7中，常量池放在Heap中，此时：Heap = Young + Old + 各种常量池<br>（PS：关于常量池，这里还有一个TODO，即intern那中问题，看《JVM入门到放弃》）<br>JDK1.8:常量池依然在Heap中，但永久区/方法区被移除，改为使用metaSpace（元空间）</p>
-<hr>
-<hr>
-<h4 id="question2：移除永久区PermGen的原因"><a href="#question2：移除永久区PermGen的原因" class="headerlink" title="question2：移除永久区PermGen的原因"></a>question2：移除永久区PermGen的原因</h4><p>①永久区一直只存在于HotSpot JVM，而JRockit VM没有永久区，为了融合两个JVM而做出的调整，无须继续配置永久区<br>②永久区内存经常不够用，或者发生内存泄漏，抛出OutOfMemoryError：PermGen<br>③永久区会为GC带来不必要的复杂度，并且回收效率偏低</p>
-<hr>
-<h4 id="question3：元空间metaSpace和永久区的区别？"><a href="#question3：元空间metaSpace和永久区的区别？" class="headerlink" title="question3：元空间metaSpace和永久区的区别？"></a>question3：元空间metaSpace和永久区的区别？</h4><p>元空间并不在VM中，而是使用本地内存，默认情况下，仅受本地内存的限制。（可以通过配置参数来控制meta Space，默认情况下，最大空间没有限制，即内存的上限）。配置参数：<br>-XX：MetaspaceSize， -XX：MaxMetaspaceSize    初始空间大小，最大空间大小<br>-XX：MinMetaspaceFreeRadio， -XX：MaxMetaspaceFreeRadio：<br>在GC之后，最小/最大的Metaspace剩余空间容量的百分比</p>
-<hr>
-<h4 id="question4：常量池为什么要移动到Heap"><a href="#question4：常量池为什么要移动到Heap" class="headerlink" title="question4：常量池为什么要移动到Heap"></a>question4：常量池为什么要移动到Heap</h4><p>因为方法区的回收比较困难，会导致过多严重的bug，所以从1.7开始就把常量池移动到Heap，为后续移除PermGen做出准备（在JDK1.8已把PermGen移除）</p>
-<hr>
-<h3 id="三-GC算法："><a href="#三-GC算法：" class="headerlink" title="三. GC算法："></a>三. GC算法：</h3><p><strong>①标记-清除 Mark-Sweep</strong><br>缺点：效率不高，且会产生大量的内存碎片<br><strong>②复制算法 Copying</strong><br>缺点：会使内存缩小一半，不能直接用在Old，因为持续复制长生存期的对象会导致效率降低<br><strong>③标记-压缩 Mark-Compact</strong> （在①的基础上，清除完之后还对碎片进行压缩）<br><strong>④分代收集Generational Collection</strong> 即年轻代用 复制算法，老年代用标记清除/压缩</p>
-<hr>
-<p><strong>垃圾回收器</strong>：<br>①Serial，串行收集器。最古老，最稳定，效率高。但会产生较长的停顿<br>②ParNew，即Serial的多线程版本<br>③Parallel，于ParNew类似，但更关注系统的吞吐量<br>④CMS（Concurrent Mark Sweep）<br>重视服务的响应速度，希望系统停顿时间最短，但会产生大量的空间碎片，降低吞吐量。<br>⑤G1（Garbage-First）<br>满足了GC停顿时间要求，同时又具备高吞吐量的特征<br>（收集器之间可以组合使用，如Young使用A，Old使用B）</p>
-<p>MinorGC：对年轻代进行GC。特点：频繁，回收速度快<br>MajorGC：对老年代进行GC。<br>FullGC：全堆范围的GC</p>
-<hr>
-<h4 id="question5：什么情况下会出现内存溢出-泄漏？"><a href="#question5：什么情况下会出现内存溢出-泄漏？" class="headerlink" title="question5：什么情况下会出现内存溢出/泄漏？"></a>question5：什么情况下会出现内存溢出/泄漏？</h4><p>虽说Java有GC，无须我们手动释放资源，但在运行时还是可能出现对象可达，但不会被使用的情况，这时候就会导致内存泄漏。例子：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/jvm_1.png" target="_blank" rel="noopener" title="Java内存泄漏例子"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/jvm_1.png" alt="Java内存泄漏例子" title="Java内存泄漏例子"></a><br>内存溢出的可能原因：<br>①内存泄漏导致Stack内存不断增大，引发OutOfMemory（Stack处）<br>②大量jar，class文件加载，装载类的空间不足，溢出 （Class Loader处）<br>③操作大量对象，导致Heap空间不足，溢出（Heap处）<br>④nio直接操作内存，内存过大导致溢出（内存处）<br>（同理应该MetaSpace溢出也是一样的）<br>解决方法：查看是否有内存泄漏，设置参数增大空间，代码是否存在死循环生成过多对象</p>
-<hr>
-<h4 id="question6：JVM从Young到Old的晋升条件是什么"><a href="#question6：JVM从Young到Old的晋升条件是什么" class="headerlink" title="question6：JVM从Young到Old的晋升条件是什么"></a>question6：JVM从Young到Old的晋升条件是什么</h4><p>①对象在Eden出生，经过一个MinorGC还存活，就被Survivor容纳，在From和to中复制交换。如果经过[MaxTenuringThreshold]（默认是15）次交换还存活，进入Old<br>②如果对象大小等于Eden的二分之一，直接分到Old。如果Old也分配不下，做一次MajorGC<br>（如果小于Eden的二分之一，但没有足够的空间，进行MinorGC）<br>③MajorGC之后，如果Survivor仍然放不下，则放到Old<br>④动态年龄判断。如果大于等于某年龄的对象超过survivor空间的一半，则这些对象全部都直接进入Old（无须达到MaxTenuringThreshold)</p>
+<h3 id="如何使用Hexo"><a href="#如何使用Hexo" class="headerlink" title="如何使用Hexo"></a>如何使用Hexo</h3><p>​        不同的博客框架有利有弊，如果是新手就直接选Hexo吧，不要去考虑Wordpress，Hugo等等的了，那些以后再慢慢接触，现在Hexo就足够用了！于是我参考了一个<strong><em><a href="http://fanzhenyu.cn/2016/11/30/Github%20Pages%20+%20Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="noopener">博客</a></em></strong>，大概的步骤都是完全按照它的，所以也无须再照搬一次了。</p>
+<h3 id="构建Hexo的过程遇到的问题"><a href="#构建Hexo的过程遇到的问题" class="headerlink" title="构建Hexo的过程遇到的问题"></a>构建Hexo的过程遇到的问题</h3><p>​        只要是上网学过教程的朋友，或者是看书的朋友，都肯定会遇到一个问题：跟着书上/文章上的去做，却发现出错。导致的原因一般有，自己忽略了步骤，版本的变更。无论如何，这些才是学习中最大的困难，所以这篇文章就是记录我在构建Hexo博客的过程中所遇到的问题，以及如何解决。</p>
+<h4 id="①-注册GitHub，使用GitHub-Page。本地安装Git，配置好环境变量，本地Git与Github连接。在Git-bash中安装node-js和hexo及其依赖文件。将本地hexo项目托管到GitHub"><a href="#①-注册GitHub，使用GitHub-Page。本地安装Git，配置好环境变量，本地Git与Github连接。在Git-bash中安装node-js和hexo及其依赖文件。将本地hexo项目托管到GitHub" class="headerlink" title="① 注册GitHub，使用GitHub Page。本地安装Git，配置好环境变量，本地Git与Github连接。在Git bash中安装node.js和hexo及其依赖文件。将本地hexo项目托管到GitHub"></a>① 注册GitHub，使用GitHub Page。本地安装Git，配置好环境变量，本地Git与Github连接。在Git bash中安装node.js和hexo及其依赖文件。将本地hexo项目托管到GitHub</h4><p>​        一般程序员都有GitHub，所以前面的步骤基本都可以忽略掉。直到安装hexo的时候，这时候原文有提到需要初始化hexo：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init hexo</span><br></pre></td></tr></table></figure>
+
+<p>这里就出现了问题，显示：<em>bash: hexo command not found</em>。显然，没有找到hexo命令。对于此类错误，一般有两种可能。第一种可能的错误是没有安装hexo，于是再三确定了一下前面的安装代码是否出错，并没有，基本可以排除。第二种可能的错误是环境变量的设置问题。我们都知道只有把命令设置到环境变量里才可以直接在命令行里调用，或者就是安装的时候安装系统自动添加到了环境变量，只有这样才可以直接使用。于是我们到环境变量里添加hexo的安装路径：F:\XXX\node_modules\.bin    问题解决。</p>
+<p>​    除此之外，如果yml配置文件出错（一般是格式错误，记住yml的冒号需要用英文格式，以及冒号后面要加空格即可），那么启动hexo会失败，导致无法访问主页。这时候就要具体地看一下启动的时候的报错信息去检查。</p>
+<p>​    只要完成教程一，那么最简陋的hexo就搭建成功了，后续就是完善。</p>
+<h4 id="②-全局配置文件的设置，主题配置文件的设置。设置图片，设置菜单，添加几个菜单页面，发布文章。"><a href="#②-全局配置文件的设置，主题配置文件的设置。设置图片，设置菜单，添加几个菜单页面，发布文章。" class="headerlink" title="② 全局配置文件的设置，主题配置文件的设置。设置图片，设置菜单，添加几个菜单页面，发布文章。"></a>② 全局配置文件的设置，主题配置文件的设置。设置图片，设置菜单，添加几个菜单页面，发布文章。</h4><p>​        配置文件处都没什么问题。图片那里值得一提的是，默认的图片路径是 hexo/source/下。而菜单页面看起来也是调用命令hexo new page xxx即可自动生成，在对应的路径下就能看到一个index.md（部署到GitHub的时候会变成index.html）。可是无法访问，一直报错，<strong>Cannot GET /about/%20/</strong>。这里的关键是%20，这是空格的意思！知道了这个，就很容易排查了，问题出在配置文件里。虽然它提供了默认代码，但它的||前后加了空格，导致出错。所以虽然这是默认代码，但我们还是老老实实把它的错误改了吧：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/||home</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">/about/||user</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/tags/||tags</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories/||th</span></span><br><span class="line">  <span class="comment"># archives: /archives/ || archive</span></span><br><span class="line">  <span class="comment"># schedule: /schedule/ || calendar</span></span><br><span class="line">  <span class="comment"># sitemap: /sitemap.xml || sitemap</span></span><br><span class="line">  <span class="comment">#commonweal: /404/ || heartbeat</span></span><br></pre></td></tr></table></figure>
+
+<p>​        这时候一般是可以运行了的，如果还是不行，那么可能是因为你复制了上面教程作者的md文字？可能是由于版本的不同，教程作者的index.md的第一行是：”—“，如果你也跟着加了，那么就是画蛇添足了。我这里用的是Typora，只要在那条虚线下面开始写你的页面内容即可（上面的都是格式配置，一般不会直接显示出来）。于是，这里的问题也解决了。发布文章也是同理。</p>
+<p>​        完成教程二，对于博客的关键功能：发布文章，分类查找等等，都已经可以实现，后续可以继续添加更多有趣的功能。</p>
+<h4 id="③教程三"><a href="#③教程三" class="headerlink" title="③教程三"></a>③教程三</h4><p>​        教程三是教我们使用外部图床存储图片，添加了一个评论功能，以及文章浏览量，网站访问量，站内搜索等等。这里我个人只建议看浏览量和站内搜索。因为外部图床，其实新手暂时没必要，等到你觉得性能需要提高的时候才考虑，先把网站搭起来吧（其实直接用腾讯云COS就可以做图床了）。。至于评论功能，这个评论功能是过时的，不建议使用。</p>
+<p>​        浏览量这里也存在问题，开启了之后只有图标，没有显示具体数据，这是因为hexo next主题中不蒜子脚本链接失效，这时候需要编辑：<strong>/themes/next/layout/_third-party/analytics/busuanzi-counter.swig</strong> 文件，将里面的链接：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js</span></span><br></pre></td></tr></table></figure>
+
+<p>改成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js</span></span><br></pre></td></tr></table></figure>
+
+<p>​        这时候就能看到统计的数据量了。</p>
+<p>​        对于站内搜索功能，设置了全局配置文件，发现仍然没有搜索功能，这是因为我们还需要一个步骤，在主题配置文件里找到 <strong>local_search</strong>。显然，还需要把enable的false值：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># if auto, trigger search by changing input</span></span><br><span class="line">  <span class="comment"># if manual, trigger search by pressing enter key or search button</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="comment"># show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="④-添加功能模块"><a href="#④-添加功能模块" class="headerlink" title="④ 添加功能模块"></a>④ 添加功能模块</h4><p>​        教程四的内容我直接跳过了，感觉意义不是很大，但评论功能还是比较有用的，于是直接研究评论功能。一开始按照教程来使用Gitment，无论怎么样都显示Error： Not Found。原因竟然是。。Gitment已经过时了，大概是作者也不维护了，服务器也过期了等等，所以大家跳车吧，转战<strong>Gittalk</strong>。这里的使用的教程是<strong><a href="https://asdfv1929.github.io/2018/01/20/gitalk/" target="_blank" rel="noopener">这个</a></strong>。</p>
+<p>​        Gitalk中值得注意的问题是：</p>
+<p>​            Ⅰ. <strong>comments.swig</strong>处添加一个elseif，这里要注意elseif添加的位置，要与前面的elseif同一级别，自己细心看一下就知道要添加在哪里了，不要添加在endif后面。。</p>
+<p>​            Ⅱ. 最常见的错误，<strong>Error: Not Found</strong>。在Gitment就是因为这个而弃坑的，可是在Gitalk依然遇到了这个情况。这里的错误点在于：repo的位置出错。这里的repo值必须是： xxx.github.io，而不能写 <a href="https://github.com/Xxx/xxx.github.io" target="_blank" rel="noopener">https://github.com/Xxx/xxx.github.io</a></p>
+<p>​            解决了这两个问题，只要把项目部署到GitHub上，就能成功运行了。至此，hexo搭建基本结束，重要的功能都涵盖了，后续还能进行更多的补充。</p>
+<h4 id="⑤-一些其他可能会出现的错误"><a href="#⑤-一些其他可能会出现的错误" class="headerlink" title="⑤ 一些其他可能会出现的错误"></a>⑤ 一些其他可能会出现的错误</h4><p>​        即使是像本人的专业踩坑者，也不可能把所有的坑踩完（否则我应该去应聘测试！）。所以这里只能列举一些我本人遇到的错误，以及如何解决。</p>
+<p>​        在关闭hexo server的时候，应该使用ctrl + c，不小心按成了ctrl + z，也就是挂起，导致后续再启动会显示端口占用。这属于Linux的基本命令问题。本来想通过ps，kill等等的命令去解决的，可是都不行。最后使用的是jobs命令。jobs命令可以查找job号（假设为num），这时候我们执行 <strong>stop %num</strong>  ，即可解决。</p>
+<p>​        踩完坑在本地修改完，发现打开网址还是没有改变？这个问题很多web开发者应该都曾经遇到，其实最简单的原因就是缓存的原因，浏览器直接读取了缓存的东西，导致服务器新改的东西并没有生效，这时候只需要：<strong>ctrl + F5</strong>，浏览器刷新，可能你就会发现有所改变了，避免了多做无用功。。</p>
 
       
     </div>
@@ -439,7 +438,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/interview/" rel="tag"># interview</a>
+            <a href="/tags/blog/" rel="tag"># blog</a>
           
         </div>
       
@@ -452,8 +451,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/17/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE/" rel="next" title="数据库三级封锁协议">
-                <i class="fa fa-chevron-left"></i> 数据库三级封锁协议
+              <a href="/centos%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95.html" rel="next" title="centos环境配置记录">
+                <i class="fa fa-chevron-left"></i> centos环境配置记录
               </a>
             
           </div>
@@ -462,8 +461,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/17/MySQL%E9%94%81%E7%9A%84%E5%88%A4%E6%96%AD/" rel="prev" title="MySQL锁的判断">
-                MySQL锁的判断 <i class="fa fa-chevron-right"></i>
+              <a href="/Linux%E5%AE%89%E8%A3%85Apache.html" rel="prev" title="Linux安装Apache">
+                Linux安装Apache <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -629,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-类的生命周期：加载→连接→初始化→使用→销毁"><span class="nav-number">1.</span> <span class="nav-text">一. 类的生命周期：加载→连接→初始化→使用→销毁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#连接-包括："><span class="nav-number">1.0.1.</span> <span class="nav-text">连接 包括：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类加载器"><span class="nav-number">1.0.2.</span> <span class="nav-text">类加载器:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#question1：为什么类加载机制是双亲委派模型（即优先加载父类加载器的类）"><span class="nav-number">1.1.</span> <span class="nav-text">question1：为什么类加载机制是双亲委派模型（即优先加载父类加载器的类）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-JVM的内存结构："><span class="nav-number">2.</span> <span class="nav-text">二. JVM的内存结构：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#question2：移除永久区PermGen的原因"><span class="nav-number">2.1.</span> <span class="nav-text">question2：移除永久区PermGen的原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#question3：元空间metaSpace和永久区的区别？"><span class="nav-number">2.2.</span> <span class="nav-text">question3：元空间metaSpace和永久区的区别？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#question4：常量池为什么要移动到Heap"><span class="nav-number">2.3.</span> <span class="nav-text">question4：常量池为什么要移动到Heap</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-GC算法："><span class="nav-number">3.</span> <span class="nav-text">三. GC算法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#question5：什么情况下会出现内存溢出-泄漏？"><span class="nav-number">3.1.</span> <span class="nav-text">question5：什么情况下会出现内存溢出&#x2F;泄漏？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#question6：JVM从Young到Old的晋升条件是什么"><span class="nav-number">3.2.</span> <span class="nav-text">question6：JVM从Young到Old的晋升条件是什么</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用Hexo"><span class="nav-number">2.</span> <span class="nav-text">如何使用Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建Hexo的过程遇到的问题"><span class="nav-number">3.</span> <span class="nav-text">构建Hexo的过程遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①-注册GitHub，使用GitHub-Page。本地安装Git，配置好环境变量，本地Git与Github连接。在Git-bash中安装node-js和hexo及其依赖文件。将本地hexo项目托管到GitHub"><span class="nav-number">3.1.</span> <span class="nav-text">① 注册GitHub，使用GitHub Page。本地安装Git，配置好环境变量，本地Git与Github连接。在Git bash中安装node.js和hexo及其依赖文件。将本地hexo项目托管到GitHub</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②-全局配置文件的设置，主题配置文件的设置。设置图片，设置菜单，添加几个菜单页面，发布文章。"><span class="nav-number">3.2.</span> <span class="nav-text">② 全局配置文件的设置，主题配置文件的设置。设置图片，设置菜单，添加几个菜单页面，发布文章。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#③教程三"><span class="nav-number">3.3.</span> <span class="nav-text">③教程三</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#④-添加功能模块"><span class="nav-number">3.4.</span> <span class="nav-text">④ 添加功能模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#⑤-一些其他可能会出现的错误"><span class="nav-number">3.5.</span> <span class="nav-text">⑤ 一些其他可能会出现的错误</span></a></li></ol></li></ol></div>
             
 
           </div>

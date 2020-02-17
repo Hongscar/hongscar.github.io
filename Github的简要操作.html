@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Debug," />
+  <meta name="keywords" content="Github," />
 
 
 
@@ -83,21 +83,17 @@
 
 
 
-<meta name="description" content="PS：写在前面，这篇文章最后并没有解决服务器CPU100%的问题，仅仅是记录在尝试过程中学到的知识点。 ​    今天原本打算使用redis连接项目，正好网站备案通过了，正打算先测试一下域名是否可用，结果反而整个项目都不可用了。想着应该又是tomcat那边的问题，先上服务器看了一下，感觉服务器的卡顿越来越厉害了，时不时就会卡住然后断开连接。想想腾讯云也不至于这么烂，于是查了一下原因。虽说最后没有解">
+<meta name="description" content="记录一下IDEA项目提交到GitHub的整体操作:（主要是清晰每一步的作用，而不是死记硬背）step1:IDEA的GitHub连通配置。（这个就在setting-git那里，但一般配置一次就不再需要了，pass）step2：将本地的项目连接到GitHub。 VCS — Import into Version Control （会让你创建一个仓库）然后再将项目切实地与该仓库连接。VCS — Impo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记一次服务器CPU100%的问题">
-<meta property="og:url" content="https://hongscar.cn/2020/02/17/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%9C%8D%E5%8A%A1%E5%99%A8CPU100%%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="Github的简要操作">
+<meta property="og:url" content="https://hongscar.github.io/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C.html">
 <meta property="og:site_name" content="Hong&#39;s Blog">
-<meta property="og:description" content="PS：写在前面，这篇文章最后并没有解决服务器CPU100%的问题，仅仅是记录在尝试过程中学到的知识点。 ​    今天原本打算使用redis连接项目，正好网站备案通过了，正打算先测试一下域名是否可用，结果反而整个项目都不可用了。想着应该又是tomcat那边的问题，先上服务器看了一下，感觉服务器的卡顿越来越厉害了，时不时就会卡住然后断开连接。想想腾讯云也不至于这么烂，于是查了一下原因。虽说最后没有解">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_1.png">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_2.png">
-<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_3.png">
-<meta property="article:published_time" content="2020-02-17T03:13:34.000Z">
-<meta property="article:modified_time" content="2020-02-17T06:23:03.444Z">
+<meta property="og:description" content="记录一下IDEA项目提交到GitHub的整体操作:（主要是清晰每一步的作用，而不是死记硬背）step1:IDEA的GitHub连通配置。（这个就在setting-git那里，但一般配置一次就不再需要了，pass）step2：将本地的项目连接到GitHub。 VCS — Import into Version Control （会让你创建一个仓库）然后再将项目切实地与该仓库连接。VCS — Impo">
+<meta property="article:published_time" content="2020-02-17T03:14:58.000Z">
+<meta property="article:modified_time" content="2020-02-17T06:17:42.730Z">
 <meta property="article:author" content="Hong">
-<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="Github">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_1.png">
 
 
 
@@ -127,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://hongscar.cn/2020/02/17/记一次服务器CPU100%的问题/"/>
+  <link rel="canonical" href="https://hongscar.github.io/Github的简要操作.html"/>
 
 
 
 
 
-  <title>记一次服务器CPU100%的问题 | Hong's Blog</title>
+  <title>Github的简要操作 | Hong's Blog</title>
   
 
 
@@ -294,7 +290,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/2020/02/17/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%9C%8D%E5%8A%A1%E5%99%A8CPU100%25%E7%9A%84%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.github.io/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hong">
@@ -311,7 +307,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">记一次服务器CPU100%的问题</h1>
+          <h1 class="post-title" itemprop="name headline">Github的简要操作</h1>
         
 
         <div class="post-meta">
@@ -323,7 +319,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:13:34+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:14:58+08:00">
                 2020-02-17
               </time>
             
@@ -346,8 +342,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/Github/" itemprop="url" rel="index">
+                    <span itemprop="name">Github</span>
                   </a>
                 </span>
 
@@ -388,23 +384,12 @@
       
 
       
-        <p>PS：写在前面，这篇文章最后<strong>并没有解决</strong>服务器CPU100%的问题，仅仅是记录在尝试过程中学到的知识点。</p>
-<p>​    今天原本打算使用redis连接项目，正好网站备案通过了，正打算先测试一下域名是否可用，结果反而整个项目都不可用了。想着应该又是tomcat那边的问题，先上服务器看了一下，感觉服务器的卡顿越来越厉害了，时不时就会卡住然后断开连接。想想腾讯云也不至于这么烂，于是查了一下原因。虽说最后没有解决，但当中的过程还是学习到了很多。目前先把出错的服务器保存了一个snapshot，然后对服务器进行重载。先把这个问题放下，以后再回去解决。（主要是我数据库没有进行备份，数据还在上面，而数据库也出问题了，完全无法connect，自然也无法备份了。但保存了snapshot，那么数据库文件还在里面，等到需要那部分数据的时候，就对snapshot进行载入，然后再修复错误去获取数据吧，现在先放下这个问题）</p>
-<a id="more"></a>    首先就是先运行了一下top命令，意外地发现%id为0，即CPU idle space为0，也就是CPU使用率竟然是100？那肯定是出现问题了，而且这样的话断开连接也不足为奇了，那么CPU 100%到底是从什么时候开始的，先查看了一下腾讯云的监控记录：
+        <p>记录一下IDEA项目提交到GitHub的整体操作:（主要是清晰每一步的作用，而不是死记硬背）<br><strong>step1:</strong><br>IDEA的GitHub<strong>连通配置</strong>。（这个就在setting-git那里，但一般配置一次就不再需要了，pass）<br><strong>step2：</strong><br>将本地的项目连接到GitHub。 <em>VCS — Import into Version</em> Control （会让你创建一个仓库）<br>然后再将项目切实地与该仓库连接。<em>VCS — Import into Version Control — Create Git Repository</em><br>（有一次没有Create，右键项目甚至没有git操作）</p>
+<a id="more"></a>
 
-<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_1.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_1.png" alt="腾讯云的监控记录"></a></p>
-<p>​    （吃惊）竟然一直是100的？我服务器上也没运行几个程序，也就一个tomcat（而且因为网站备案的原因，甚至直接stop了），还有mysql跟redis，但又没有事务读写，怎么会出现问题呢？于是我调了一下时间，调到5月初直到现在，看看是否一直都是100，还是在什么时候变成了100：</p>
-<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_2.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_2.png" alt="更久之前的监控数据"></a></p>
-<p>把鼠标指到确切的转折点，可以看到，是8月30号这天开始飙升的，而且之后就一直高居不下，那么8月30那天我在服务器上做了什么呢。翻了一下日记，我在8.30这天学习了Redis，也就是在服务器上装了Redis。虽说没什么道理，但确实如此，没有任何其他理由。等一下我还要在我刚刚重装的服务器上安装mysql跟redis，看一下还会不会出现100的问题。如果会，再重装，只安装redis。虽说后面会换另一台服务器去单独做MySQL跟redis服务器，但这个问题肯定还是要解决的。</p>
-<hr>
-<p>那么在解决的过程我使用了哪些命令，又遇到了哪些子问题，继续去处理的，现在列一个清单。</p>
-<p>①首先去查询top的用法<br>top命令虽然是我实习的时候用得最熟练的命令，但时间过去太久了，我也记不清它的很多数值是什么意思。然后知道了%Cpu就是CPU的使用情况，其中：%us表示用户空间程序的CPU使用率，%sy表示系统（Kernel）的CPU使用率，%ni表示用户空间且通过nice调度过的程序的CPU使用率。<br><em>CPU time = user space time + system space time</em><br>至于nice调度，其实就是进程的优先级，大致先知晓即可。<br>%id：空间的CPU（我就是这里一直是0，也就是idle space为0，CPU使用率100）</p>
-<p>②除了CPU，还有可能是内存的问题<br>    对着top使用回车（刷新），发现CPU idle space很奇怪，会变化，而且要么是0，要么是100，显然是出现了一个错误的进程，然后突然导致100，而且还是一直生成，短暂过后又结束。最坑的是，使用top并找不到一个高CPU使用率的进程，所以完全不理解为何是100？可能是top显示的只是用户进程，不显示系统进程？<br>    于是继续对磁盘进行查看，使用了df -h命令。图片没有存，但大概是，磁盘空间大小是50G，已经使用了41G。虽然安装软件的时候没有想太多，但毕竟只安装了几个软件，不至于这么大的空间，因而对这块还是存有疑惑。然后再查看了腾讯云的磁盘监控（对了，腾讯云的监控出错了，然后还得执行一段命令才能查看，但就是很简单地copy执行一次即可，就在腾讯云官方上的代码）。最后的磁盘监控结果是这样的：</p>
-<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_3.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/cpu100_3.png" alt="磁盘监控结果"></a></p>
-<p>当时的磁盘读写一直很大，我就猜测是MySQL出现了错误，然后一直在编写错误日志？</p>
-<p>③处理MySQL中的问题<br>    首先，我当时安装MySQL并没有直接安装服务service，这确实不是一个好的选择，tomcat也是如此。平时偶尔想对服务进行处理，使用systemctl，结果显示没有此service。然后还得去安装路径里自己调用shell脚本，然后还得找到这个安装路径，又是locate又是find，又是whereis的。<br>    然后想先看一下错误日志在哪，以往每次打开文件都是vim，实际上用head跟tail是一个很好的选择。不然突然一下子出现一大串文字的体验也是很差劲的。<br>    不过尝试了很多次，都无法彻底关闭mysql。这也就是安装法的最差劲的地方吧。找到了mysqld进程，都直接kill -9了，依然没有用处。如果是安装服务，直接systemctl stop即可。</p>
-<p>④其他命令<br>因为top没有看到高CPU利用率的进程，于是还尝试了一些其他命令。<br>vmstat：查看系统负载<br>pidstat：查看进程使用磁盘的情况<br>pidstat -d 1：<br>netstat -na | grep 80 查找<em>80</em> 的端口（看是否开放，正在使用）</p>
-<p>⑤finally<br>    其实没有解决问题，所以只能用最笨的方法，重装系统。虽然重装系统很快，一分钟就结束了，但还是很不好。首先必须得对服务器进行snapshot备份，毕竟数据库的数据也取不出来（感觉出错的原因主要就是MySQL跟redis的错）。然后数据至少存在了snapshot当中，等到需要那部分数据或者有空的时候，再new一个服务器去尝试解决。</p>
+<p><strong>step3：</strong><br>连接了之后，就是提交操作了，提交其实一共有3个步骤，不要胡乱pull跟push就什么都不会了。<br><strong>PS：只要IDEA的项目已经成功执行了步骤1和2，那么之后其实就不需要前面两个步骤了。</strong><br>①<strong>VCS — Git — add</strong><br>作用，把本地发生改变了的代码添加到branch中，其实就是先把你的代码都commit到本地的一个分支了，但这里还没有提交。<br>②<strong>VCS — Git — Commit File</strong><br>第一步的操作只是add到工作环境，还没添加到本地仓库，这里把所有add的文件commit到本地操作<br>③最后就是提交到远程仓库。这个最后一步才是pull跟push的地方。<br><strong><em>先pull，再push即可</em></strong>。<br>pull的作用其实就是先跟远程仓库的代码对比，因为可能别人已经commit过，与你的代码产生冲突，这时候你需要解决这些冲突再commit，不然你把别人的代码覆盖了怎么办？<br>push就是最后的提交代码了，一般pull成功的话push也就没有问题。</p>
+<p>但是，在第一次创建的时候，可能会存在问题，好像是因为不在同一个项目里，无论是change分支，还是git pull —allow-unrelated-histories啊等等的，都不行。<br>其实第一次创建，又不可能conflict（唯一可能conflict的地方只有一个readme文件而已。。）<br>所以干脆直接强制push即可: <strong>git push -u origin master -f</strong> (-f 很显然，就是force）</p>
+<p>其他常用操作：<br>查看远程仓库： git remote -v (remote就是远程的意思）<br>添加远程仓库： git remote add (nick_name) (repository-url)<br>删除仓库（注意是删除与仓库的连接而已)：git remote remove nick_name<br>（一般nick_name都叫origin了，不知为何，先这样记着）</p>
 
       
     </div>
@@ -422,7 +407,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Debug/" rel="tag"># Debug</a>
+            <a href="/tags/Github/" rel="tag"># Github</a>
           
         </div>
       
@@ -435,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/17/%E5%85%B3%E4%BA%8E%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91/" rel="next" title="关于链表的一些疑惑">
-                <i class="fa fa-chevron-left"></i> 关于链表的一些疑惑
+              <a href="/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81.html" rel="next" title="阅读Servlet的源码">
+                <i class="fa fa-chevron-left"></i> 阅读Servlet的源码
               </a>
             
           </div>
@@ -445,8 +430,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/17/%E5%9C%A8vscode%E9%85%8D%E7%BD%AEJava%E7%8E%AF%E5%A2%83%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="在vscode配置Java环境遇到的问题">
-                在vscode配置Java环境遇到的问题 <i class="fa fa-chevron-right"></i>
+              <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE.html" rel="prev" title="数据库三级封锁协议">
+                数据库三级封锁协议 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
