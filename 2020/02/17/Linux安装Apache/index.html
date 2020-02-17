@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, My Blog" />
+  <meta name="keywords" content="CentOS," />
 
 
 
@@ -83,14 +83,21 @@
 
 
 
-<meta name="description" content="hong">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hong&#39;s Blog">
-<meta property="og:url" content="https://fzy-line.github.io/index.html">
+<meta name="description" content="记录一下第一次在Linux上安装Apache遇到的问题以及解决过程。 具体步骤可以参考此博文：https:&#x2F;&#x2F;blog.csdn.net&#x2F;u010297957&#x2F;article&#x2F;details&#x2F;50751656 1.安装有两种方法，第一种是手动安装， 步骤：①先下载相关的源码包，包括：Apache HTTP Server（这个就是我们要安装的Apache Server，但它还需要其他依赖包，所以仅有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux安装Apache">
+<meta property="og:url" content="https://fzy-line.github.io/2020/02/17/Linux%E5%AE%89%E8%A3%85Apache/index.html">
 <meta property="og:site_name" content="Hong&#39;s Blog">
-<meta property="og:description" content="hong">
+<meta property="og:description" content="记录一下第一次在Linux上安装Apache遇到的问题以及解决过程。 具体步骤可以参考此博文：https:&#x2F;&#x2F;blog.csdn.net&#x2F;u010297957&#x2F;article&#x2F;details&#x2F;50751656 1.安装有两种方法，第一种是手动安装， 步骤：①先下载相关的源码包，包括：Apache HTTP Server（这个就是我们要安装的Apache Server，但它还需要其他依赖包，所以仅有">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/Linux_01.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/789.jpg">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/777.jpg">
+<meta property="article:published_time" content="2020-02-17T03:12:12.000Z">
+<meta property="article:modified_time" content="2020-02-17T06:18:26.240Z">
 <meta property="article:author" content="Hong">
+<meta property="article:tag" content="CentOS">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/Linux_01.jpg">
 
 
 
@@ -120,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://fzy-line.github.io/"/>
+  <link rel="canonical" href="https://fzy-line.github.io/2020/02/17/Linux安装Apache/"/>
 
 
 
 
 
-  <title>Hong's Blog</title>
+  <title>Linux安装Apache | Hong's Blog</title>
   
 
 
@@ -145,8 +152,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,9 +279,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -288,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/HashMap%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">
+    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/Linux%E5%AE%89%E8%A3%85Apache/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hong">
@@ -305,9 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/17/HashMap%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" itemprop="url">HashMap源码阅读</a></h1>
+          <h1 class="post-title" itemprop="name headline">Linux安装Apache</h1>
         
 
         <div class="post-meta">
@@ -319,7 +323,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:51:39+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:12:12+08:00">
                 2020-02-17
               </time>
             
@@ -342,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -360,6 +364,11 @@
           
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
           
 
           
@@ -379,16 +388,50 @@
       
 
       
-        
-          <h3 id="一-前言："><a href="#一-前言：" class="headerlink" title="一. 前言："></a>一. 前言：</h3><p>​        在准备面试的过程中，发现HashMap源码是很常见的考点，于是进行了仔细的学习。以前都说读源码是快速提高Java水平的好途径，在阅读了HashMap的部分重要源码之后真的是深有体会，于是写下此篇文章做记录。具体内容包括，HashMap的构造方法，put，get方法，以及put&amp;get所需要的hash方法，还有扩容时所需要的resize方法。我们将对这几个方法的源码进行阅读，理解它的逻辑，以及一些巧妙的设计。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/17/HashMap%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <p>记录一下第一次在Linux上安装Apache遇到的问题以及解决过程。</p>
+<p>具体步骤可以参考此博文：<br><a href="https://blog.csdn.net/u010297957/article/details/50751656" target="_blank" rel="noopener">https://blog.csdn.net/u010297957/article/details/50751656</a></p>
+<p>1.安装有两种方法，<strong>第一种是手动安装</strong>，</p>
+<p>步骤：<br>①<strong><em>先下载相关的源码包</em></strong>，包括：Apache HTTP Server（这个就是我们要安装的Apache Server，但它还需要其他依赖包，所以仅有这个并不足够），APR（Apache Server的依赖包，然而这个APR本身又依赖APR-Util和PCRE），APR-Util，PCRE。一共4个源码包。此处用到了wget命令，wget url，下载相应的源码包。</p>
+<a id="more"></a>
+
+<hr>
+<p>②<strong><em>解压源码包</em></strong>，获得源码文件，用到tar命令，至于选项是-zxvf还是-jxvf则看下载的文件类型是tar.gz，tar.bz2来决定。</p>
+<hr>
+<p>③<strong><em>要将这些软件解压到/usr/local/ 下</em></strong> (并不强求，但用户软件安装到这个目录是一个好选择)。先创建相应的目录存放文件，如mkdir /usr/local/httpd , mkdir /usr/local/apr , mkdir /usr…/pcre</p>
+<hr>
+<p>④<strong><em>分别对4个软件进行，配置，编译，安装。</em></strong>用到的命令： ./configure … (./指当前目录下的configure命令，要先进入相应的文件夹)，配置完成之后执行make命令，用于编译源码文件。最后执行make install，安装。（configure的时候要指定相应的依赖包文件）</p>
+<hr>
+<p>⑤<strong><em>此时Apache已安装完毕，进入bin目录执行./apachectl start ，即可启动Apache服务。</em></strong>至于Apache相应的配置，进入conf命令修改httpd.conf即可。（建议提前对httpd.conf进行备份，避免出错。 cp httpd.conf httpd.conf.bak）</p>
+<hr>
+<p>⑥<strong><em>在httpd.conf定义相应的监听端口等，然后外网即可通过IP地址访问服务器。</em></strong></p>
+<hr>
+<p><strong>当中遇到的问题：</strong></p>
+<p>①一开始是根据那个Linux教程来安装的，它那里只要求用Apache HTTP Server的源码包，缺少相关的依赖包，因此要先把APR下载安装。</p>
+<hr>
+<p>②安装APR时又缺少依赖包，需要APR-Util。</p>
+<hr>
+<p>③下载APR-Util，安装时出错，显示缺少expat.h文件，即缺少expat库，此时需要安装expat开发库。yum install expat-devel。安装完成后再安装APR-Util即可。</p>
+<hr>
+<p>④再安装APR，成功。此时安装Apache HTTP Server要指定APR和APR-Util的路径，依然报错，显示缺少PCRE。跟前面的错误是相同性质的，不是大问题。</p>
+<hr>
+<p>⑤下载PCRE，安装，此时又出错，显示：configure: error: You need a C++ compiler for C++ support.因为我的机器默认只安装了gcc，还没有安装gcc-c++，因此要编译C++文件的时候就出错了。所以此时要安装C++环境。yum install -y gcc-c++ (安装gcc同理)。安装完gcc-c++之后，安装PCRE没有任何问题，都是make，make install。</p>
+<hr>
+<p>⑥最后安装Apache HTTP Server，把上面3个依赖包的路径都指定了，安装成功。</p>
+<hr>
+<p>⑦在bin中启动了Apache的httpd服务，配置完httpd.conf后，外网可以访问到Apache，有一个默认的index.html，显示it works！表示Apache配置完成。</p>
+<hr>
+<p>⑧此时想找到这个index.html来做一下简单的修改，但找不到相应的文件在哪。上网查到，httpd.conf文件中，有一个DocumentRoot的路径，表示默认的路径在哪。本文当前的路径是：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/Linux_01.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/Linux_01.jpg" alt="DocumentRoot路径"></a><br>进入htdocs文件夹后，可以看到只有一个index.html，看来默认项目的路径的确是这里。</p>
+<hr>
+<p>⑨修改index.html，出现中文乱码。一开始设定了GB2312编码，依然无效，然后改为UTF-8，乱码问题解决。推测是vim编辑器本身的编码就是用UTF-8，所以设置html为GB2312并无效果？毕竟在本地直接编写GB2312是没有乱码问题的(—TODO)。然后再新增一个my.html，外网依然能通过改路径访问。Apache的配置和连通性测试到此结束。</p>
+<hr>
+<p><strong>总结：</strong></p>
+<p>1.第一种方法主要是，下载源码包以及相应的依赖包，然后分别进行解压，配置，编译，安装。最关键的是要指定依赖包，因此必须按照顺序，先安装没有其他依赖的包，即先PCRE，再APR,APR-Util，最后才是Apache。安装成功就是配置和启动Apache，配置是在httpd.conf中配置，启动是在bin目录下启动。</p>
+<p>2.第二种方法，直接使用yum安装。yum就是自动化安装，它会自动帮你安装相应的依赖包，无须自己手动操作，即我们要安装httpd的时候，它也会自动把PCRE等也安装好了，无须像第一种方法一样，在安装httpd之前还要自己先安装PCRE等。网上的教程也都是说直接用yum list httpd，然后yum install httpd.x86_64就可以了。可是自己实际操作的时候，发现第一步yum list就没有找到相应的包，只有其他的版本，如Lighttpd(light httpd)轻量级的版本等等。也尝试过换镜像源（虽然觉得可能性不大，但还是尝试了一下），后来在镜像源的网站上是可以直接搜到httpd的，可是在Linux上却找不到。<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/789.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/789.jpg" alt="阿里镜像源下搜索httpd"></a></p>
+<p>继续尝试了一下，mysql，nginx等也是没有相应的包。按理说这些常用的，应该肯定存在包才对。最后查看yum命令的配置文件yum.conf，才发现它有一个exclude名单：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/777.jpg" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/777.jpg" alt="yum.conf的exclude名单"></a></p>
+<p>可以看到都是最常用的几个服务，想了一下，肯定不是黑名单，那么作用应该是：避免平时误操作，在已经install了这些服务的情况下，又再次安装一次，把之前的数据给搞坏。所以解决方法并不是要修改这个conf，而是在yum的时候显式说明，使得exclude无效，即：<br><code>yum disableexcludes all install httpd</code><br>(当然，也可以修改yum.conf，安装完再改回去。。)</p>
+<p>解决了这个问题之后，的确就直接安装成功。在后续的启动和配置服务的时候，也遇到了问题。不过猜想是和第一种方法安装的Apache起冲突了，也懒得如何共存了，直接用最暴力的方法解决：把第一种方法安装的Apache给卸载掉了，remake之后，第二种方法安装的Apache就能成功运动了~至此，两种方法安装Apache都成功。</p>
+<p>最后的总结：yum安装的确方便很多，在安装之前先yum list找到相关的源码包，或者直接到镜像源的官网去查找，作用都是一样的。总的来说yum安装要方便简单一些，但手动安装可以自己定制修改源码等等，那个就是更高级的层面了，暂时不考虑。</p>
+
       
     </div>
     
@@ -403,307 +446,40 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/MySQL%E9%94%81%E7%9A%84%E5%88%A4%E6%96%AD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/03.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/17/MySQL%E9%94%81%E7%9A%84%E5%88%A4%E6%96%AD/" itemprop="url">MySQL锁的判断</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:50:57+08:00">
-                2020-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/CentOS/" rel="tag"># CentOS</a>
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>本文的最终解决的问题：<strong>如何判断一条SQL语句用到了哪些锁？</strong><br>（特别地，这里考虑的是<em>MySQL</em>数据库的锁机制）</p>
-<p>首先，我们需要先对<em>MySQL</em>的事务机制，锁机制，索引机制都总结一遍。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/17/MySQL%E9%94%81%E7%9A%84%E5%88%A4%E6%96%AD/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/17/Hexo%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" rel="next" title="Hexo搭建记录">
+                <i class="fa fa-chevron-left"></i> Hexo搭建记录
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/JVM%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/03.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/17/JVM%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" itemprop="url">JVM知识整理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:48:09+08:00">
-                2020-02-17
-              </time>
+              <a href="/2020/02/17/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="Linux常用命令">
+                Linux常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
             
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h3 id="一-类的生命周期：加载→连接→初始化→使用→销毁"><a href="#一-类的生命周期：加载→连接→初始化→使用→销毁" class="headerlink" title="一. 类的生命周期：加载→连接→初始化→使用→销毁"></a>一. 类的生命周期：加载→连接→初始化→使用→销毁</h3><h5 id="连接-包括："><a href="#连接-包括：" class="headerlink" title="连接 包括："></a>连接 包括：</h5><p>①验证（确保被加载的类的正确性）<br>②准备（为静态变量分配内存，并将其初始化为默认值（指0，false，null等），同时将static final值转换为具体的常量<br>③初始化：为静态变量执行赋值语句（static，非final），执行静态块<br>PS：初始化只有在对类主动使用时才会执行，包括以下：<br>①new<br>②访问静态域的时候<br>③反射（如Class.forName)<br>④初始化某个类时，其父类也会初始化<br>⑤运行main方法时，该类加载</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/17/JVM%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -713,454 +489,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/03.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/17/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE/" itemprop="url">数据库三级封锁协议</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:46:44+08:00">
-                2020-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>数据库并发会导致各种问题（即多线程下导致的同步问题），需要用lock来解决。</p>
-<p>一般会导致的问题：<strong><em>脏读，不可重复读，第一类更新丢失，第二类更新丢失</em></strong></p>
-<p>为了解决这些问题，需要使用锁机制，数据库一般有三级封锁协议。本文阐述了这些问题具体是什么，锁机制如何解决这些问题。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/17/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/03.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/17/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C/" itemprop="url">Github的简要操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:14:58+08:00">
-                2020-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Github/" itemprop="url" rel="index">
-                    <span itemprop="name">Github</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>记录一下IDEA项目提交到GitHub的整体操作:（主要是清晰每一步的作用，而不是死记硬背）<br><strong>step1:</strong><br>IDEA的GitHub<strong>连通配置</strong>。（这个就在setting-git那里，但一般配置一次就不再需要了，pass）<br><strong>step2：</strong><br>将本地的项目连接到GitHub。 <em>VCS — Import into Version</em> Control （会让你创建一个仓库）<br>然后再将项目切实地与该仓库连接。<em>VCS — Import into Version Control — Create Git Repository</em><br>（有一次没有Create，右键项目甚至没有git操作）</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/17/Github%E7%9A%84%E7%AE%80%E8%A6%81%E6%93%8D%E4%BD%9C/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/03.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/17/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81/" itemprop="url">阅读Servlet的源码</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:14:10+08:00">
-                2020-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Servlet/" itemprop="url" rel="index">
-                    <span itemprop="name">Servlet</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>在写SSM项目的过程中，遇到了一些小问题，不知道如何解决。其实对于框架的很多问题，很多时候都是因为框架的封装性，然后自身没有理解框架的内部逻辑而导致的。于是这次想花点时间好好读一下Servlet的源码，这样可以更好地理解JavaWeb底层，遇到问题也能更加地游刃有余。当然此次阅读源码只是比较浅显的，先看官方文档，然后在有目的性地读一部分源码来感受文档的内容。如果要认真看那肯定要看很久，目前还没这个时间。<br>    <strong>首先是Servlet API包含了两个软件包，javax.servlet和javax.servlet.http</strong>，为什么会有两个呢，因为早先设计该规范的人认为Servlet是一种服务模型，不一定要依赖于某种网络协议之上，于是就抽象出了一个javax.servlet，同时再提供一个基于HTTP协议上的接口拓展。但目前看来，似乎还没有发现有其他协议上实现的Servlet技术。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/17/%E9%98%85%E8%AF%BBServlet%E7%9A%84%E6%BA%90%E7%A0%81/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
- <nav class="pagination">
-   <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="accessibility.next_page"></i></a>
- </nav>
-
 
 
           </div>
@@ -1168,6 +501,16 @@
 
 
           
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+  
+
+
+
 
         </div>
         
@@ -1436,6 +779,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1476,6 +823,22 @@
 
 
 
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '75d5d92e717eca3c6b03',
+          clientSecret: '3ec3a4b9ee7baf1c9f4ec85b4ce8d2af9126edb3',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
 
 
   
@@ -1811,26 +1174,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

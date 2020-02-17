@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+
+
+  <meta name="keywords" content="interview," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hong's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一. 前言本文的最终解决的问题：如何判断一条SQL语句用到了哪些锁？（特别地，这里考虑的是MySQL数据库的锁机制） 首先，我们需要先对MySQL的事务机制，锁机制，索引机制都总结一遍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL锁的判断">
+<meta property="og:url" content="https://fzy-line.github.io/2020/02/17/MySQL%E9%94%81%E7%9A%84%E5%88%A4%E6%96%AD/index.html">
+<meta property="og:site_name" content="Hong&#39;s Blog">
+<meta property="og:description" content="一. 前言本文的最终解决的问题：如何判断一条SQL语句用到了哪些锁？（特别地，这里考虑的是MySQL数据库的锁机制） 首先，我们需要先对MySQL的事务机制，锁机制，索引机制都总结一遍。">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_1.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_2.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_3.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_4.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_5.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_6.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_7.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_8.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_9.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_10.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_11.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_12.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_13.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_14.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_15.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_16.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_17.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_18.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_19.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_20.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_21.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_22.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_23.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_24.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_25.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_26.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_27.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_31.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_32.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_33.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_28.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_29.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_30.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_34.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_35.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_36.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_37.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_38.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_39.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_40.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_41.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_42.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_43.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_44.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_45.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_46.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_47.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_48.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_49.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_50.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_51.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_52.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_53.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_54.png">
+<meta property="article:published_time" content="2020-02-17T03:50:57.000Z">
+<meta property="article:modified_time" content="2020-02-17T03:56:12.797Z">
+<meta property="article:author" content="Hong">
+<meta property="article:tag" content="interview">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://fzy-line.github.io/2020/02/17/MySQL锁的判断/"/>
+
+
+
+
+
+  <title>MySQL锁的判断 | Hong's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hong's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Like life,like coding</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/MySQL%E9%94%81%E7%9A%84%E5%88%A4%E6%96%AD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySQL锁的判断</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:50:57+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>本文的最终解决的问题：<strong>如何判断一条SQL语句用到了哪些锁？</strong><br>（特别地，这里考虑的是<em>MySQL</em>数据库的锁机制）</p>
+<p>首先，我们需要先对<em>MySQL</em>的事务机制，锁机制，索引机制都总结一遍。</p>
+<a id="more"></a>
+
+<hr>
+<h3 id="二-事务隔离级别："><a href="#二-事务隔离级别：" class="headerlink" title="二. 事务隔离级别："></a>二. 事务隔离级别：</h3><p><strong>RU：Read UnCommitted<br>RC：Read Committed<br>RR：Repeatable Read （default）<br>Serializable</strong></p>
+<p>总结：<br>RU可以读取未提交的数据，因此存在脏读的问题。<br>RC只能读取已经提交的数据，因而解决了脏读的问题，但存在不可重复读的问题<br>RR保证了可以重复读的问题。<br>RR与Serializable都解决了大部分的问题，因此默认就是RR。（当然，在需求高性能的情况下，会使用RC）</p>
+<p>查看MySQL的隔离级别：<br>select @<a href="https://github.com/tx_isolation" target="_blank" rel="noopener">@tx_isolation</a> // 查看当前会话的事务隔离级别<br>select @<a href="https://github.com/global" target="_blank" rel="noopener">@global</a>.tx_isolation //查看系统全局的隔离级别<br>设置隔离级别：<br><em>set session/global transaction isolation level xx;</em><br>(xx can be <strong>read uncommitted, read committed, repeatable read, serializable</strong>)</p>
+<hr>
+<h3 id="三-锁机制："><a href="#三-锁机制：" class="headerlink" title="三. 锁机制："></a>三. 锁机制：</h3><p>MySQL锁的类型：（有多种分法）<br>①根据锁的兼容情况，可以分为4种：<br><strong><em>Shared locks，Exclusive locks</em></strong>（共享锁，排他锁，即S锁，X锁，在其他数据库也有这两种）<br><strong><em>Intention Locks</em></strong>：意向锁，分为共享意向锁IS，共享排他锁IX锁。（作用后续说，<strong>针对MySQL的行锁而出现</strong>）</p>
+<p>②根据锁的锁定范围，可以分为三种：<br><strong><em>表锁 Table Locks，行锁 Record Locks，页锁 Page Locks</em></strong><br>（在MyISAM中为Table Locks，而在<strong>InnoDB中只有Record Locks</strong>。Page Locks存在于BerkeleyDB）<br>表锁和行锁的区别：<br><strong>表锁的开销较小，不会产生死锁，锁定范围大，但并发度最低<br>行锁的开销较大，可能产生死锁，锁定范围较小，并发度更高</strong><br>页锁此处不解释（我也不会）</p>
+<p>③InnoDB下的Lock Type：<br>由于目前重点使用的MySQL引擎一般是InnoDB，因此对InnoDB进行更细致的了解。<br><strong>InnoDB的行级锁（InnoDB不存在表级锁，只是在特定情况下看起来像是表级锁的形式而已）：</strong><br><em>1.Record Locks：A record lock is a lock on an index record.</em> 即锁定一个index的record。<br><em>2.Gap Locks：A gap lock is a lock on a gap between index records, or a lock on the gap before the first or after the last index record.</em> 即锁定record之间的的间隙。<br>（Gap Locks存在于RR与Serializable，不存在于RC。RU一般不会用，不考虑，而且也没有）<br><em>3.Next-Key Locks:A next-key lock is a combination of a record lock on the index record and a gap lock on the gap before the index record.(3 = 1 + 2)</em><br><del>PS：此处有一个小test，事务隔离级别是与系统全局的设置有关的（即使两个Session transaction isolation level都设置为RC，但如果Global transaction isolation level设置为RR，那么就按照RR的情况来执行，即此时存在Gap Locks。所以不清楚Session level有何作用）</del></p>
+<hr>
+<p>不同情况的加锁情况：<br>要考虑这个问题，先整理一些基础知识：</p>
+<p><strong><em>①首先要了解锁之间的兼容性（S锁，X锁，IS锁，IX锁）：</em></strong></p>
+<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_1.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_1.png" alt="MySQL中InnoDB引擎中锁的兼容性"></a><br>PS：这是<strong>仅限于Table-level的compatibility</strong>，网上传的很多都忽略了这个。</p>
+<p><strong>关于意向锁：主要是用于解决行锁和表锁的冲突。</strong>试想一下，当事务A锁住了表中的一行（假设为S锁)，而事务B需要申请整个表的X锁。那么事务B需要做的事情：<br>1.判断表是否被其他表锁锁住（无论X,S），这个很简单.<br>2.判断表中的每一行是否被行锁锁住（无论X,S，因为X与二者均不兼容）。<br><strong>如果只有X,S锁，那么我们需要逐行检查，如果有1个亿的data，那么就需要查询1亿行。</strong><br>如果添加了意向锁呢？意向锁的作用方式：<br>当一个事务需要获取一个<strong>行锁</strong>的X锁，先获取一个IX锁。<br>当一个事务需要获取一个<strong>行锁</strong>的S锁，先获取一个IS锁。<br>（记住，<strong>上面的表格是仅限表锁的情况</strong>，如果需要获取表锁的X/S锁，那么不需要获取IX,IS锁。另外，<strong>IX,IS锁是数据库后台自动获取的，无须我们显式调用</strong>）<br>这个时候，当另一个事务，要申请X锁，第一步依然是判断是否被其他表锁锁住。<br>第二步就改成了，判断该表是否存在IX,IS锁。（如果存在IX，IS锁，说明该表存在X，S锁，不管是哪一行）<strong>仅仅通过判断是否存在意向锁，就省去了遍历所有行的操作。</strong><br>（PS：如果另一个事务要申请的是S锁，同样如此，只是不需要判断IS锁，而是判断IX锁）<br>记住：<strong>意向锁与表级的X锁不兼容，但与行级的X锁是兼容的</strong><br>（不然你先获取了IX锁，如何继续获取X锁呢？）</p>
+<hr>
+<p><strong><em>②数据库的并发控制协议</em></strong></p>
+<p><em>MVVC：Multi-Version- Concurrency Control。</em>即基于多版本的并发控制协议。<br>它最大的好处：读操作不加锁，读写不冲突，可以极大地增强并发性。<br><em>Lock-Based Concurrency Control。</em>即基于锁的并发控制。<br>（如果我们每一种操作都需要获取lock，由lock来完全实现并发控制，那么并发性会相当地差。其实也就是相当于Serializable，完全串行化执行。所以<strong>现阶段，大部分的数据库都不会是完全的基于lock去实现并发控制，而是实现了MVVC模式</strong>）</p>
+<p>在MVVC并发控制中，读操作可以分为两种；<strong>snapshot read</strong>(快照读）,<strong>current read</strong>(当前读）<br>所谓snapshot，就是系统在某一个时刻的印象，所以此时读取到的不一定是最新的数据，可能是某个历史版本的数据，那么这时候就不需要加锁。（因为本来就不一定是最新的数据，那么两次snapshot read不一致也是很正常的，所以怎么能算是脏读幻读呢（滑稽）！）<br>current read就不一样了，它就是要读取系统最新的数据，所以此时需要对读操作进行加锁，然后再基于Lock-Based去进行并发控制。</p>
+<p><strong>在MySQL InnoDB中，snapshot read又称简单的select</strong>，一般形式为：<br>select <em>from table where ？; # 存在例外，后面分析<br>current read：<br>select</em> from table where ? lock in share mode || for update || for share(8.0之后的版本)<br>(如果直接显式要lock了，那么都lock了，当然就是要current read，而不是读取snapshot了）<br>insert，update，delete（这些操作当然不能读snapshot，不然你update一个已经被delete掉的数据吗)<br>(从底层源码来说，update，delete都包含一个current read，而insert，需要检查unique key冲突）</p>
+<hr>
+<p><strong><em>③聚簇索引（cluster index）：</em></strong></p>
+<p>这是由MySQL<strong>自动生成</strong>的一个index（无法人为控制），它一般是直接把主键设置为cluster index，所以又称主键index。<br>（如果表没有创建主键？那么按照以下规则来创建cluster index：（一般还是要显式给表一个PK）<br>1.会用一个唯一的非空的index列，作为cluster index<br>2.如果没有这样的index，那么InnoDB会隐式生成一个主键来作为cluster index<br>其他人为定义的索引，称为辅助索引（secondary index），也可以称为非聚簇索引。<br>关于这两个index的具体区别，查找时的路径有何不同，可以参考这篇文章：<br><a href="https://www.cnblogs.com/rjzheng/p/9915754.html" target="_blank" rel="noopener">https://www.cnblogs.com/rjzheng/p/9915754.html</a><br>关键点：每创建一个index，那么就会生成一个B+树，因此index不能乱加，会导致index的时候需要同时维护多个index，导致效率低下）</p>
+<p>PS：这里有一个关键点，就是<strong>cluster index是无论如何都会存在的。</strong>（不管你有没有创建其他index，每个表都会存在一个cluster index）<br>根据网上很多的文章，都提及到一个内容：InnoDB只有在使用index的时候才是使用行锁，否则会变成表锁。<strong>这句话是错误的</strong>。因为即使我们没有创建index，在select的时候也没有使用index列，那么一样会使用一个隐式创建的cluster index去寻找数据，所以<strong>InnoDB只存在行锁，不存在表锁。</strong><br>官方文档：<br><strong><em>Record Locks<br>A record lock is a lock on an index record. For example, SELECT c1 FROM t WHERE c1 = 10 FOR UPDATE; prevents any other transaction from inserting, updating, or deleting rows where the value of t.c1 is 10.<br>Record locks always lock index records, even if a table is defined with no indexes. For such cases, InnoDB creates a hidden clustered index and uses this index for record locking. See Section 15.6.2.1, “Clustered and Secondary Indexes”.</em></strong><br>可是很多人表示自己亲自测试过，发现确实是整个表都锁住了呀，难道不是表锁吗？这主要是因为对底层了解不足，只开了两个session发现无法同时select就感觉是整个表都锁起来，是不正确的。这时候最正确的做法是：查看MySQL的状态表，查看当前存在的锁，然后<strong>直接查看锁的类型</strong>。毕竟网上说的都不权威，但MySQL它自己创建的表是最权威的！<br>我们这里创建两个session，发现存在lock，waiting的情况，这时候在另一个无须waiting的session执行： <strong>use information_schema;</strong> 进入到MySQL自带的information_schema数据库中<br>然后执行： <strong>select* from innodb_locks;</strong> 即可找到当前存在的locks。<br>（也可以使用 <strong>show engine innodb status;</strong>查看，不过可读性较差，需要仔细观察）<br>下面给出两个命令的结果：（第一个是select* from innodb_locks;)</p>
+<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_2.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_2.png" alt="select* from innodb_locks的显示结果"></a></p>
+<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_3.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_3.png" alt="show engine innodb status的显示结果"></a></p>
+<hr>
+<p>PS：<strong>MySQL8.0与之前的版本不一致（5.7及以前）</strong>。如下：（如果不是使用8.0可以跳过）<br>MySQL5.7及之前，可以通过information_schema.innodb_locks查看事务的锁情况，但，只能看到阻塞事务的锁；如果事务并未被阻塞，则在该表中看不到该事务的锁情况。<br>MySQL8.0删除了information_schema.innodb_locks，添加了performance_schema.data_locks，可以通过performance_schema.data_locks查看事务的锁情况，和MySQL5.7及之前不同，performance_schema.data_locks不但可以看到阻塞该事务的锁，还可以看到该事务所持有的锁，也就是说即使事务并未被阻塞，依然可以看到事务所持有的锁（不过，正如文中最后一段所说，performance_schema.data_locks并不总是能看到全部的锁）。表名的变化其实还反映了8.0的performance_schema.data_locks更为通用了，即使你使用InnoDB之外的存储引擎，你依然可以从performance_schema.data_locks看到事务的锁情况。<br>那么为何RECORD LOCKS会表现出类似于表锁的形式？这是因为InnoDB在没有使用index的时候，会使用cluster index（所以依然是行锁）此时会生成record locks和gap locks，并且是把每一个record，每一个gap都锁住，表现形式就像是整个表都被锁住的情况（但仍然是行锁）。<br>有的人可能觉得，这不是在挑文字游戏？并不，因为只有在特定情况下，才会出现这种情况，当我们修改一些其他参数，或者使用不同的index，都会出现不同的情况，到那时候就不再是整个表都锁住了。这个在最后的时候会详细说明，现在只需要知道，<strong>InnoDB，绝对不存在Table locks。</strong></p>
+<hr>
+<hr>
+<h3 id="四-不同情况的加锁处理分析"><a href="#四-不同情况的加锁处理分析" class="headerlink" title="四. 不同情况的加锁处理分析"></a>四. 不同情况的加锁处理分析</h3><p>有了这些准备，我们开始讨论不同情况的加锁处理分析（加不加锁，加哪种锁）</p>
+<p>此处参考了大佬的文章：<a href="http://hedengcheng.com/?p=771" target="_blank" rel="noopener">http://hedengcheng.com/?p=771</a><br><strong>情况①：简单的snapshot read: select* from table where id = 1;</strong><br>这时候<strong>一般不加锁</strong>。但上文也说了，存在例外，那就是当事务隔离级别为Serializable的情况下，由于每一个操作都完全串行化，因而也不存在snapshot了，该操作会升级为current read，因而需要加锁。（同时，Serializable的情况下，MySQL的并发控制协议会从MVVC降级为Lock-Based。一般除非系统冲突非常严重，否则不采用Serializable）</p>
+<p>有了第一个情况，可以发现<strong>加锁的情况是要考虑其他因素的，不能仅仅是给一个SQL语句就问获得了什么锁，还要考虑很多种情况</strong>。一般而言，需要考虑以下几种情况：（假设搜寻的字段为id）<br><strong>1.id是否为主键？<br>2.当前系统的隔离级别是什么？<br>3.id如果不为主键，那么它是否存在index？<br>4.如果id存在secondary index，那么这个index是否是unique index？<br>5.两个SQL的执行计划是什么，索引扫描？全表扫描？</strong>（这里我是参照大佬的文章来写的，但个人认为第五点其实跟前面的重叠了。如果id为主键，那么就是采用了cluster index，即全表扫描。如果id不存在index，同样是采用cluster index。如果id存在index，无论是否是unique，都为索引扫描。）</p>
+<p>现在给定一个表：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_4.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_4.png" alt="测试所用的表结构"></a><br>对于上面的几种情况，不一定每一种都排列组合一遍，把关键的点get到即可。<br>下面通过<strong>8种情况</strong>来考虑：</p>
+<hr>
+<p><strong>①~④：RC级别<br>⑤~⑧：RR级别</strong></p>
+<hr>
+<h4 id="①搜寻字段是主键-PK）"><a href="#①搜寻字段是主键-PK）" class="headerlink" title="①搜寻字段是主键(PK）"></a>①搜寻字段是主键(PK）</h4><p><code>delete from testN where id = 10;</code><br>此时其他事务无法访问id = 10这一行记录<br>情况最简单，直接在主键上id = 10的记录上加上X锁即可（在id字段上锁）。</p>
+<hr>
+<h4 id="②字段不是主键，但存在一个unique-index。"><a href="#②字段不是主键，但存在一个unique-index。" class="headerlink" title="②字段不是主键，但存在一个unique index。"></a>②字段不是主键，但存在一个unique index。</h4><p><code>delete from testN where name = &#39;abc&#39;;</code><br>同样无法访问name = ‘abc’这一行记录，但同时在id和name1字段上锁。<br>这种情况下，由于存在index，所以会在index上查询，这时候会给unique index加上X锁。同时当select的时候，如果没有指定secondary index的字段（*号也不行），那么还会到cluster index里去顺序查找。具体看图：（在上面最开始讲到cluster index里的文章就有具体说明）<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_5.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_5.png" alt="聚簇索引"></a><br>所以这个时候，除了给secondary unique index进行加锁，还会对cluster index进行加锁。<br>所以此处是给id，name1字段都加上了锁。（当然，被加锁的record依然是那一条，因为unique）</p>
+<p>为什么聚簇索引上的记录也要加锁？试想一下，如果并发的一个SQL，是通过主键索引来更新：<code>update t1 set id = 100 where name = ‘d’;</code>此时，如果delete语句没有将主键索引上的记录加锁，那么并发的update就会感知不到delete语句的存在，违背了同一记录上的更新/删除需要串行执行的约束。</p>
+<hr>
+<h4 id="③字段不是主键，而且字段存在一个index，但并不是unique-index"><a href="#③字段不是主键，而且字段存在一个index，但并不是unique-index" class="headerlink" title="③字段不是主键，而且字段存在一个index，但并不是unique index"></a>③字段不是主键，而且字段存在一个index，但并不是unique index</h4><p><code>delete from testN where number = 12;</code><br>这种情况其实跟第②种情况是类似的，只是可能锁住多个record（因为不是unique index）<br>同样也是对number（index列）进行了加锁，然后还会对cluster index列加锁。<br>PS：看起来②和③可以归并在一起，但在RR的时候可以看到很大的不同。</p>
+<hr>
+<h4 id="④字段不是主键，而且不存在index。"><a href="#④字段不是主键，而且不存在index。" class="headerlink" title="④字段不是主键，而且不存在index。"></a>④字段不是主键，而且不存在index。</h4><p>此时会使用cluster index进行扫描，即全表扫描。而且会把所有的record都锁住。因为该条件无法通过索引快速过滤（暂且把cluster index视为很特殊的index吧，不然你都不需要自己创建index了），这时候在存储引擎层面就会将所有的记录加锁后返回，然后由MySQL Server层进行过滤。这是由于MySQL的实现所决定的。（在实际的实现中，进行了一些优化，在过滤条件中，如果发现不满足条件，那么在中途就会把不满足条件的记录释放锁。这样避免了把所有record都锁住导致的低并发，但也违背了二阶段锁的约束。这样最终持有锁的，会是满足条件的记录。但那大概是在事务提交执行的过程中，所以本地编写事务但不commit，依然会表现为全部记录加锁）</p>
+<hr>
+<h4 id="⑤搜寻字段是主键-PK）"><a href="#⑤搜寻字段是主键-PK）" class="headerlink" title="⑤搜寻字段是主键(PK）"></a>⑤搜寻字段是主键(PK）</h4><p>跟①没有区别</p>
+<hr>
+<h4 id="⑥字段不是主键，但存在一个unique-index。"><a href="#⑥字段不是主键，但存在一个unique-index。" class="headerlink" title="⑥字段不是主键，但存在一个unique index。"></a>⑥字段不是主键，但存在一个unique index。</h4><p>跟②没有区别</p>
+<hr>
+<h4 id="⑦字段不是主键，而且字段存在一个index，但并不是unique-index"><a href="#⑦字段不是主键，而且字段存在一个index，但并不是unique-index" class="headerlink" title="⑦字段不是主键，而且字段存在一个index，但并不是unique index"></a>⑦字段不是主键，而且字段存在一个index，但并不是unique index</h4><p>有区别了，为什么？RR相对于RC，解决的问题是幻读，不可重复读。为何⑤跟⑥的加锁却没有任何改变？幻读，不可重复读是指当前事务，连续执行两次current read，返回了不同的数据。而⑤和⑥都是unique index，能够保持唯一性，不用担心值会发生改变（改变值需要X锁，与S锁不兼容）。<br>那么在⑦的时候，字段存在了index，但该index并不是unique index，这时候问题就出现了，如果还是按照③的做法，那么就可能出现幻读跟不可重复读的情况。<br>举一个例子，按照我们上面给的table的来示例：（假设采用③的只对record进行加锁的模式）<br>字段名为： id， name1，number1， age (PK为id）<br>执行的current read的语句为：<br>select <em>from testN where number1 = 18 for update;(number1是非unique index列)<br>那么假如当我们在另一个session执行：insert into testN values(xx,xx,18,xx); commit;<br>这时候该session中的 transaction是可以成功提交的，因为并没有gap lock，而只是把原本符合条件的 record给锁住了，而不是把所有number1=18的都锁住。<br>这时候再次执行 select</em> from testN where number1 = 18 for update;就会出现幻读。</p>
+<p>因此，<strong>此时会锁住符合记录与相邻记录的间隔。这个就称为间隔锁：gap locks</strong><br>假如：字段的取值是：12，32，18，18，20，24，30.选择的条件是 id = 18<br>那么除了锁住两个18的记录，还会锁住12与18，18与20之间的间隔（有序性）<br>所以此时锁住的范围：record locks： 18， 18<br>gap locks： [12, 18) ∪ [18, 20)所以整体锁住的范围就是： <strong>[12, 20)</strong></p>
+<hr>
+<h4 id="⑧字段不是主键，而且不存在index。"><a href="#⑧字段不是主键，而且不存在index。" class="headerlink" title="⑧字段不是主键，而且不存在index。"></a>⑧字段不是主键，而且不存在index。</h4><p>⑧跟⑦不一样的地方是，⑦会把符合条件的record的与前后record的间隔都给锁住，而⑧由于是全表搜索（无index，只有cluster index），因此⑧首先是把所有的records都锁住，然后再把所有records的间隔都锁住（包括±∞）。假如age列（非index列）一共有20，22，30等三个值，那么由行锁record locks和间隔锁gap locks锁住的范围为：<br><strong>(-∞, 20) ∪ [20, 22) ∪ [22, 30) ∪ [30, +∞）（因为表现为整个表都锁住了，所以容易误以为是表锁）</strong><br>（虽说误以为是表锁是错误的理解，但确实要<strong>尽量避免</strong>这种情况，因为这种情况需要加很多锁。当该非index列有n个records的时候，需要加n个record locks，(n+1)个gap locks，一共需要（2n+1)个锁，开销是极其大的。所以尽量通过index来查询，避免加入过多的锁，影响性能。</p>
+<hr>
+<h3 id="附：测试"><a href="#附：测试" class="headerlink" title="附：测试"></a>附：测试</h3><p>数据以上面的testN的数据为例，事务自动提交设置为否：set autocommit = 0（除了在阐述③如何引起幻读的情况下，需要commit，其余都无须commit，只需要显示到被锁住即可。并且这一步会放到最后执行，前面的每一项测试，在测试完毕之后，都执行rollback，避免事务对数据的更改）<br>初始数据：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_6.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_6.png" alt="初始数据"></a><br>确保环境：（1~4在RC，5~8在RR。虽说应该是global才生效，但直接把session跟global都设置一遍) （两个终端都设置）<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_7.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_7.png" alt="初始环境(1~4RC,5~8RR)"></a></p>
+<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_8.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_8.png" alt="初始环境(1~4RC,5~8RR)"></a></p>
+<hr>
+<h4 id="情况①："><a href="#情况①：" class="headerlink" title="情况①："></a>情况①：</h4><p>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_9.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_9.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_10.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_10.png" alt="B终端"></a><br><strong><em>结论：①确实只锁住了id为10的那条记录，其他所有都没有锁。\</em></strong></p>
+<hr>
+<h4 id="情况②："><a href="#情况②：" class="headerlink" title="情况②："></a>情况②：</h4><p>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_11.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_11.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_12.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_12.png" alt="B终端"></a><br><strong><em>结论：②确实也是只把name1=’abc’该列锁住了。没有其他任何的锁。\</em></strong></p>
+<hr>
+<h4 id="情况③："><a href="#情况③：" class="headerlink" title="情况③："></a>情况③：</h4><p>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_13.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_13.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_14.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_14.png" alt="B终端"></a><br><strong>结论：③，number1为20有两个记录，这两个确实都被锁住了。而且其他都没有锁住，没有gap locks</strong></p>
+<hr>
+<h4 id="情况④："><a href="#情况④：" class="headerlink" title="情况④："></a>情况④：</h4><p>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_15.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_15.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_16.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_16.png" alt="B终端"></a><br><strong>结论：④理论上是锁住所有record，但在判定不符合之后就把锁释放了（即那个违背了二阶段锁的优化操作），所以最后只把age为22的锁住了。</strong></p>
+<hr>
+<p>RC环境转RR环境：<br>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_17.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_17.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_18.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_18.png" alt="B终端"></a></p>
+<hr>
+<h4 id="情况⑤："><a href="#情况⑤：" class="headerlink" title="情况⑤："></a>情况⑤：</h4><p>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_19.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_19.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_20.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_20.png" alt="B终端"></a><br><strong>结论：⑤与①相同，没有任何变化。</strong></p>
+<hr>
+<h4 id="情况⑥："><a href="#情况⑥：" class="headerlink" title="情况⑥："></a>情况⑥：</h4><p>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_21.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_21.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_22.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_22.png" alt="B终端"></a><br><strong>结论：Ⅵ与②相同，没有任何变化。</strong></p>
+<hr>
+<h4 id="情况⑦："><a href="#情况⑦：" class="headerlink" title="情况⑦："></a>情况⑦：</h4><p>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_23.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_23.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_24.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_24.png" alt="B终端"></a><br><strong>锁住18，与预期相同。</strong>18相邻的元素为12，20，因而把 [12, 18)∪ [18, 20)给锁住了。（锁的范围是左闭右开，因而12无法insert，但20是可以insert的）</p>
+<p><strong>下面再测试锁住20的情况。</strong><br>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_25.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_25.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_26.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_26.png" alt="B终端"></a></p>
+<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_27.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_27.png" alt="B终端"></a><br><strong>锁住20，同样跟预期相同，会把[18, 20) ∪ 20 ∪ [20, 40)都锁住</strong></p>
+<p><strong>假设选择的值是最小/最大，是否也像no index的情况下，锁住±∞？</strong><br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_31.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_31.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_32.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_32.png" alt="B终端"></a></p>
+<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_33.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_33.png" alt="B终端"></a><br>答案是会的。所以也跟预期一样。</p>
+<p><strong>结论：⑦与③不同，在RR的情况下会使用gap locks，锁住间隔。</strong></p>
+<hr>
+<h4 id="情况⑧："><a href="#情况⑧：" class="headerlink" title="情况⑧："></a>情况⑧：</h4><p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_28.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_28.png" alt="A终端"></a><br>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_29.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_29.png" alt="B终端"></a></p>
+<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_30.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_30.png" alt="B终端"></a><br>表就像完全锁住一样，因为record locks &amp; gap locks 把整个表都锁住了。<br><strong>结论：⑧在RR的情况下，会把所有的record都锁住，也会把所有的gap锁住。</strong></p>
+<hr>
+<p>最后，测试RC环境下，③可能会导致<strong>幻读</strong>的情况：（RR已经确定不会出现幻读）<br>环境参数：（RR改回RC）<br>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_34.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_34.png" alt="A终端"></a></p>
+<p>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_35.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_35.png" alt="B终端"></a></p>
+<p>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_36.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_36.png" alt="A终端"></a></p>
+<p>中间，在另一个终端B执行：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_37.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_37.png" alt="B终端"></a><br>可见session1的lock并没有锁住session2创建number1为18的值。只要unique行没有duplicate，那么就可以insert，insert更多例子：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_38.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_38.png" alt="B终端"></a></p>
+<p><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_39.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_39.png" alt="A终端"></a></p>
+<p>PS：<strong>以上讨论的是什么时候加锁</strong>。至于加什么锁，应该很好判断。如果是select lock in share mode，那就是加S锁，select for update，就是加X锁。</p>
+<hr>
+<hr>
+<p><strong><em>当范围比较的时候，又有所不同！当范围比较的时候，又有所不同！</em></strong></p>
+<p>(上面考虑的都是等值筛选的情况） 以下就不考虑等值的情况<br>使用数据：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_40.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_40.png" alt="使用数据"></a></p>
+<hr>
+<h4 id="①使用PK的情况（cluster-index）"><a href="#①使用PK的情况（cluster-index）" class="headerlink" title="①使用PK的情况（cluster index）"></a>①使用PK的情况（cluster index）</h4><p>SQL句子： （用4个句子来解释）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select* from testf where pid &gt; 30 for update;</span><br><span class="line">select* from testf where pid &gt; 33 for update;</span><br><span class="line">select* from testf where pid &gt; 50 for update;</span><br><span class="line">select* from testf where pid &lt; 30 for update;</span><br></pre></td></tr></table></figure>
+
+<p><strong>对于RC：</strong><br>句子1：首先符合条件的记录为pid = 33， pid = 47.对这两个records加上X锁。<br>句子2：首先符合条件的记录为pid = 47，对着一个record加上X锁。<br>句子3：没有符合条件的记录。<br>句子4：两个符合，加锁。<br>此时执行select：句子1可以获取pid = 11，12，的记录，句子2可以获得11，12，33，句子3全部可以<br>此时执行insert：除了相同的pid（duplicate），没有任何限制。(但insert相同的pid时，还是会起冲突哦。先是waiting获得lock，然后获得了之后才发现，duplicate，insert失败。即添加被record lock锁住的记录，仍然要waiting，而其他就无须获取锁的就直接duplicate。下同）<br><strong>对于RR：（增加gap locks）</strong><br>句子仍然对符合的records加上X锁，之后，开始增加gap locks：<br>句子1：<br>gap locks：对于 pid &gt; 30，因而需要找一个左边界，找一个左边最接近30的record，在这里即为22.因此，gap locks的范围： [22, 33) ∪ [33, 47) ∪ [47, ＋∞)<br>对于insert，不能insert record locks &amp; gap locks范围里的pid。合理。<br>对于select，也还是跟RC情况一样。因为被record locks锁住的在RC就不能访问，而被gap locks锁住的范围无法insert，因而select也肯定是empty set。那么，就不会出现幻读。<br>句子2：<br>与句子1的唯一区别是，33刚好就在表里，那么左边界到底是22还是33？<br>好的，答案是33，因为判定条件≠33啊。剩下的也就一样了，gap locks：[33, 47)∪[47, +∞)<br>句子3：<br>这个有点特别的是，没有record。但其实是一样的，找边界，因而这里这里的边界显然就是47，gap locks： [47, +∞)<br>句子4：<br>值得注意的是，左边界是无穷，右边界显然是33.但这里的右边界竟然是闭合的！<br>所以此处gap locks：(-∞, 33],因而只能insert 34之后的pid。所以select的时候就只能select 47了，33是不可以的。insert也不能包括33.</p>
+<hr>
+<h4 id="②不使用PK，使用unique-index"><a href="#②不使用PK，使用unique-index" class="headerlink" title="②不使用PK，使用unique index"></a>②不使用PK，使用unique index</h4><p>修改了一下表的结构跟数据：num具备一个unique index<br>测试了一下，<strong>发现跟PK一模一样。懒得说。（内部实现实际上有区别的，如果说要什么区别的话，那就是上面刚开始说的①和②的区别啊！②会先给unique index加锁再给cluster index加锁。</strong><br>(其实就是cluster index那一篇拓展文章)</p>
+<hr>
+<h4 id="③不使用PK，使用non-unique-index-从这里开始很特别。"><a href="#③不使用PK，使用non-unique-index-从这里开始很特别。" class="headerlink" title="③不使用PK，使用non-unique index 从这里开始很特别。"></a>③不使用PK，使用non-unique index 从这里开始很特别。</h4><p>直接讨论RR：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select* from testf where num &gt; 200 for update;</span><br><span class="line">select* from testf where num &gt; 150 for update;</span><br><span class="line">select* from testf where num &gt; 400 for update;</span><br><span class="line">select* from testf where num &lt; 250 for update;</span><br></pre></td></tr></table></figure>
+
+<p>对于句子1：<br>终端A：<br><a href="hhttps://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_41.png"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_41.png" alt="A终端"></a></p>
+<p>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_42.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_42.png" alt="B终端"></a><br>显然，select还是只把符合的记录给锁住了，即只锁住了300，100跟200均可select。<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_43.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_43.png" alt="B终端"></a><br>对于insert，依然是找到相应的边界值（这里显然是200），于是锁住了[200, +∞)，因而可以insert 199</p>
+<p>对于句子2：（<strong>看起来应该会跟句子1一样，但结果……</strong>）<br>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_44.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_44.png" alt="A终端"></a></p>
+<p>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_45.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_45.png" alt="B终端"></a><br><strong>select竟然全部记录都获取不到了，除了不存在的空记录</strong>。那么insert呢？<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_46.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_46.png" alt="insert情况"></a></p>
+<p>既然已经是所有record都上锁了（record locks），那么理应把record之间的间隔也上锁（RR），结果insert确实如此，全部都无法insert。<br>（而句子1跟句子2的区别，仅仅只有150跟200，200存在于里面，而150不在。<strong>推测：索引为B+树类型，所以当存在相同的元素时，就可以直接根据B+树的有序性进行合理上锁，即对符合条件的记录上锁</strong>。那么如果不存在相同的元素，即不存在150，而且又不是unique index，仅仅是使用了一个non-unique index并且被动地去cluster index中查找，这时候就会把所有记录上锁，因为cluster index是一个特殊的index，具体的细节我也不懂，得去看源码。但现在只需要知道，<strong>cluster index无法标记到相同的元素，就无法进行定位了，然后就直接把所有record都锁了，当然在RR下还有gap locks</strong>）</p>
+<p>对于句子3：<br>终端A：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_47.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_47.png" alt="A终端"></a></p>
+<p>终端B：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_48.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_48.png" alt="B终端"></a><br>可见，由于里面没有符合条件的记录，所以select没有被阻塞。<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_49.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_49.png" alt="B终端"></a></p>
+<p>可是，insert却是会被阻塞的。而且阻塞范围就是寻找边界。这里上锁的区域是[300, ＋∞)<br>（虽然400不存在于表中，但由于没有符合的记录，就没有把record给上锁了，所以也仅仅是添加了gap locks。但gap locks包含300，却只能search不能insert。看来只能看源码才能切实看懂了！先记住罢！）</p>
+<p>对于句子4：<br>跟句子2是一样的，select全部锁住了，毫无意外的话，insert应该也会被全范围的gap locks给锁住。（// TODO = =！）<br>确实如此，就不贴图了。</p>
+<p>本来不想测试RC的，但RR的结果有点出人意料，所以现在再把RC也测试一遍：<br>句子1：<strong>select还是一样，符合条件的锁住。insert没有任何阻塞</strong>（因为不存在gap locks）<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_50.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_50.png" alt="B终端"></a><br>句子2：跟RR的不一样，并不会全部锁住，而且也不会把记录都锁住。<br>select依然是符合条件的才锁住。而insert依然是没有任何阻塞（没有gap locks）<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_51.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_51.png" alt="B终端"></a><br>句子3：还是一样。select该锁的锁，insert无阻塞。<br>句子4：一样。pass<br>（RC的insert无阻塞是毫不意外的，首先RC不存在gap locks，至于已经存在的record则会因为PK/cluster index而产生冲突，并不是因为gap Locks）</p>
+<hr>
+<h4 id="情况④：不使用PK，也不使用index"><a href="#情况④：不使用PK，也不使用index" class="headerlink" title="情况④：不使用PK，也不使用index"></a>情况④：不使用PK，也不使用index</h4><p>RC：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select* from testf where num &gt; 200 for update;</span><br><span class="line">select* from testf where num &gt; 150 for update;</span><br><span class="line">select* from testf where num &gt; 400 for update;</span><br><span class="line">select* from testf where num &lt; 250 for update;</span><br></pre></td></tr></table></figure>
+
+<p>句子1：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_52.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_52.png" alt="B终端"></a><br>select全部锁住了，而且不仅仅是记录，包括gap。而RC是不存在gap locks的。<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_53.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_53.png" alt="B终端"></a><br>而insert却是依旧跟预期一样，毫无阻塞（因为RC没有gap locks）</p>
+<p>句子2：select也是一样全部阻塞。而insert也是毫无阻塞</p>
+<p>句子3：<br><a href="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_54.png" target="_blank" rel="noopener"><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20191108/sql_54.png" alt="B终端"></a><br>select毫无阻塞，因为没有找到记录。insert也是毫无阻塞。</p>
+<p>句子4：还是那样，select完全阻塞，insert没有阻塞。</p>
+<p>RR：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select* from testf where num &gt; 200 for update;</span><br><span class="line">select* from testf where num &gt; 150 for update;</span><br><span class="line">select* from testf where num &gt; 400 for update;</span><br><span class="line">select* from testf where num &lt; 250 for update;</span><br></pre></td></tr></table></figure>
+
+<p>句子1：<br>select依然全部被阻塞（RC都阻塞， RR岂有不阻之理？）<br>insert也是全部阻塞，因为RR多了gap locks，自然也就全部范围都锁住了。<br>句子2跟句子4显然结果也会是一样的。<br>那么再看句子3，竟然也是全部阻塞。</p>
+<p>上面都是详细的推导环节，虽然还有所疑惑，但至少结果是没有错的，先总结了吧（关于insert并发这个，以后再说吧。这个应该满足了select/delete/update与insert之间的所有关系了，只差并发insert这一环节） PS : insert还有一个insert意向锁</p>
+<hr>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>分两大类情况：等值筛选（id = x），范围筛选（id &gt; x)<br>以下操作只考虑select跟insert（delete跟update约等于select。）</p>
+<p>先看<strong>等值筛选</strong>：</p>
+<p><strong><em>① RC / RR + PK</em></strong></p>
+<p>锁住该条记录的。select，insert均不能使用相同的字段值（insert是因为同名，select是因为锁）</p>
+<p><strong><em>② RC / RR + Unique Index</em></strong></p>
+<p>跟①一样，只是底层实现有所不同（先对Unique Index的记录加锁，再对cluster index的记录加锁）</p>
+<p><strong><em>③ RC + Non-unique Index</em></strong></p>
+<p>锁住所有符合条件的记录（因为不是unique，可能选出多条记录）</p>
+<p><strong><em>④ RC + No index(无索引）</em></strong></p>
+<p>锁住所有的记录（MySQL优化后，对判断不满足条件的记录，进行释放锁操作。违背了2PL协议）</p>
+<p><strong><em>⑤ RR + Non-unique Index</em></strong></p>
+<p>锁住符合条件的记录，并且新增gap locks。会锁住记录与其相邻记录的中间间隔（按照有序排列）<br>gap locks一般按照 左闭右开的原则。</p>
+<p><strong><em>⑥ RR + No index</em></strong></p>
+<p>锁住所有的记录，具备gap locks。因为所有记录都锁住，所以从-∞到＋∞其实都被锁住了。<br>n条记录时，n个Record Locks， n + 1 个gap locks，一共 2n+1 个锁。</p>
+<p><strong>范围筛选</strong>：（PS：如果两个select都是S锁，那当然是可以同时存在的，S锁之间兼容）</p>
+<p><strong><em>① RC + PK / Unique Index / Non-Unique Index</em></strong></p>
+<p>(RC条件下，只要使用Index，无论是Unique Index还是Non-Unique）<br>锁住符合的记录，可以select没有锁的记录，insert无限制。</p>
+<p><strong><em>② RR + PK / Unique Index</em></strong></p>
+<p>锁住符合的所有记录，还有gap locks。同样是可以select没有锁的记录，insert无限制。</p>
+<p><strong><em>③ RR + Non-unique Index</em></strong></p>
+<p><strong>Ⅰ. 当表中存在比较的值（即id &gt; x, table存在 id = x的记录）</strong></p>
+<p>同①</p>
+<p><strong>Ⅱ. 当表中不存在比较的值（id &gt; x, table不存在id = x的记录）</strong></p>
+<p>select全部阻塞（除了不存在的记录），insert全部阻塞（record已经阻塞，加上gap必然的结果)</p>
+<p><strong>Ⅲ. 当select返回的是empty set （例子：where id &gt; 100，而table中不存在id大于100的记录）</strong></p>
+<p>同① （其实跟 Ⅰ 也是等价的，只是符合的记录为empty set）</p>
+<p><strong><em>④ RC + No Index</em></strong></p>
+<p><strong>Ⅰ. select返回的值非空</strong></p>
+<p>select完全阻塞（包括不存在的记录也无法select），insert无阻塞（RC不存在gap）</p>
+<p><strong>Ⅱ. select返回的是empty set</strong></p>
+<p>select跟insert都没有阻塞</p>
+<p><strong><em>⑤ RR + No index</em></strong></p>
+<p>select跟insert必定全部阻塞。</p>
+<p>PS：在RR的情况下，对于并非全锁的情况，Gap Locks的边界值考量方法都是一样的（都是找左右相邻最近的，即使你是empty set，那么就找table中最大/最小的那个当边界，都是一样的，此处略）<br>并且，此处主要考虑的是RC跟RR级别下的情况。<strong>对RU跟Serializable并无太多讨论</strong>。而且只考虑了select与insert，select与select之间的冲突（据说select跟delete，update都是一个形式，那么就略了），还剩下的是Insert与Insert之间的冲突，即并发插入，TODO吧。</p>
+<p>PPPS：写完之后再整理，想到了大佬文章里的第五点，<strong>SQL语句的执行计划是什么？是索引扫描还是全表扫描？</strong>我当时认为这点可以忽略，因为我认为cluster index必定存在，所以即使是全表扫描也是等同于索引扫描，只是扫描cluster index的时候存在一点特殊（就是上文提到的那点）现在看来，cluster index虽然是index，但确实是特殊的index，当我们需要使用全表扫描，<strong>即使是使用了cluster index，也是不能完全等同于索引扫描的</strong>。想想最后在范围搜索那里，出现的意外情况无法理解的，应该就是这一点了吧。（因为当时的注意力主要在考虑InnoDB是否存在表锁，然后最后的主要论据就是必定存在cluster index，所以必定有索引，表现出表锁的特征其实是行锁加间隔锁的作用等等……实际上，这一点倒是没有错，但cluster index是特殊的index也不可忽视！）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/interview/" rel="tag"># interview</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/17/JVM%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" rel="next" title="JVM知识整理">
+                <i class="fa fa-chevron-left"></i> JVM知识整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/17/HashMap%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" rel="prev" title="HashMap源码阅读">
+                HashMap源码阅读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/03.jpeg"
+                alt="Hong" />
+            
+              <p class="site-author-name" itemprop="name">Hong</p>
+              <p class="site-description motion-element" itemprop="description">hong</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Hongscar" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:84363715@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-事务隔离级别："><span class="nav-number">2.</span> <span class="nav-text">二. 事务隔离级别：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-锁机制："><span class="nav-number">3.</span> <span class="nav-text">三. 锁机制：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-不同情况的加锁处理分析"><span class="nav-number">4.</span> <span class="nav-text">四. 不同情况的加锁处理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①搜寻字段是主键-PK）"><span class="nav-number">4.1.</span> <span class="nav-text">①搜寻字段是主键(PK）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②字段不是主键，但存在一个unique-index。"><span class="nav-number">4.2.</span> <span class="nav-text">②字段不是主键，但存在一个unique index。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#③字段不是主键，而且字段存在一个index，但并不是unique-index"><span class="nav-number">4.3.</span> <span class="nav-text">③字段不是主键，而且字段存在一个index，但并不是unique index</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#④字段不是主键，而且不存在index。"><span class="nav-number">4.4.</span> <span class="nav-text">④字段不是主键，而且不存在index。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#⑤搜寻字段是主键-PK）"><span class="nav-number">4.5.</span> <span class="nav-text">⑤搜寻字段是主键(PK）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#⑥字段不是主键，但存在一个unique-index。"><span class="nav-number">4.6.</span> <span class="nav-text">⑥字段不是主键，但存在一个unique index。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#⑦字段不是主键，而且字段存在一个index，但并不是unique-index"><span class="nav-number">4.7.</span> <span class="nav-text">⑦字段不是主键，而且字段存在一个index，但并不是unique index</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#⑧字段不是主键，而且不存在index。"><span class="nav-number">4.8.</span> <span class="nav-text">⑧字段不是主键，而且不存在index。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附：测试"><span class="nav-number">5.</span> <span class="nav-text">附：测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#情况①："><span class="nav-number">5.1.</span> <span class="nav-text">情况①：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况②："><span class="nav-number">5.2.</span> <span class="nav-text">情况②：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况③："><span class="nav-number">5.3.</span> <span class="nav-text">情况③：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况④："><span class="nav-number">5.4.</span> <span class="nav-text">情况④：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况⑤："><span class="nav-number">5.5.</span> <span class="nav-text">情况⑤：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况⑥："><span class="nav-number">5.6.</span> <span class="nav-text">情况⑥：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况⑦："><span class="nav-number">5.7.</span> <span class="nav-text">情况⑦：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况⑧："><span class="nav-number">5.8.</span> <span class="nav-text">情况⑧：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#①使用PK的情况（cluster-index）"><span class="nav-number">5.9.</span> <span class="nav-text">①使用PK的情况（cluster index）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②不使用PK，使用unique-index"><span class="nav-number">5.10.</span> <span class="nav-text">②不使用PK，使用unique index</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#③不使用PK，使用non-unique-index-从这里开始很特别。"><span class="nav-number">5.11.</span> <span class="nav-text">③不使用PK，使用non-unique index 从这里开始很特别。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况④：不使用PK，也不使用index"><span class="nav-number">5.12.</span> <span class="nav-text">情况④：不使用PK，也不使用index</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结："><span class="nav-number">6.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '75d5d92e717eca3c6b03',
+          clientSecret: '3ec3a4b9ee7baf1c9f4ec85b4ce8d2af9126edb3',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hong's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="前言​        此文用于记录一些常用的Linux命令。主要记录每一个命令的作用，参数的作用。 ①ls  英语全文：list。列出目录下的文件。  语法： ls [选项] [文件名或目录名]-a：显示所有文件    –color&#x3D;when(颜色输出。默认为always。 never：从不  auto：自动)-d：显示目录信息，而非文件-h：文件大小显示为k，M,G-i：显示iNode#####">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令">
+<meta property="og:url" content="https://fzy-line.github.io/2020/02/17/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Hong&#39;s Blog">
+<meta property="og:description" content="前言​        此文用于记录一些常用的Linux命令。主要记录每一个命令的作用，参数的作用。 ①ls  英语全文：list。列出目录下的文件。  语法： ls [选项] [文件名或目录名]-a：显示所有文件    –color&#x3D;when(颜色输出。默认为always。 never：从不  auto：自动)-d：显示目录信息，而非文件-h：文件大小显示为k，M,G-i：显示iNode#####">
+<meta property="article:published_time" content="2020-02-17T03:12:21.000Z">
+<meta property="article:modified_time" content="2020-02-17T06:18:40.608Z">
+<meta property="article:author" content="Hong">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://fzy-line.github.io/2020/02/17/Linux常用命令/"/>
+
+
+
+
+
+  <title>Linux常用命令 | Hong's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hong's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Like life,like coding</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fzy-line.github.io/2020/02/17/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux常用命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:12:21+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>​        此文用于记录一些常用的Linux命令。主要记录每一个命令的作用，参数的作用。</p>
+<h4 id="①ls-英语全文：list。列出目录下的文件。-语法：-ls-选项-文件名或目录名"><a href="#①ls-英语全文：list。列出目录下的文件。-语法：-ls-选项-文件名或目录名" class="headerlink" title="①ls  英语全文：list。列出目录下的文件。  语法： ls [选项] [文件名或目录名]"></a>①ls  英语全文：list。列出目录下的文件。  语法： ls [选项] [文件名或目录名]</h4><p>-a：显示所有文件    –color=when(颜色输出。默认为always。 never：从不  auto：自动)<br>-d：显示目录信息，而非文件<br>-h：文件大小显示为k，M,G<br>-i：显示iNode<br>#####-l：长格式显示（ <strong>ll &lt;==&gt; ls -l</strong>）</p>
+<a id="more"></a>
+
+<hr>
+<h4 id="②cd。英语全文：change-directory。更新目录-（Shell内置命令）"><a href="#②cd。英语全文：change-directory。更新目录-（Shell内置命令）" class="headerlink" title="②cd。英语全文：change directory。更新目录  （Shell内置命令）"></a>②cd。英语全文：change directory。更新目录  （Shell内置命令）</h4><p>Linux命令：Shell内置命令（无执行文件所在路径）/外部文件（有可执行文件）  Linux绝大部分是外部命令<br>-P:如果切换的是软链接目录，则进入原始的物理目录，而非软链接目录<br>-L:如果切换的是软链接目录，直接进入软链接目录</p>
+<hr>
+<h4 id="③mkdir-英语全文：make-directories。创建一个空目录"><a href="#③mkdir-英语全文：make-directories。创建一个空目录" class="headerlink" title="③mkdir 英语全文：make directories。创建一个空目录"></a>③mkdir 英语全文：make directories。创建一个空目录</h4><p>-p：递归创建一连串的新目录。  例子：mkdir -p a/b/c</p>
+<hr>
+<h5 id="④rmdir-英语全文：remove-empty-directories。-删除一个空的目录（只能删目录），如果目录有内容-如其他空目录-，就会报错。"><a href="#④rmdir-英语全文：remove-empty-directories。-删除一个空的目录（只能删目录），如果目录有内容-如其他空目录-，就会报错。" class="headerlink" title="④rmdir 英语全文：remove empty directories。 删除一个空的目录（只能删目录），如果目录有内容(如其他空目录)，就会报错。"></a>④rmdir 英语全文：remove empty directories。 删除一个空的目录（只能删目录），如果目录有内容(如其他空目录)，就会报错。</h5><p>（这个命令不常用，后续一般用rm命令） -p：递归删除</p>
+<hr>
+<h5 id="⑤touch-英语全文：change-file-timestamps。-触摸，如果文件不存在，创建一个空文件。如果已存在，修改文件的时间戳。"><a href="#⑤touch-英语全文：change-file-timestamps。-触摸，如果文件不存在，创建一个空文件。如果已存在，修改文件的时间戳。" class="headerlink" title="⑤touch 英语全文：change file timestamps。 触摸，如果文件不存在，创建一个空文件。如果已存在，修改文件的时间戳。"></a>⑤touch 英语全文：change file timestamps。 触摸，如果文件不存在，创建一个空文件。如果已存在，修改文件的时间戳。</h5><p>访问时间：Access  数据修改时间：Modify  状态修改时间：Change<br>-a：只修改文件的访问时间<br>-m：只修改文件的数据修改时间<br>-c：<del>只修改状态修改时间</del> 如果文件不存在，不创建新文件。（没有只修改状态修改时间的功能！）<br>-d：把文件时间修改为指定的时间，而非当前时间<br>（注意，不要把touch用作新建文件的命令）</p>
+<hr>
+<h5 id="⑥stat-英语全文：display-file-or-file-system-status。显示文件或文件系统的详细信息"><a href="#⑥stat-英语全文：display-file-or-file-system-status。显示文件或文件系统的详细信息" class="headerlink" title="⑥stat 英语全文：display file or file system status。显示文件或文件系统的详细信息"></a>⑥stat 英语全文：display file or file system status。显示文件或文件系统的详细信息</h5><p>stat [选项] 文件名或目录名（必须要指定第二个参数）<br>-f:查看文件所在的文件系统信息，而不是查看文件的信息<br>改变三种时间的命令：<br>cat：改变Access Time<br>echo：写入数据，改变Modify Time， Change Time<br>chown： 改变文件所有者。 改变Change Time<br>touch：三种都改（不使用选项时）</p>
+<hr>
+<h5 id="⑦cat-英语全文：concatenate-files-and-print-on-the-standard-output。连接文件并打印输出到标准输出"><a href="#⑦cat-英语全文：concatenate-files-and-print-on-the-standard-output。连接文件并打印输出到标准输出" class="headerlink" title="⑦cat 英语全文：concatenate files and print on the standard output。连接文件并打印输出到标准输出"></a>⑦cat 英语全文：concatenate files and print on the standard output。连接文件并打印输出到标准输出</h5><p>-A：列出所有隐藏符号(all)<br>-E:列出每行结尾的回车符$ (end)<br>-n:显示行号<br>-T:显示出Tab键 ^|<br>-v:列出所有特殊字符         （即-A &lt;==&gt; -vET）<br>(不论文件内容有多少，都会一次性显示，如果文件太大，上面部分不会显示完全。cat不适合查看太大的文件，有其他命令)</p>
+<hr>
+<h5 id="⑧：more-英语全文：file-perusal-filter-for-crt-view-in。分屏显示文件内容"><a href="#⑧：more-英语全文：file-perusal-filter-for-crt-view-in。分屏显示文件内容" class="headerlink" title="⑧：more 英语全文：file perusal filter for crt view in。分屏显示文件内容"></a>⑧：more 英语全文：file perusal filter for crt view in。分屏显示文件内容</h5><p>常用快捷键：  空格：向下翻页。  b：向上翻页。  回车键：向下滚动一行<br>/字符串： 搜索指定的字符串。  q：退出<br>?:对于这种持续性命令（more，top等），显示各种可执行操作（即help）</p>
+<hr>
+<h5 id="⑨：head-英语全文：output-the-first-part-of-files。显示文件开头的几行"><a href="#⑨：head-英语全文：output-the-first-part-of-files。显示文件开头的几行" class="headerlink" title="⑨：head 英语全文：output the first part of files。显示文件开头的几行"></a>⑨：head 英语全文：output the first part of files。显示文件开头的几行</h5><p>-n 行数：显示前[行数]几行（n与行数之间，有无空格均可） 行数默认为10<br>-v：显示文件名（被head操作的文件）<br>注意： -行数 &lt;==&gt; -n 行数。即： head -n 20 .bash_history &lt;==&gt; head -20 .bash_history</p>
+<hr>
+<h5 id="⑩：tail-英语全文：output-the-last-part-of-files。显示文件结尾内容"><a href="#⑩：tail-英语全文：output-the-last-part-of-files。显示文件结尾内容" class="headerlink" title="⑩：tail 英语全文：output the last part of files。显示文件结尾内容"></a>⑩：tail 英语全文：output the last part of files。显示文件结尾内容</h5><p>-n 行数：显示最后[行数]几行。同样默认为10，与head用法一致<br>-f：监听文件新增内容。使用时，光标会一直存在，当其他终端向该文件追加一些数据时，该命令会监视出来。</p>
+<hr>
+<h5 id="11：-ln-英语全文：make-links-between-file。在文件之间建立链接。-ln-选项-源文件-目标文件"><a href="#11：-ln-英语全文：make-links-between-file。在文件之间建立链接。-ln-选项-源文件-目标文件" class="headerlink" title="11： ln 英语全文：make links between file。在文件之间建立链接。 ln[选项] 源文件 目标文件"></a>11： ln 英语全文：make links between file。在文件之间建立链接。 ln[选项] 源文件 目标文件</h5><p>-s:建议软链接（默认是硬链接）<br>-f：如果目标文件已存在，删除目标文件后再建立链接文件<br>如果：目标文件没有文件名（即是一个目录），那么新建的文件名跟源文件名一致。<br>ln /root/a /tmp/ &lt;==&gt; ln /root/a /tmp/a   此时/root/a与/tmp/a是硬链接<br>（注意：硬链接没有其他要求，但如果建立软链接，那么源文件必须写绝对路径，不能是相对路径）<br>硬链接：两个文件的iNode相同，其一修改，另一个都会修改。但其中之一删除，iNode文件仍然能访问<br>      （不能跨文件系统(分区），因为不同分区的iNode值重新计算，而且不能链接目录) （不常用）<br>软链接：创建一个新的目标文件，iNode不同，指向源文件（相当于快捷方式）<br>ll查看软链接文件时，权限开头的l表示：软链接。 文件名 -&gt; 指向源文件<br>（软链接可以链接目录，而且可以跨分区）<br>软链接的block写的不是真正的数据，而仅仅是源文件的文件名及iNode号。删除掉软链接，源文件不受影响。删除掉源文件，软连接会失效。但如果改变软链接，那么源文件也会被修改。</p>
+<hr>
+<h5 id="12：rm-英语全文：remove-files-or-directories。删除文件-目录"><a href="#12：rm-英语全文：remove-files-or-directories。删除文件-目录" class="headerlink" title="12：rm 英语全文：remove files or directories。删除文件/目录"></a>12：rm 英语全文：remove files or directories。删除文件/目录</h5><p>-f：强制删除(force)<br>-i：交互删除（删前会询问，默认就是-i）<br>-r：递归删除，可以删除目录（加了-r才可以删目录）（逐层，直到最底层，逐层删除，逐个询问）<br>rm -rf：递归删除，不询问，强制。<br>（传说中的： rm -rf / ,删除所有，强制执行！）</p>
+<hr>
+<h5 id="13：cp-英语全文：copyfiles-and-directories。复制文件和目录。-cp-选项-源文件-目的文件"><a href="#13：cp-英语全文：copyfiles-and-directories。复制文件和目录。-cp-选项-源文件-目的文件" class="headerlink" title="13：cp 英语全文：copyfiles and directories。复制文件和目录。  cp[选项] 源文件 目的文件"></a>13：cp 英语全文：copyfiles and directories。复制文件和目录。  cp[选项] 源文件 目的文件</h5><p>-d：如果源文件是软链接，那么目的文件也为软链接（如果不指定，复制的会是源文件）。对硬链接无效<br>-p：保留源文件的属性（所有者，所属组，权限，时间）<br>-r：递归复制，用于目录<br>-a：相当于 -dpr<br>-i：询问，如果目标文件已经存在，询问是否覆盖<br>-l：将目标文件建立为源文件的硬链接，而不是复制源文件<br>-s：……建立为软链接<br>（复制文件时，如果目标’是一个目录，即没有指定文件名，则不改名复制，否则会改名）<br>（执行cp命令后，目标文件的时间会更改为命令的执行时间，而非源文件的时间。用-p或者-a可以解决）</p>
+<hr>
+<h5 id="14：-mv-英语全文：-move-rename-files-移动文件或者改名。-mv-选-源-目’"><a href="#14：-mv-英语全文：-move-rename-files-移动文件或者改名。-mv-选-源-目’" class="headerlink" title="14： mv 英语全文： move(rename) files 移动文件或者改名。  mv[选] 源 目’"></a>14： mv 英语全文： move(rename) files 移动文件或者改名。  mv[选] 源 目’</h5><p>-f:强制覆盖，如果已存在，直接覆盖<br>-i：交互。……。询问（默认为-i,即mv &lt;==&gt; mv -i）<br>-n:如果已存在，不覆盖<br>-v：显示移动过程<br>（如果要覆盖的是一个非空目录，则无法覆盖。即便是-f也不可以）<br>改名操作：如果源’和目’在同一路径，则为改名操作。 mv mytmp1 mytmp2</p>
+<hr>
+<h5 id="15：man-英语全文：format-and-display-the-online-manual-pages。帮助手册-man-选项-命令"><a href="#15：man-英语全文：format-and-display-the-online-manual-pages。帮助手册-man-选项-命令" class="headerlink" title="15：man 英语全文：format and display the online manual pages。帮助手册   man [选项] 命令"></a>15：man 英语全文：format and display the online manual pages。帮助手册   man [选项] 命令</h5><p>-f：查看命令拥有哪个级别的帮助<br>-k：查看和命令相关的所有帮助<br>快捷键：上，下，pageUp，pageDown  g：第一页  G：最后一页   q：quit<br>/str:所有str   ?str:向上搜索str   n：搜下一个str<br>N：如果是/str 切换成 ?str ,如果是?str,切换成 /str<br>例子：man -f passwd 有 passwd(1), passwd(5)<br>      那么：man 1 passwd =&gt; passwd(1)<br>其他：whatis &lt;==&gt; man -f<br>apropos  &lt;==&gt; man -k<br>想知道命令在哪：whereis   想知道当前用户是谁： whoami</p>
+<hr>
+<h5 id="16：info-同样是帮助，但是是一份完整详细的电子书"><a href="#16：info-同样是帮助，但是是一份完整详细的电子书" class="headerlink" title="16：info  同样是帮助，但是是一份完整详细的电子书"></a>16：info  同样是帮助，但是是一份完整详细的电子书</h5><hr>
+<h5 id="17：help-只用户获取Shell内置命令的帮助，不常用"><a href="#17：help-只用户获取Shell内置命令的帮助，不常用" class="headerlink" title="17：help  只用户获取Shell内置命令的帮助，不常用"></a>17：help  只用户获取Shell内置命令的帮助，不常用</h5><p>如：ls是外部命令。 help ls，会报错。<br>但绝大多数命令可用 –help获取帮助。  例子： ls –help（输出man的简化版）</p>
+<hr>
+<h5 id="18：whereis-只能搜索命令，不能索索普通文件"><a href="#18：whereis-只能搜索命令，不能索索普通文件" class="headerlink" title="18：whereis  只能搜索命令，不能索索普通文件"></a>18：whereis  只能搜索命令，不能索索普通文件</h5><p>-b：只查找二进制命令<br>-m：只查找帮助文档（命令的帮助文档）</p>
+<hr>
+<h5 id="19：which-英语全文：shows-the-full-path-of-shell-commands。列出命令所在路径，如果该命令有别名，则同时显示出别名命令"><a href="#19：which-英语全文：shows-the-full-path-of-shell-commands。列出命令所在路径，如果该命令有别名，则同时显示出别名命令" class="headerlink" title="19：which 英语全文：shows the full path of shell commands。列出命令所在路径，如果该命令有别名，则同时显示出别名命令"></a>19：which 英语全文：shows the full path of shell commands。列出命令所在路径，如果该命令有别名，则同时显示出别名命令</h5><p>如： which mv =&gt; alias mv = ‘mv -i’ /usr/bin/mv<br>which ll =&gt; alias ll = ‘ls -l –color=auto’ /usr/bin/ls</p>
+<hr>
+<h5 id="20-locate-英语全文-find-files-by-name。按照文件名搜索文件"><a href="#20-locate-英语全文-find-files-by-name。按照文件名搜索文件" class="headerlink" title="20: locate 英语全文: find files by name。按照文件名搜索文件"></a>20: locate 英语全文: find files by name。按照文件名搜索文件</h5><p>只能根据文件名搜索，但是因为locate并不是搜索硬盘空间，而是先建立locate数据库，然后在数据库中搜索，因此：搜索速度快，耗费的系统资源非常小。<br>-i:忽略大小写（ignore）<br>例子：locate mkdir 会搜索出包含mkdir字符串的文件名，当然也包括mkdir命令<br>ps：locate数据库并不会实时更新，而是等用户退出登录或者重启系统时才会更新（因此新创建的文件无法立刻locate查到）<br>locate数据库位置： ll /var/lib/mlocate/mlocate.db (二进制文件)<br>命令： updatedb ： 可以即时更新一次locate数据库（这样可以locate到新文件。命令执行需要一定时间，要等待）<br>同时，部分文件类型或目录，并不会放到locate数据库中，如：<br>光盘，网盘，临时目录等（要么不在Linux系统中，是外来存储的网络存储的，要么是系统的缓存和临时文件，如/tmp下的文件，此时updatedb也没用）</p>
+<hr>
+<h5 id="21：-find-英语全文：search-for-files-in-a-directory-hierarchy。在目录中查找文件。"><a href="#21：-find-英语全文：search-for-files-in-a-directory-hierarchy。在目录中查找文件。" class="headerlink" title="21： find 英语全文：search for files in a directory hierarchy。在目录中查找文件。"></a>21： find 英语全文：search for files in a directory hierarchy。在目录中查找文件。</h5><p>不仅可按照文件名搜索，还可按照权限，大小，时间，iNode号等来搜索文件<br>（find是在硬盘中进行搜索的，如果指定的搜索范围过大，就会消耗较大的系统资源）<br>语法： find 搜索路径 [选] 搜索内容     （如果路径设定为 /, 那么执行起来就会很慢）<br>如果无选项，则将路径下的所有文件都输出。<br>-name：按照文件名搜索<br>-iname：按文件名，切不区分大小写<br>-inum：按照iNode号搜索<br>（如果是按照文件名。必须是完全匹配才会列出，如： find /root -name a123  此时只会列出名为a123的文件。如果是locate，会列出a123，还可能列出a12345，vca123等）<br>-size[+-] 大小:按文件大小搜索。 +-表示是比[大小]的数字还要大，还是小<br>例：find . -size +25k  当前目录下，大于25k的文件<br>（-size与后续的+或-，要有空格，而 +/-与大小之间无空格，k必须是小写(kb）)<br>千字节(kb)必须用小写k，兆字节(MB)必须用大写M，GB用大写G。<br>如果不写单位，默认单位并不是字节b，而是512byte，即半个kb。<br>如果单位要指定为字节，要用小写c。双字节要用小写w<br>-atime [+-] 时间：根据Access Time。。。  -mtime：…… -ctime：……<br>例子：find . -mtime -5 : 5天内修改的文件。   5：前5~6，这一天内修改的  +5：6天前修改的<br>同时还有amin，mmin，cmin，单位是分钟（time单位是天）<br>按权限： -perm 数字， -perm -数字， -perm +数字<br>按所有者和所属组： -uid 用户id， -gid 用户组id， -user 用户名， -gid 组名， -nouser（没有所有者）<br>例子：find . -user root 所有者是root的文件<br>按文件类型：-type d 查目录  -type f 查普通文件  -type l 查软链接</p>
+<p>逻辑运算符：-a 与 ， -o 或 ， -not 非<br>例子：find . -size +2k -a -type f   (大于2kb且是普通文件)<br>      find . -name cangls -o -name bols (文件名是cangls或bols)<br>      find . -name a55 -o -size +3k(文件名为a55或者size大于3kb)<br>      find . -not -name cangls(文件名不为cangls)</p>
+<p>find 路径 [选项] 内容 -exec 命令2 {} ;<br>指将find获取的结果放入{}中，再由命令2执行。<br>例：find . -size +2k -exec ls -l {} ;<br>获取size大于2kb的文件，并进行ls -l命令<br>PS：命令2与’{‘必须有空格,’}’和’&#39;之间也必须有空格。<br>而且此处不能-exec ll，推测不能用alias。<br>-ok选项：与-exec基本一致，不过操作前询问一次y/n</p>
+<hr>
+<h5 id="22-zip-英语全文-package-and-compress-files-压缩文件或目录"><a href="#22-zip-英语全文-package-and-compress-files-压缩文件或目录" class="headerlink" title="22: zip 英语全文:package and compress files.压缩文件或目录"></a>22: zip 英语全文:package and compress files.压缩文件或目录</h5><p>语法： zip [选项] 压缩包名 源文件或目录<br>-r： 压缩目录<br>可以同时压缩多个文件，用空格分开即可。<br>如果已经有同名压缩包，会进行覆盖。如果资源名也是相同，会updating，否则是adding。（压缩包会放在当前路径下）</p>
+<hr>
+<h5 id="23：unzip-英语全文：list-test-and-extract-compressed-files-in-a-ZIP-archive-列举，测试和提取压缩文件中的文件。"><a href="#23：unzip-英语全文：list-test-and-extract-compressed-files-in-a-ZIP-archive-列举，测试和提取压缩文件中的文件。" class="headerlink" title="23：unzip 英语全文：list,test and extract compressed files in a ZIP archive.列举，测试和提取压缩文件中的文件。"></a>23：unzip 英语全文：list,test and extract compressed files in a ZIP archive.列举，测试和提取压缩文件中的文件。</h5><p>-d: 指定解压位置<br>例子： unzip -d /root/mytmp3 mytest.zip</p>
+<hr>
+<h5 id="24-gzip-英语全文-compress-or-expand-files-压缩或解压文件-目录"><a href="#24-gzip-英语全文-compress-or-expand-files-压缩或解压文件-目录" class="headerlink" title="24: gzip 英语全文:compress or expand files.压缩或解压文件/目录"></a>24: gzip 英语全文:compress or expand files.压缩或解压文件/目录</h5><p>语法：gzip file1 压缩file1，生成file1.gz（源文件会消失）<br>-c: 将压缩数据输出到标准输出中，保留源文件（可用 &gt; 将输出重定向到一个文件中，这样既可以压缩，又不让源文件消失）<br>例子：gzip -c a123 &gt; a123.gz<br>-r:压缩目录（递归地将目录下的文件分别压缩成xxx.gz）<br>-d:解压（将压缩文件恢复原样）<br>-v:显示压缩文件信息（压缩比）<br>-数字：指定压缩等级，-1等级最低，压缩比最差，-9最高。默认为-6<br>PS：解压时，gzip -d abc &lt;=&gt; gzip -d abc.gz(即前者abc会自动寻找abc.gz文件)<br>文件太小时，压缩等级不同，压缩比也可能相同。</p>
+<hr>
+<h5 id="25：gunzip-解压。-gunzip-lt-gt-gzip-d"><a href="#25：gunzip-解压。-gunzip-lt-gt-gzip-d" class="headerlink" title="25：gunzip 解压。 gunzip &lt;=&gt; gzip -d"></a>25：gunzip 解压。 gunzip &lt;=&gt; gzip -d</h5><p>gunzip a123操作的同样是a123.gz，即 gunzip a123 &lt;=&gt; gunzip a123.gz<br>解压目录： gunzip -r（将目录下的压缩文件解压，但不会解压打包）<br>如果压缩文件是纯文本，用zcat可以在不解压的情况下查看文本内容</p>
+<hr>
+<h5 id="26：-bzip2-bz2格式文件的压缩命令（-bz2格式的算法理论上更好，及压缩比更好，但-gz更快）"><a href="#26：-bzip2-bz2格式文件的压缩命令（-bz2格式的算法理论上更好，及压缩比更好，但-gz更快）" class="headerlink" title="26： bzip2 .bz2格式文件的压缩命令（.bz2格式的算法理论上更好，及压缩比更好，但.gz更快）"></a>26： bzip2 .bz2格式文件的压缩命令（.bz2格式的算法理论上更好，及压缩比更好，但.gz更快）</h5><p>-d:解压<br>-k:压缩时保留源文件<br>-v:显示压缩信息 -数组：压缩等级<br>（gzip不支持打包目录，-r也只是分别压缩目录下的每个文件，而bzip根本不支持压缩目录，也没有-r选项）</p>
+<hr>
+<h5 id="27-bunzip2-等同bzip2-d-解压"><a href="#27-bunzip2-等同bzip2-d-解压" class="headerlink" title="27: bunzip2  等同bzip2 -d 解压"></a>27: bunzip2  等同bzip2 -d 解压</h5><p>-k：保留压缩文件<br>值得注意的是，一定要写明.bz2后缀，即 bunzip a ≠ bunzip a.bz2 , bzip -d同理。<br>如果是纯文本，用bzcat可以在不解压时查看文本内容。</p>
+<hr>
+<h5 id="28：tar-打包-解打包命令-语法：-tar-选项-f-压缩包名-源文件或目录"><a href="#28：tar-打包-解打包命令-语法：-tar-选项-f-压缩包名-源文件或目录" class="headerlink" title="28：tar 打包/解打包命令   语法： tar[选项][-f 压缩包名] 源文件或目录"></a>28：tar 打包/解打包命令   语法： tar[选项][-f 压缩包名] 源文件或目录</h5><p>-c：打包<br>-f：指定压缩包的文件名（写清后缀）<br>-v：显示打包过程<br>例子： tar -cvf test.tar /root/mytmp2<br>-x: 解压打包<br>-t：测试，即不解压，只是看包中有哪些文件<br>-C：指定解压位置。<br>解压与打包的区别： -xvf 与 -cvf       测试： -tvf<br>可以先tar，再gzip或bzip2，获得 .tar.gz 或者 .tar.bz2的格式<br>也可以一步到位： -z：压缩或者解压.tar.gz格式     -j：压缩或者解压.tar.bz2格式<br>例子： tar -zxvf a.tar.gz 解压<br>       tar -jcvf b.tar.bz2 /tmp/   压缩，压缩包的文件名为 b.tar.bz2<br>常用： -zcvf , -jcvf , -zxvf , -jxvf</p>
+<hr>
+<h5 id="29-sync-英语全文-flush-file-system-buffers-刷新文件系统缓冲区"><a href="#29-sync-英语全文-flush-file-system-buffers-刷新文件系统缓冲区" class="headerlink" title="29: sync 英语全文:flush file system buffers. 刷新文件系统缓冲区"></a>29: sync 英语全文:flush file system buffers. 刷新文件系统缓冲区</h5><p>作用：将内存中的数据强制向硬盘中保存，避免宕机导致数据丢失（该命令在常规关机时会自动执行） 直接执行，无须任何选项</p>
+<hr>
+<h5 id="30：-shutdown-英语全文：bring-the-sytem-down-关机和重启-执行权限：超级用户"><a href="#30：-shutdown-英语全文：bring-the-sytem-down-关机和重启-执行权限：超级用户" class="headerlink" title="30： shutdown 英语全文：bring the sytem down 关机和重启   执行权限：超级用户"></a>30： shutdown 英语全文：bring the sytem down 关机和重启   执行权限：超级用户</h5><p>格式： shutdown [选项] 时间 [警告信息]<br>-c：取消已经执行的shutdown命令 shutdown -c<br>-h： 关机   -r：重启<br>shutdown -h now    #现在立刻关机<br>shutdown -h 05:30   （当天的5：30关机，如果时间已过，就是第二天的5：30）<br>shutdown -h 05:30 &amp; (命令会一直占用前端)<br>其他关机重启命令： reboot重启， halt 或者 poweroff ， init 0 关机 ，  init 6 重启 （还是建议用shutdown）</p>
+<hr>
+<h5 id="31：setup-系统配置工具，配置IP，网卡，防火墙等（Red-Hat专有命令）"><a href="#31：setup-系统配置工具，配置IP，网卡，防火墙等（Red-Hat专有命令）" class="headerlink" title="31：setup  系统配置工具，配置IP，网卡，防火墙等（Red Hat专有命令）"></a>31：setup  系统配置工具，配置IP，网卡，防火墙等（Red Hat专有命令）</h5><hr>
+<h5 id="32：ifconfig-查看IP地址信息（也可配置网络接口）-（windows是ipconfig）"><a href="#32：ifconfig-查看IP地址信息（也可配置网络接口）-（windows是ipconfig）" class="headerlink" title="32：ifconfig 查看IP地址信息（也可配置网络接口） （windows是ipconfig）"></a>32：ifconfig 查看IP地址信息（也可配置网络接口） （windows是ipconfig）</h5><p>inet addr：IP地址            netmask：子网掩码<br>broadcast：广播地址/MAC地址/局域网，以太网，物理地址</p>
+<hr>
+<h5 id="33：-ping-向网络主机发送ICMP请求，测试网络中主机的通信情况-ping-选-IP地址"><a href="#33：-ping-向网络主机发送ICMP请求，测试网络中主机的通信情况-ping-选-IP地址" class="headerlink" title="33： ping 向网络主机发送ICMP请求，测试网络中主机的通信情况         ping [选]IP地址"></a>33： ping 向网络主机发送ICMP请求，测试网络中主机的通信情况         ping [选]IP地址</h5><p>-b：后面加入广播地址，对整个网段进行探测<br>-c 次数：指定ping的次数（中间有无空格均可。如果不指定，会一直ping）<br>-s 字节：指定探测包的大小</p>
+<hr>
+<h5 id="34：netstat-网络状态查看命令，可以看到本机开放的端口，也可看有哪些客户端连接"><a href="#34：netstat-网络状态查看命令，可以看到本机开放的端口，也可看有哪些客户端连接" class="headerlink" title="34：netstat 网络状态查看命令，可以看到本机开放的端口，也可看有哪些客户端连接"></a>34：netstat 网络状态查看命令，可以看到本机开放的端口，也可看有哪些客户端连接</h5><hr>
+<h5 id="35：write-英语全文：send-a-message-to-another-user-向其他用户发送信息"><a href="#35：write-英语全文：send-a-message-to-another-user-向其他用户发送信息" class="headerlink" title="35：write 英语全文：send a message to another user 向其他用户发送信息"></a>35：write 英语全文：send a message to another user 向其他用户发送信息</h5><hr>
+<h5 id="36-mail-英语全文：send-and-receive-Internet-mail-发送和接受电子邮件"><a href="#36-mail-英语全文：send-and-receive-Internet-mail-发送和接受电子邮件" class="headerlink" title="36: mail 英语全文：send and receive Internet mail. 发送和接受电子邮件"></a>36: mail 英语全文：send and receive Internet mail. 发送和接受电子邮件</h5><p>ctrl + c 和 ctrl + z的区别：<br>c是强制中断程序的执行，此时进程就会终止。<br>而z是讲任务终止（暂停），但进程并没有结束，只是被挂起。用户可用fg/bg继续前台或后台的任务</p>
+<hr>
+<hr>
+<p>其他常用命令：（选项参数略）<br><strong>①top</strong>  查看系统的整体运行情况（相当于任务管理器）</p>
+<p>*<em>②df *</em> 显示磁盘空间使用情况</p>
+<p>*<em>③du *</em> 对文件和目录磁盘使用空间的情况</p>
+<p><strong>④date</strong> 当前日期和时间<br>例子：将当前时间写入文件：  date &gt; cangls   如果是 echo date &gt; cangls ,写入cangls文件的会是字符串“date”<br>(&gt; , &lt; 用作输出重定向，echo为显示命令，显示后重定向，就是写操作)</p>
+<p><strong>⑤ps</strong> 列出当前系统的进程状态  ps -ef   第一个数字是 PID，进程ID。 第二个数字是PPID，父进程的ID</p>
+<p><strong>⑥kill</strong>  删除，终止程序。  （kill -数字）<br>kill -1： 终端断线<br>kill -2：中断（同ctrl + c）<br>kill -9: 强制终止<br>……<br>（只有9才可无条件终止进程，其他信号，进程有权利忽略。。）</p>
+<p><strong>⑦grep</strong> 文本搜索，用正则表达式搜索，匹配文本<br>-i：忽略大小写  -n：所在行数<br>管道符： |   将两个命令分隔开，前一个的stdout（输出）作为下一个的stdin（输入）<br>例子： ps -ef | grep ping 查找包含ping的进程</p>
+<p><strong>⑧awk sed grep</strong> 文本处理。</p>
+<p><strong>⑨free</strong> 显示系统内存使用情况，包括物理内存，交换区内存（SWAP），内核缓冲区内存。</p>
+<p><strong>⑩clear</strong>  清屏  vim：进行vim文本编辑器</p>
+<p>11： <strong>rpm</strong>  安装RPM包。  rpm -ivh 包全名  -i：install  -v：显示详细信息verbose  -h：打印，显示安装进度hash<br>-e：卸载。   rpm -e 包名</p>
+<p>12：启动服务等： <strong>service</strong> 服务名 start | stop | restart | status<br>                <strong>systemctl</strong> start | stop | restart | status 服务名</p>
+<p>13：<strong>yum命令</strong>  下载相应的rpm包并安装，解决了依赖关系<br>yum list: 列出可安装，已安装的包<br>yum search: 从yum镜像源服务器上查找与关键字相关的所有软件包<br>yum info： 查询执行软件包的详细信息（大小，版本，证书，描述等）<br>yum install：安装  -y：自动回答yes<br>（用yum卸载软件包时，会把依赖包也同时卸载，包括系统允许的必备文件，此时的结果就是，系统崩溃。所以一般不要用yum卸载软件包）</p>
+<p>gcc编译器， make：完成对源码包的自动编译    make install：将编译文件进行安装</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/17/Linux%E5%AE%89%E8%A3%85Apache/" rel="next" title="Linux安装Apache">
+                <i class="fa fa-chevron-left"></i> Linux安装Apache
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/17/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="prev" title="Python学习笔记1">
+                Python学习笔记1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/03.jpeg"
+                alt="Hong" />
+            
+              <p class="site-author-name" itemprop="name">Hong</p>
+              <p class="site-description motion-element" itemprop="description">hong</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Hongscar" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:84363715@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①ls-英语全文：list。列出目录下的文件。-语法：-ls-选项-文件名或目录名"><span class="nav-number">1.1.</span> <span class="nav-text">①ls  英语全文：list。列出目录下的文件。  语法： ls [选项] [文件名或目录名]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②cd。英语全文：change-directory。更新目录-（Shell内置命令）"><span class="nav-number">1.2.</span> <span class="nav-text">②cd。英语全文：change directory。更新目录  （Shell内置命令）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#③mkdir-英语全文：make-directories。创建一个空目录"><span class="nav-number">1.3.</span> <span class="nav-text">③mkdir 英语全文：make directories。创建一个空目录</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#④rmdir-英语全文：remove-empty-directories。-删除一个空的目录（只能删目录），如果目录有内容-如其他空目录-，就会报错。"><span class="nav-number">1.3.1.</span> <span class="nav-text">④rmdir 英语全文：remove empty directories。 删除一个空的目录（只能删目录），如果目录有内容(如其他空目录)，就会报错。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑤touch-英语全文：change-file-timestamps。-触摸，如果文件不存在，创建一个空文件。如果已存在，修改文件的时间戳。"><span class="nav-number">1.3.2.</span> <span class="nav-text">⑤touch 英语全文：change file timestamps。 触摸，如果文件不存在，创建一个空文件。如果已存在，修改文件的时间戳。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑥stat-英语全文：display-file-or-file-system-status。显示文件或文件系统的详细信息"><span class="nav-number">1.3.3.</span> <span class="nav-text">⑥stat 英语全文：display file or file system status。显示文件或文件系统的详细信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑦cat-英语全文：concatenate-files-and-print-on-the-standard-output。连接文件并打印输出到标准输出"><span class="nav-number">1.3.4.</span> <span class="nav-text">⑦cat 英语全文：concatenate files and print on the standard output。连接文件并打印输出到标准输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑧：more-英语全文：file-perusal-filter-for-crt-view-in。分屏显示文件内容"><span class="nav-number">1.3.5.</span> <span class="nav-text">⑧：more 英语全文：file perusal filter for crt view in。分屏显示文件内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑨：head-英语全文：output-the-first-part-of-files。显示文件开头的几行"><span class="nav-number">1.3.6.</span> <span class="nav-text">⑨：head 英语全文：output the first part of files。显示文件开头的几行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑩：tail-英语全文：output-the-last-part-of-files。显示文件结尾内容"><span class="nav-number">1.3.7.</span> <span class="nav-text">⑩：tail 英语全文：output the last part of files。显示文件结尾内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#11：-ln-英语全文：make-links-between-file。在文件之间建立链接。-ln-选项-源文件-目标文件"><span class="nav-number">1.3.8.</span> <span class="nav-text">11： ln 英语全文：make links between file。在文件之间建立链接。 ln[选项] 源文件 目标文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#12：rm-英语全文：remove-files-or-directories。删除文件-目录"><span class="nav-number">1.3.9.</span> <span class="nav-text">12：rm 英语全文：remove files or directories。删除文件&#x2F;目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#13：cp-英语全文：copyfiles-and-directories。复制文件和目录。-cp-选项-源文件-目的文件"><span class="nav-number">1.3.10.</span> <span class="nav-text">13：cp 英语全文：copyfiles and directories。复制文件和目录。  cp[选项] 源文件 目的文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#14：-mv-英语全文：-move-rename-files-移动文件或者改名。-mv-选-源-目’"><span class="nav-number">1.3.11.</span> <span class="nav-text">14： mv 英语全文： move(rename) files 移动文件或者改名。  mv[选] 源 目’</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#15：man-英语全文：format-and-display-the-online-manual-pages。帮助手册-man-选项-命令"><span class="nav-number">1.3.12.</span> <span class="nav-text">15：man 英语全文：format and display the online manual pages。帮助手册   man [选项] 命令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#16：info-同样是帮助，但是是一份完整详细的电子书"><span class="nav-number">1.3.13.</span> <span class="nav-text">16：info  同样是帮助，但是是一份完整详细的电子书</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#17：help-只用户获取Shell内置命令的帮助，不常用"><span class="nav-number">1.3.14.</span> <span class="nav-text">17：help  只用户获取Shell内置命令的帮助，不常用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#18：whereis-只能搜索命令，不能索索普通文件"><span class="nav-number">1.3.15.</span> <span class="nav-text">18：whereis  只能搜索命令，不能索索普通文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#19：which-英语全文：shows-the-full-path-of-shell-commands。列出命令所在路径，如果该命令有别名，则同时显示出别名命令"><span class="nav-number">1.3.16.</span> <span class="nav-text">19：which 英语全文：shows the full path of shell commands。列出命令所在路径，如果该命令有别名，则同时显示出别名命令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#20-locate-英语全文-find-files-by-name。按照文件名搜索文件"><span class="nav-number">1.3.17.</span> <span class="nav-text">20: locate 英语全文: find files by name。按照文件名搜索文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#21：-find-英语全文：search-for-files-in-a-directory-hierarchy。在目录中查找文件。"><span class="nav-number">1.3.18.</span> <span class="nav-text">21： find 英语全文：search for files in a directory hierarchy。在目录中查找文件。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#22-zip-英语全文-package-and-compress-files-压缩文件或目录"><span class="nav-number">1.3.19.</span> <span class="nav-text">22: zip 英语全文:package and compress files.压缩文件或目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#23：unzip-英语全文：list-test-and-extract-compressed-files-in-a-ZIP-archive-列举，测试和提取压缩文件中的文件。"><span class="nav-number">1.3.20.</span> <span class="nav-text">23：unzip 英语全文：list,test and extract compressed files in a ZIP archive.列举，测试和提取压缩文件中的文件。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#24-gzip-英语全文-compress-or-expand-files-压缩或解压文件-目录"><span class="nav-number">1.3.21.</span> <span class="nav-text">24: gzip 英语全文:compress or expand files.压缩或解压文件&#x2F;目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#25：gunzip-解压。-gunzip-lt-gt-gzip-d"><span class="nav-number">1.3.22.</span> <span class="nav-text">25：gunzip 解压。 gunzip &lt;&#x3D;&gt; gzip -d</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#26：-bzip2-bz2格式文件的压缩命令（-bz2格式的算法理论上更好，及压缩比更好，但-gz更快）"><span class="nav-number">1.3.23.</span> <span class="nav-text">26： bzip2 .bz2格式文件的压缩命令（.bz2格式的算法理论上更好，及压缩比更好，但.gz更快）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#27-bunzip2-等同bzip2-d-解压"><span class="nav-number">1.3.24.</span> <span class="nav-text">27: bunzip2  等同bzip2 -d 解压</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#28：tar-打包-解打包命令-语法：-tar-选项-f-压缩包名-源文件或目录"><span class="nav-number">1.3.25.</span> <span class="nav-text">28：tar 打包&#x2F;解打包命令   语法： tar[选项][-f 压缩包名] 源文件或目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#29-sync-英语全文-flush-file-system-buffers-刷新文件系统缓冲区"><span class="nav-number">1.3.26.</span> <span class="nav-text">29: sync 英语全文:flush file system buffers. 刷新文件系统缓冲区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#30：-shutdown-英语全文：bring-the-sytem-down-关机和重启-执行权限：超级用户"><span class="nav-number">1.3.27.</span> <span class="nav-text">30： shutdown 英语全文：bring the sytem down 关机和重启   执行权限：超级用户</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#31：setup-系统配置工具，配置IP，网卡，防火墙等（Red-Hat专有命令）"><span class="nav-number">1.3.28.</span> <span class="nav-text">31：setup  系统配置工具，配置IP，网卡，防火墙等（Red Hat专有命令）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#32：ifconfig-查看IP地址信息（也可配置网络接口）-（windows是ipconfig）"><span class="nav-number">1.3.29.</span> <span class="nav-text">32：ifconfig 查看IP地址信息（也可配置网络接口） （windows是ipconfig）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#33：-ping-向网络主机发送ICMP请求，测试网络中主机的通信情况-ping-选-IP地址"><span class="nav-number">1.3.30.</span> <span class="nav-text">33： ping 向网络主机发送ICMP请求，测试网络中主机的通信情况         ping [选]IP地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#34：netstat-网络状态查看命令，可以看到本机开放的端口，也可看有哪些客户端连接"><span class="nav-number">1.3.31.</span> <span class="nav-text">34：netstat 网络状态查看命令，可以看到本机开放的端口，也可看有哪些客户端连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#35：write-英语全文：send-a-message-to-another-user-向其他用户发送信息"><span class="nav-number">1.3.32.</span> <span class="nav-text">35：write 英语全文：send a message to another user 向其他用户发送信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#36-mail-英语全文：send-and-receive-Internet-mail-发送和接受电子邮件"><span class="nav-number">1.3.33.</span> <span class="nav-text">36: mail 英语全文：send and receive Internet mail. 发送和接受电子邮件</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '75d5d92e717eca3c6b03',
+          clientSecret: '3ec3a4b9ee7baf1c9f4ec85b4ce8d2af9126edb3',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
