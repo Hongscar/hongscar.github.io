@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="dOjrq8WodF" />
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+
+
+  <meta name="keywords" content="Spring Cloud,Spring Boot," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hong's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一. 前言​        Spring已经渐渐地成为了Java程序员的必备技能，尤其是Java Web方向。同时，Spring也一直在发展，由于Spring存在配置臃肿的问题，所以就出现了Spring Boot框架，用于简化新Spring应用的初始搭建以及开发过程。近年来微服务架构也越来越火，所以在Spring Boot的基础上又出现了Spring Cloud。如果你是常年使用Spring的Ja">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud笔记(一)">
+<meta property="og:url" content="https://hongscar.cn/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%B8%80.html">
+<meta property="og:site_name" content="Hong&#39;s Blog">
+<meta property="og:description" content="一. 前言​        Spring已经渐渐地成为了Java程序员的必备技能，尤其是Java Web方向。同时，Spring也一直在发展，由于Spring存在配置臃肿的问题，所以就出现了Spring Boot框架，用于简化新Spring应用的初始搭建以及开发过程。近年来微服务架构也越来越火，所以在Spring Boot的基础上又出现了Spring Cloud。如果你是常年使用Spring的Ja">
+<meta property="og:image" content="c:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_6.png">
+<meta property="og:image" content="c:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_7.png">
+<meta property="og:image" content="c:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_8.png">
+<meta property="og:image" content="c:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_9.png">
+<meta property="og:image" content="c:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_10.png">
+<meta property="article:published_time" content="2020-02-18T01:37:59.000Z">
+<meta property="article:modified_time" content="2020-02-18T03:47:30.297Z">
+<meta property="article:author" content="Hong">
+<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="Spring Boot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_6.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hongscar.cn/Spring-Cloud笔记-一.html"/>
+
+
+
+
+
+  <title>Spring Cloud笔记(一) | Hong's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hong's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Like life,like coding</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%B8%80.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring Cloud笔记(一)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-18T09:37:59+08:00">
+                2020-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring-Cloud/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring Cloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>​        Spring已经渐渐地成为了Java程序员的必备技能，尤其是Java Web方向。同时，Spring也一直在发展，由于Spring存在配置臃肿的问题，所以就出现了Spring Boot框架，用于简化新Spring应用的初始搭建以及开发过程。近年来微服务架构也越来越火，所以在Spring Boot的基础上又出现了Spring Cloud。如果你是常年使用Spring的Java Web程序员，那么Spring Boot跟Spring Cloud很值得一学。</p>
+<p>​        本系列文章并非是完整的教程，我阅读的是<strong><em>”<a href="http://www.ityouknow.com/spring-cloud.html" target="_blank" rel="noopener">纯洁的微笑</a>“的博客</em></strong>：。以及书籍<strong><em>《Spring Cloud与Docker微服务架构实战》by周立</em></strong>。相信每一位学习编程的朋友都遇到过一个问题，跟着书上/教程上一步一步走，结果却不一样。有的时候是版本的问题，有的时候是自己的操作出现纰漏，也可能是教程本身也存在纰漏。无论如何，学习是一个挖坑再填坑的过程，在这个过程中我们的技术也会快速提高。所以这篇文章就是记录我在学习Spring Cloud过程中所遇到的问题，以及如何解决（虽然也有构建步骤，但目前写得比较简单，建议结合上面推荐的博客，书籍使用）。如果有朋友也遇到了类似的问题，可以参考一下。</p>
+<a id="more"></a>
+
+<p>​        此处使用的Spring Boot版本：2.2.1.RELEASE，Spring Cloud版本：2.2.0.RELEASE。虽然我阅读的主要教程是上面的书籍，但我自己敲的demo项目跟书上有一点不同。书上把每一个章节的项目都分开，比如一个章节是学Feign，一个章节是Hystrix，并没有把它们都结合在一起，我认为这样缺少了一个很重要的工作：整合。然而整合却是必不可少的，既然都使用到了微服务架构，那么自然是要使用多个模板组件。所以我一共只写了一个项目，代码依次在上一个章节代码的基础上继续增加，既要保证功能完好，又要保证功能之间可以兼容。除此之外，书上目前的版本还是Spring Cloud 1.x，毫无疑问已经过时，所以我也改成了2.x。虽然我认为做出的这两个改变是值得的，但确实在学习过程中也遇到了不少的坑，所以也特地记录了下来。</p>
+<h3 id="二-前置知识"><a href="#二-前置知识" class="headerlink" title="二. 前置知识"></a>二. 前置知识</h3><p>​        Spring Boot是Spring的一套快速配置框架，而Spring Cloud是一个基于Spring Boot实现的云应用开发工具。所以，Spring Boot可以离开Spring Cloud独立使用开发项目，而Spring Cloud不能离开Spring Boot，属于依赖的关系。所以如果你还是使用Spring，而非Spring Boot，那么至少要了解Spring Boot与Spring的区别。可以参考这篇文章入门：<a href="http://www.ityouknow.com/springboot/2016/01/06/spring-boot-quick-start.html" target="_blank" rel="noopener">http://www.ityouknow.com/springboot/2016/01/06/spring-boot-quick-start.html</a></p>
+<p>​        可以看到，Spring Boot项目的构建非常简单，无须再考虑各种诸如xml，数据库，配置文件的配置，更多的只需要注解，达到了非常简便的效果。项目的结构也跟Spring相差无几：</p>
+<p>src / main / java ： 主程序入口</p>
+<p>src / main / resources ： 配置文件</p>
+<p>src / test / java ： 测试</p>
+<p>​        在java / com / xx / xxx里的主目录（即与model，service，controller等packages同级的目录），要有一个Application.java，这个其实就是Spring Boot框架的入口，相当于Spring里的XML配置。不过这里抛弃了XML，使用了注解的方式：@SpringBootApplication。目前要引入jar包所需要的Maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.junit.vintage<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit-vintage-engine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其实大部分在Maven默认项目里都已经添加好了，剩下的只需要添加支持web的模块：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来对于Controller层的开发也很简单：@RestController，@RequestMapping即可（方法返回String类型，不需要什么ModelAndView）</p>
+<p>@RequestMapping是指Controller里的方法都以JSON格式输出，无须再写Jackson等配置了。</p>
+<p>对于测试：@Test，@BeforeEach （对于JUnit5，@Before and @After no longer exists； use @BeforeEach and @AfterEach instead）</p>
+<p> PS：主要是原本的Before跟After注解就是在每一个Test方法执行时都会执行，改得更加符合其作用</p>
+<hr>
+<p>​         微服务架构需要有多个modules，如果你愿意的话，你可以把一个modules当作一个项目来操作，但到了微服务这一块，这种做法就比较愚蠢，于是最好是尝试把多个modules放到同一个project中（使用的是IDEA）。参考网址:<a href="https://blog.csdn.net/sinat_30160727/article/details/78109769" target="_blank" rel="noopener">https://blog.csdn.net/sinat_30160727/article/details/78109769</a></p>
+<p>遇到的问题：</p>
+<p>①子module跟父module的pom.xml有什么异同？</p>
+<p>父module的pom如下，可以看到包含了Spring Boot的基本信息，还有子modules的构成</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span>		<span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.hongscar<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>demo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">packaging</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">modules</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">module</span>&gt;</span>microservicesimpleprovideruser<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">module</span>&gt;</span>microservicesimpleconsumermovie<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">modules</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>至于子module，之前该怎么样就怎么样，但parent元素无须做出改动，即：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>demo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.hongscar<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>microservice-simple-provider-user<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>②写好src/main/java之后，程序无法运行，显示错误：<strong><em>Your ApplicationContext is unlikely to start due to a @ComponentScan of the default package.</em></strong></p>
+<p>解决:因为之前错误的父子module关系，导致我的子modules其实还是有默认package的，比如之前的package都是com.hong.microservice-xxxx-provider之类的。但实际上正确的操作，这时候子module的src/main/java，是没有任何package的，即在java目录下创建一个A.java，会没有package语句。而SpringBoot的Application.java确切地说，并不是要放在根目录，而是要放在所有其他类/包的同级/父级目录，是不能够直接放在src/main/java目录下的，必须手动创建一个包把它放进去。<strong>SpringBoot在写启动类的时候如果不使用@ComponentScan指明对象扫描范围，默认指扫描当前启动类所在的包里的对象，如果当前启动类没有包，则在启动时会报错</strong>。（因为默认并没有包，所以就报错了）</p>
+<p>解决方案也很显然，自己手动创建了一个basic的package，然后其他的package跟Application.java都放进去，如下图：</p>
+<p>![img](E:\daily program\YNote\qqF3F14E026172AA79052A8219DFDB8FD2\7668ab2525ea4b3fa93aff24dacadac7\clipboard.png)</p>
+<p>③Test无法通过，但直接运行可以通过</p>
+<p>解决：看清楚是@Before还是@BeforeEach。至于其他的，目前其实可以直接运行，但如果测试代码出错，后面会踩坑，可以尝试到时候解决，也可以提前把测试代码删掉了避免踩坑（但你知道是测试代码哪里出错了吗）</p>
+<p>④创建第二个MicroService的时候，Test又无法通过，而且不是@BeforeEach的问题。报错：</p>
+<p><strong><em>java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you need to use @Context</em></strong></p>
+<p>解决：可能是因为存在了多个service，无法默认指定等等的（毕竟多个module的配置其实我还不是很熟悉），这时候最好就是直接在测试类上面显示指明要测试的是哪个类，如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpirngBootTest</span>(classes = MicroserviceSimpleConsumerMovieApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">MicroserviceSimpleConsumerApplicationTests</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">contextsLoad</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加之后，测试也可以运行了，但还是不通过。然后才知道，test目录下的包默认是要跟java下的是一样的。所以，既然java目录下的Application.java的路径是 basic/Application.java (basic是我们自己添加的package），所以test下也需要添加一个名为basic的package（必须名字也为basic）</p>
+<p>⑤<strong><em>Caused by: java.lang.IllegalArgumentException: Not a managed type</em></strong></p>
+<p>无论是哪个服务，对于domain层的配置都要重复编写。@Entity等等的。</p>
+<p>over，运行通过（尽管第一个service的测试还是存在问题，但毕竟我对MockMvc的语法一无所知(问题③))</p>
+<h3 id="三-添加Eureka"><a href="#三-添加Eureka" class="headerlink" title="三. 添加Eureka"></a>三. 添加Eureka</h3><p>​        微服务架构的核心思想就是分离各个服务，每一个服务单独作为一个module/project。那么服务如何被其他项目/服务调用？这时候就要用到Eureka，服务注册中心。服务把自己注册到Eureka上，然后其他服务可以在Eureka上发现并调用，这就是微服务的基本机制。</p>
+<p>步骤：</p>
+<p>pom.xml添加Eureka依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这种maven依赖直接去maven repository查找就能找到，还能找到每一个版本。这里值得注意的是，添加的是server，不要错误地添加了client包。同时Spring Cloud的版本号比较特别:upside_down_face:，使用英语记录版本 ，以下是Spring Cloud英语版本对应的Spring Boot版本：</p>
+<table>
+<thead>
+<tr>
+<th>Spring Cloud版本</th>
+<th>Spring Boot版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hoxton</td>
+<td>2.2.x</td>
+</tr>
+<tr>
+<td>Greenwich</td>
+<td>2.1.x</td>
+</tr>
+<tr>
+<td>Finchley</td>
+<td>2.0.x</td>
+</tr>
+<tr>
+<td>Edgware</td>
+<td>1.5.x</td>
+</tr>
+<tr>
+<td>Dalston</td>
+<td>1.5.x</td>
+</tr>
+</tbody></table>
+<p>添加完依赖包，其实就可以运行了。然后要把服务注册到Eureka。这时候才是版本冲突的地方。<strong><em>ERROR org.springframework.boot.SpringApplication - Application run failed</em></strong></p>
+<p>一般这种<strong><em>Application run failed</em></strong>，基本就是<strong><em>版本号冲突</em></strong> 的问题了。看了一下，我写的还是书上的Edgware.RELEASE，参考官网的改成了HOXTON.RELEASE，就解决了这个问题。</p>
+<p>然后又有其他的错误， <strong><em>Failed to start component [NonLoginAuthenticator [StandardEngine[Tomcat] .StandardHost[localhost] .TomcatEmbedded。。。</em></strong></p>
+<p>网上查到的也是更加奇怪，说是SDK里的servlet-api.jar与log4j.jar起冲突了。其实关于前面的版本号为什么非要添加到Eureka才出问题已经挺奇怪了，这里就更奇怪了，怎么突然就两个jar起冲突了？唯一的解释只能是Eureka毕竟是带有记录功能的，所以就包含了log4j.jar，然后就与servlet-api.jar冲突了。可是我的SDK里却没有这个东西，去External libraries找到了这个东西，然后去掉，竟然真的就可以了。所以说，编程还是需要多积累经验。</p>
+<p>效果图：可以看到MicroService已经注册到了Eureka上</p>
+<p>![img](E:\daily program\YNote\qqF3F14E026172AA79052A8219DFDB8FD2\416ac9ad64524e5587540f1317ff5bdb\clipboard.png)</p>
+<h3 id="四-把多个服务注册到Eureka上"><a href="#四-把多个服务注册到Eureka上" class="headerlink" title="四. 把多个服务注册到Eureka上"></a>四. 把多个服务注册到Eureka上</h3><p>看起来很简单，但却遇到了非常多的问题。首先打开consumer服务的时候，发现pom.xml报错了。想当然的以为又只是IDEA抽风了而已，因为直接运行是可行的，但后来发现确实不是如此。</p>
+<p>maven之前欠下的债算是要还了，每当我有一个知识点掌握得含糊不清，得过且过，也许我可以安逸地度过很久，甚至是几年，但总会有再栽跟头的一天。之前我对maven，真的就是把它当作了一个简单的eclipse的import path的功能了，目的实现了就行了，什么&lt;dependencyManagement&gt;，完全不想去弄清楚。之前创建子module之间的依赖，我其实就搞不懂为什么能直接用cn.hongscar.xx来引用依赖？难道因为是项目内部就可以直接引用？没有去想。</p>
+<p>首先项目一直会出现今天早上的那个错误，显然就是servlet-api.jar的问题，才发现这东西会一直存在，即使删掉了，maven也会把它自动下载回来。很显然，删掉是很愚蠢的操作，但当时毕竟只想立竿见影，我一直以来都是这么做的，显然正确的操作是添加一个maven的例外。所以正确的操作是添一个&lt;exclusions&gt;在&lt;dependency&gt;里。这确实就可行了，但真的是如此吗？首先，确实是添加了&lt;exclusions&gt;就可以工作了，但为什么maven会 自动把servlet-api.jar下回来，难道这还需要时机？得看你手速快不快，在它把servlet-api.jar下回来之前运行？实际上，就是因为项目本身就存在问题，所以每次rebuild，reimport的时候就把jar包搞回来了。无论如何，&lt;exclusions&gt;显然是更好的选择。</p>
+<p>关于我要的目标，其实Maven的基本命令就已经包括了：</p>
+<p>-v :查询Maven版本</p>
+<p>compile： 编译，把Java源文件编译成.class文件</p>
+<p>test：测试项目，测试test目录下的测试用例</p>
+<p>package：将项目打包成jar包</p>
+<p>clean：删除target文件夹（删除缓存，重新生成）</p>
+<p>install：将当前项目放到Maven的本地仓库中，供其他项目使用</p>
+<hr>
+<p>我想要的就是把项目安装到本地仓库里，总不能把项目delete了重新创建一次吧。然后在install的过程中查看到底出现了什么问题，这才是解决问题的核心。而不是，clean，complie统统乱点一遍。</p>
+<p>然后在install的过程中就能看到问题了：</p>
+<p><strong><em>Failure to … in … was cached in the local repository, resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced.</em></strong></p>
+<p>首先是Hoxton.RELEASE文件已经缓存了，并且还在使用，就不能update了。这时候真的就是简单粗暴就好，删了，让它重新下载，这个问题就解决了。</p>
+<p>接下来的问题更离谱，说是测试代码有问题，所以不能成功build。想起来昨天不懂测试语法，想着项目能正常运行就好，测试代码就没管，没想到就这里埋下了大坑。于是把测试代码全部注释掉，同时rebuild一次（更新classes文件夹），果然，build就成功了。maven本地仓库也就成功出现了该模块。所以，项目到底如何加到maven本地仓库，为什么之前出错，都是有迹可循的，真的不仅仅就是奇怪的经验那么简单。当然，经验是否有用？至少从中能知道，测试代码并不是那么的人畜无害，在正式的build，install（项目打包过程），测试代码也是关键的一环，它有权终止整个过程，尽管你的主程序没有出错，只是测试代码写错了。</p>
+<p>其实很多时候，把很多东西都归结于经验，确实有种给自己诡辩的嫌疑。就像是看到pom.xml报错了，第一时间想的是不是IDEA抽风了，完全不去想到底什么原因。诚然，”奇怪“的情况是存在的，但并不能一概而论，很多时候，经验不能成为一个完美的借口。</p>
+<p>结果图：    可见两个service都成功添加到Eureka中。</p>
+<p>![img](E:\daily program\YNote\qqF3F14E026172AA79052A8219DFDB8FD2\ce4e44b59c174470b6c93659c446a68d\clipboard.png)</p>
+<h3 id="五-构建高可用的Eureka-Server"><a href="#五-构建高可用的Eureka-Server" class="headerlink" title="五. 构建高可用的Eureka Server"></a>五. 构建高可用的Eureka Server</h3><p>​        先从搭建两个Eureka Server互相注册复制开始。根据书上的例子，首先需要修改hosts文件。然后先去了解了一下hosts文件是什么（位置：C:\Windows\System32\drivers\etc，如果是Linux，是在/etc/hosts)，主要就是平时我们上网都要输入域名，然后传递到DNS服务器再进行映射，而DNS服务映射到具体的IP地址是需要时间的。这时候我们可以在hosts文件里自定义一些domain name（可以是自定义，可以是公开的），以及对应的IP地址，那么当我们下次输入这个domain name的时候，就直接映射到IP地址，跳过了DNS，因此速度也就更快。比如GitHub.com的IP地址是192.30.255.113。那么添加一行：</p>
+<p>192.30.255.113          github.com</p>
+<p>即可使得下次输入GitHub.com就能自动映射到对应的IP addr。</p>
+<p>平时我们用的localhost跟127.0.0.1也是如此。127.0.0.1默认就是本地的IP地址，而localhost就是写在hosts里的域名。但在hosts里可以看到这一行是被注释掉的，为什么？因为下面还有一行注释：</p>
+<p># localhost name resolution is handled within DNS itself. </p>
+<p>也就是说，DNS服务器内部已经把这个写好了，成为了约定，这样就避免了你把localhost乱搞成了其他东西。所以并不是说注释是无效的，而是这一行直接成为了DNS的默认约定配置吧。</p>
+<p>OK，然后修改hosts是要给127.0.0.1新增几个新域名（peer1跟peer2）</p>
+<p>然后在application.yml里的配置，使用— 可以将yml文件分成多段，由一个spring:profiles来决定（在后续启动的时候传入这个参数，表示要使用哪段yml文件），如果没有指定spring:profiles，则无论是传入哪个参数，都会生效。</p>
+<p>启动的时候需要：<code>java  -jar  xxx.jar  --spring.profiles.active=peer1  /  peer2</code></p>
+<p>显然，首先我们需要将项目打包成jar文件，然后再分别启动（spring.profiles参数分别为peer1和peer2)</p>
+<p>这时就出现了第一个问题，如何打包成jar文件？</p>
+<p>联想到昨天吃的亏，印象中maven里就包含了这个操作，确实如此。但成功打包之后，却无法运行，显示：xxx没有主清单属性</p>
+<p>那么到底是什么是主清单属性？其实也很好猜，就是找不到主类。网上看的大致说法是，maven的打包jar操作是有点特殊的，跟普通的java方式打包生成的目录是不太一致的。于是又尝试了一下mvn install，mvn clean等等命令，都不行。</p>
+<p>但在中途也学到了一手：给mvn的命令增加一个-e参数，可以显示详细的错误信息：</p>
+<p>![img](E:\daily program\YNote\qqF3F14E026172AA79052A8219DFDB8FD2\f79896cb50244bd9a4ee628f91b6f279\m9[}r825q@__et~4i[bn4gi.png)</p>
+<p>比如这里的错误信息是can’t not delete，那是因为我打开了几个cmd，然后文件正在使用，无法进行mvn clean，把cmd窗口关闭了之后重新clean就可以了。</p>
+<p>之后添加了一个叫maven-shade-plugin的插件，还是不行（为什么要添加这些额外的插件，还是有思考的，基本就是要把MainClass的路径也写进入，一并打包）</p>
+<p>这时候感觉maven的plugins操作还是不太好用，直接用mvn install -e查看为什么出错，发现是：</p>
+<p><strong><em>Caused by: org.codehaus.plexus.component.configurator.ComponentConfigurationException: Cannot find ‘resource’ in class org.apache.maven.plugins.shade.resource.ManifestResourceTransformer</em></strong></p>
+<p>完全没有头绪，但在网上有一个很好的帖子：</p>
+<p>![img](E:\daily program\YNote\qqF3F14E026172AA79052A8219DFDB8FD2\23013a70274447fa83613416658d4d9f\clipboard.png)</p>
+<p>简单概括就是：SpringBoot本身是存在一个打包插件，而这个另外加的shade反而形成了冲突。那么久好办了，把SpringBoot的打包插件去掉？一看，pom.xml并没有该插件，但该service是依赖了provider service的，看了一下provider service的pom.xml，确实存在这个插件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>于是想着那就删掉这个！但结果还是不行？可能是别的地方还存在这个插件的导入？毕竟我在最初对maven的版本管理是很混乱的。但我确实暂时不想深究这个问题，直接换了另一种做法：那就不用这个shade插件了，直接使用springboot自带的打包插件。然后给当前pom.xml加上了上述插件（看来依赖是不会继承plugins的），这时候mvn clean，mvn install，成功，如图：</p>
+<p><img src="C:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_6.png" alt="img"></p>
+<p>PS：此时我并没有立刻启动Eureka Server节点，而是查看了一下MANIFEST.MF文件，发现确实增加了大概的“主清单属性”，如图：（之前是没有Spring-Boot-Classes等等属性的）</p>
+<p>PPPS：对了，vs code打开了MF文件之后就死机了。。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Manifest-Version:</span> <span class="number">1.0</span></span><br><span class="line"><span class="attr">Created-By:</span> <span class="string">Maven</span> <span class="string">Archiver</span> <span class="number">3.4</span><span class="number">.0</span></span><br><span class="line"><span class="attr">Build-Jdk-Spec:</span> <span class="number">12</span></span><br><span class="line"><span class="attr">Implementation-Title:</span> <span class="string">microservice-eureka</span></span><br><span class="line"><span class="attr">Implementation-Version:</span> <span class="number">1.0</span><span class="string">-SNAPSHOT</span></span><br><span class="line"><span class="attr">Main-Class:</span> <span class="string">org.springframework.boot.loader.JarLauncher</span></span><br><span class="line"><span class="attr">Start-Class:</span> <span class="string">basic.EurekaApplication</span></span><br><span class="line"><span class="attr">Spring-Boot-Version:</span> <span class="number">2.2</span><span class="number">.1</span><span class="string">.RELEASE</span></span><br><span class="line"><span class="attr">Spring-Boot-Classes:</span> <span class="string">BOOT-INF/classes/</span></span><br><span class="line"><span class="attr">Spring-Boot-Lib:</span> <span class="string">BOOT-INF/lib/</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候已经猜到成功了，然后按照很前面的命令启动了两个Eureka Server节点，确实如此：</p>
+<p><img src="C:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_7.png" alt="img"></p>
+<p><img src="C:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_8.png" alt="img"></p>
+<p>peer1看起来一开始报错，但其实很正常，因为peer2还没开始运行，后面peer2运行起来之后，二者就成功互相复制了。效果如图：</p>
+<p><img src="C:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_9.png" alt="img"></p>
+<p><img src="C:%5CUsers%5C44567%5CDesktop%5Cnew_images%5Csb_10.png" alt="img"></p>
+<p>虽然启动成功了，似乎也成功复制了，但与预期有一点不同（peer1复制了peer2，但peer2没有复制peer1，仍然复制的peer2，配置文件似乎没有写错）</p>
+<p>DS Replicas有点奇怪，但Instances currently确实都是二者成功复制了。</p>
+<p>有说法是。DS Replicas是指从哪里同步数据，测试先启动peer2，再启动peer1会不会发生改变。（这也是我的个人想法，所以按理说，peer2处的DS Replicas应该是peer1才对）</p>
+<p>可是较换peer1跟peer2的启动顺序，Instances currently依然是复制了，但DS Replicas依然二者都是peer2，所以与启动顺序无关。(可能是根据yml的顺序来决定，后面的就是最后的DS，毕竟这两个peer其实都指向同一个IP）。可能是peer1和peer2的复制顺序真的不是简单的顺序复制吧，网上说如果真的是那样，那就变回了中心化组件，跟微服务架构背道而驰。</p>
+<h3 id="六-给Eureka-Serer增加一个认证"><a href="#六-给Eureka-Serer增加一个认证" class="headerlink" title="六. 给Eureka Serer增加一个认证"></a>六. 给Eureka Serer增加一个认证</h3><p>首先添加依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-security<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其实只要添加了这个依赖，那么此项目在运行时就需要登录。（如果是Server，那么登录Server控制台需要登录，其他服务想注册到此Server也要登录。如果是Service，那么使用Service的时候也要登录）如果不在yml里配置用户名跟密码，默认用户名就是user，密码会在运行时随机生成，打印在控制台。</p>
+<p>然后一开始在yml的配置里出现了问题，其实不用查也可以猜到，是版本的原因，2.x换成下面的：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">security:</span></span><br><span class="line">		<span class="attr">user:</span></span><br><span class="line">			<span class="attr">name:</span> <span class="string">user</span>		<span class="comment"># Default user name.</span></span><br><span class="line">			<span class="attr">password:</span> <span class="string">aaa</span>	<span class="comment"># Password for the default user name.</span></span><br><span class="line">			<span class="attr">roles:</span> <span class="string">xxx</span>		<span class="comment"># Granted roles for the default user name.</span></span><br></pre></td></tr></table></figure>
+
+<p>所以最后的yml配置文件如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">application:</span></span><br><span class="line">		<span class="attr">name:</span> <span class="string">microservice-discovery-eureka-ha</span></span><br><span class="line">	<span class="attr">security:</span></span><br><span class="line">		<span class="attr">user:</span></span><br><span class="line">			<span class="attr">name:</span> <span class="string">hong</span></span><br><span class="line">			<span class="attr">password:</span> <span class="string">kk111</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">	<span class="attr">client:</span></span><br><span class="line">		<span class="attr">serviceUrl:</span></span><br><span class="line">			<span class="attr">defaultZone:</span> <span class="string">http://localhost:8761/eureka/</span></span><br><span class="line">		<span class="attr">register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line">		<span class="attr">fetch-registry:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">	<span class="attr">port:</span> <span class="number">8761</span></span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是，前面是否需要加 xx:yy@localhost:8761/eureka/ ，好像加不加都无所谓。。</p>
+<p>然后一开始遇到了奇怪的错误，最后把密码删掉了也不行。最后翻GitHub以前的记录，才发现，我连两个false还有port都没有配置，所以最基本的配置一定要记忆清楚。。</p>
+<p>接下来是要将服务注册到需要认证的Eureka Server。一开始遭遇到了问题：<strong><em>com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server</em></strong></p>
+<p>很显然，就是说不能注册到任何已知的服务器。网上搜到的答案都是针对Eureka Server本身不需要注册（最开始那两个false参数），但显然这里我的错误就是service无法通过Eureka Server的认证。</p>
+<p>尝试了几次都不行，最后通过“内华达穷举法”，才发现问题是CSRF。只要把CSRF禁用即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityConfig</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        http.csrf().disable();</span><br><span class="line">        <span class="keyword">super</span>.configure(http);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至于到底是在yml里设置security参数，然后在defaultZone里增加${…}:${…}@local…，还是直接注入一个DiscoveryClientOptionalArgs的Bean，都可以达到认证的效果，如下：</p>
+<p>方法①：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.netflix.discovery.DiscoveryClient.DiscoveryClientOptionalArgs;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> DiscoveryClientOptionalArgs <span class="title">discoveryClientOptionalArgs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DiscoveryClientOptionalArgs discoveryClientOptionalArgs = </span><br><span class="line">        <span class="keyword">new</span> DiscoveryClientOptionalArgs();</span><br><span class="line">    List&lt;ClientFilter&gt; additionalFilters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    additionalFilters.add(<span class="keyword">new</span> HTTPBasicAuthFilter(<span class="string">"hong"</span>, <span class="string">"kk111"</span>));</span><br><span class="line">    discoveryClientOptionalArgs.setAdditionalFilters(additionalFilters);</span><br><span class="line">    <span class="keyword">return</span> discoveryClientOptionalArgs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法②：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">application:</span></span><br><span class="line">		<span class="attr">name:</span> <span class="string">microservice-simple-provider-user</span></span><br><span class="line">	<span class="attr">jpa:</span></span><br><span class="line">		<span class="attr">generate-ddl:</span> <span class="literal">false</span></span><br><span class="line">		<span class="attr">show-sql:</span> <span class="literal">true</span></span><br><span class="line">		<span class="attr">hibernate:</span></span><br><span class="line">			<span class="attr">ddl-auto:</span> <span class="string">none</span></span><br><span class="line">	<span class="attr">datasource:</span></span><br><span class="line">		<span class="attr">platform:</span> <span class="string">h2</span></span><br><span class="line">		<span class="attr">schema:</span> <span class="string">classpath:schema.sql</span></span><br><span class="line">		<span class="attr">data:</span> <span class="string">classpath:data.sql</span></span><br><span class="line">	<span class="attr">security:</span></span><br><span class="line">		<span class="attr">user:</span></span><br><span class="line">			<span class="attr">name:</span> <span class="string">hong</span></span><br><span class="line">			<span class="attr">password:</span> <span class="string">kk111</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">	<span class="attr">client:</span></span><br><span class="line">		<span class="attr">serviceUrl:</span></span><br><span class="line">			<span class="attr">defaultZone:</span> <span class="string">$&#123;xxx.name&#125;:$&#123;xxx.password&#125;@localhost:8761/eureka/</span> </span><br><span class="line">			<span class="comment"># xxx是 spring.security.user</span></span><br><span class="line">	<span class="attr">instance:</span></span><br><span class="line">		<span class="attr">prefer-ip-address:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>二者无论是单独使用，还是一起使用，都可以达到认证的效果。</p>
+<h3 id="七-关于Eureka的元数据metadata"><a href="#七-关于Eureka的元数据metadata" class="headerlink" title="七. 关于Eureka的元数据metadata"></a>七. 关于Eureka的元数据metadata</h3><p>metadata包括标准元数据（自带的，可在服务之间传递信息），还有自定义元数据（一般不会改变客户端的行为，相当于参数传递，给一个参考值）</p>
+<p>其实这部分的工作并不多，但主要是让我意识到了，版本控制真的不容易，即便是引入了Maven。之前我在主项目里没有引入spring-boot，然后在provider跟Eureka中都分别引入了。其实没有必要，在主项目引入，然后provider就不必引入了，即使引入了也会被视为duplicate。</p>
+<p>同时我需要解决@RestController返回的是XML而不是JSON的问题，发现问题是因为Eureka-Server引入了Jackson-dataformat-xml这个包，所以自然地去exclude掉就好（需要在maven里慢慢找这个包到底从属于哪个包，当然如果记忆好的话，确实是引入Eureka之后才出现这个问题，自然也就是在Eureka-Server的包里了）</p>
+<p>然后发现Provider跟Consumer的返回类型都正常了，但Eureka下的apps（测试自定义metadata的入口）依然是XML类型。一看发现项目仍然存在Jackson-dataformat-xml，应该是Eureka Server也自己引入了spring-cloud-eureka-server的原因，所以我把它去掉了（想着这样直接获取主项目的就好），但这时项目却无法运行了。原因是找不到Jackson-dataformat-xml，猜测是因为Eureka  Server没有导入这个包了，于是主项目的exclude就出现了问题（现在回想这个逻辑是不对的，为什么?)。但并不是，把exclude删掉了也不行。才发现哪个找不到Jackson-dataformat-xml，是指项目需要这个，但却不存在。所以说，其实项目还是需要这个包的，尤其是在使用metadata的时候？于是我把这个给彻底去掉了，这样就不可运行了。所以只好主项目依旧exclude，Eureka Server依然导入spring-cloud-eureka-server，但不exclude（此时子项目跟父项目存在不同，当然就以子项目的来覆盖）</p>
+<p>所以最后provider等服务是返回JSON了，但apps却仍然是XML。不过想想，毕竟我对apps还不太了解，也不是我自己手动写的@RestController，所以返回XML其实也无可厚非。</p>
+<p>PS：最后有一个点，Consumer注入了Provider的依赖，这两个之间是不能同时注入同一个Bean的（会冲突），而且其实只要Provider存在这个依赖，那么Consumer也就存在。所以Consumer没有注入注册Bean，也没有在yml里编写认证用户密码，同样是可以注册到Eureka的。相反，在Provider已经写了认证机制，在Consumer再写一遍，会使得Consumer无法认证，无法注册到Eureka。</p>
+<p>Eureka部分到此结束。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Cloud/" rel="tag"><i class="fa fa-tag"></i> Spring Cloud</a>
+          
+            <a href="/tags/Spring-Boot/" rel="tag"><i class="fa fa-tag"></i> Spring Boot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/%E9%AA%8C%E8%AF%81docker%E7%9A%84%E4%BE%8B%E5%AD%90.html" rel="next" title="验证docker的例子">
+                <i class="fa fa-chevron-left"></i> 验证docker的例子
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%BA%8C.html" rel="prev" title="Spring Cloud笔记(二)">
+                Spring Cloud笔记(二) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/03.jpeg"
+                alt="Hong" />
+            
+              <p class="site-author-name" itemprop="name">Hong</p>
+              <p class="site-description motion-element" itemprop="description">hong</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Hongscar" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:84363715@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-前置知识"><span class="nav-number">2.</span> <span class="nav-text">二. 前置知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-添加Eureka"><span class="nav-number">3.</span> <span class="nav-text">三. 添加Eureka</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-把多个服务注册到Eureka上"><span class="nav-number">4.</span> <span class="nav-text">四. 把多个服务注册到Eureka上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-构建高可用的Eureka-Server"><span class="nav-number">5.</span> <span class="nav-text">五. 构建高可用的Eureka Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-给Eureka-Serer增加一个认证"><span class="nav-number">6.</span> <span class="nav-text">六. 给Eureka Serer增加一个认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-关于Eureka的元数据metadata"><span class="nav-number">7.</span> <span class="nav-text">七. 关于Eureka的元数据metadata</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/" rel="tag">CentOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/" rel="tag">Spring Cloud</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deprecated/" rel="tag">deprecated</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '75d5d92e717eca3c6b03',
+          clientSecret: '3ec3a4b9ee7baf1c9f4ec85b4ce8d2af9126edb3',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

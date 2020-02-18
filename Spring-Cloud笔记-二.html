@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="dOjrq8WodF" />
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+
+
+  <meta name="keywords" content="Spring Cloud,Spring Boot," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hong's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一. 前言​        上一部分对Spring Boot跟Spring Cloud有了基本的认识，同时也添加了Eureka注册中心，使得最基本的服务注册，服务发现都可以实现。但这肯定不够，所以这里继续补充关于Spring Cloud的知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud笔记(二)">
+<meta property="og:url" content="https://hongscar.cn/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%BA%8C.html">
+<meta property="og:site_name" content="Hong&#39;s Blog">
+<meta property="og:description" content="一. 前言​        上一部分对Spring Boot跟Spring Cloud有了基本的认识，同时也添加了Eureka注册中心，使得最基本的服务注册，服务发现都可以实现。但这肯定不够，所以这里继续补充关于Spring Cloud的知识。">
+<meta property="article:published_time" content="2020-02-18T03:29:39.000Z">
+<meta property="article:modified_time" content="2020-02-18T08:18:39.252Z">
+<meta property="article:author" content="Hong">
+<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="Spring Boot">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hongscar.cn/Spring-Cloud笔记-二.html"/>
+
+
+
+
+
+  <title>Spring Cloud笔记(二) | Hong's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hong's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Like life,like coding</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%BA%8C.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring Cloud笔记(二)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-18T11:29:39+08:00">
+                2020-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring-Cloud/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring Cloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>​        上一部分对Spring Boot跟Spring Cloud有了基本的认识，同时也添加了Eureka注册中心，使得最基本的服务注册，服务发现都可以实现。但这肯定不够，所以这里继续补充关于Spring Cloud的知识。</p>
+<a id="more"></a>
+
+
+
+<h3 id="二-添加Ribbon实现负载均衡"><a href="#二-添加Ribbon实现负载均衡" class="headerlink" title="二. 添加Ribbon实现负载均衡"></a>二. 添加Ribbon实现负载均衡</h3><p>关键点：当Client可以用Eureka Server定位到多个服务列表，应该选择哪一个？比如这里的例子，我们启动两个Provider，注册到Eureka Server上。此时Consumer去调用Provider（不再直接调用某一IP，端口，而是符合的服务列表，在这里只要是Provider服务即可）。此时我们需要实现负载均衡，避免某一个Provider服务过载，导致出错。</p>
+<p>步骤：</p>
+<p>先引入依赖，Ribbon。据说引入了spring-cloud-starter-netflix-eureka-client就可以，因为client已经包含了Ribbon，但我前面不需要引入client也可以实现，所以这里直接引用Ribbon，应该引用Client也行</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-ribbon<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>（单独取其一即可）</p>
+<p>然后给RestTemplate添加一个@LoadBalanced注解，表明该RestTemplate要使用负载均衡算法（这里当然就是直接默认的负载均衡算法，具体的参数配置后面再说）值得一提的是，@LoadBalanced只能用于setter方法处，所以是不能在构造方法上使用该注解的。</p>
+<p>然后改了一下Controller，主要是增加了一个LoadBalancerClient，还有RestTemplate的获取地址不再是硬耦合IP+端口，而是具体的服务名即可。同时还增加了一个log-user-instance，但这个主要是用于记录日志，方便观察到底是哪个Provider被调用了，所以这个并不是关键。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MovieController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(MovieController<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> DiscoveryClient discoveryClient;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> LoadBalancerClient loadBalancerClient;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">getRestTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MovieController</span><span class="params">(DiscoveryClient discoveryClient, LoadBalancerClient lbc)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.discoveryClient = discoveryClient;</span><br><span class="line">        <span class="keyword">this</span>.loadBalancerClient = lbc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，RestTemplate不能改成构造注入，否则加不了@LoadBalanced。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/user/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findById</span><span class="params">(@PathVariable Integer id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://microservice-provider-user/"</span>) + id, User<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/user-instance"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;ServiceInstance&gt; <span class="title">showInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> discoveryClient.getInstances(<span class="string">"microservice-simple-provider-user"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/log-user-instance"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">logUserInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ServiceInstance serviceInstance = loadBalancerClient.choose(<span class="string">"microservice-simple-provider-user"</span>);</span><br><span class="line">    MovieController.LOGGER.info(<span class="string">"&#123;&#125;:&#123;&#125;:&#123;&#125;"</span>, serviceInstance.getServiceId(),</span><br><span class="line">                               serviceInstance.getHost(), serviceInstance.getPort());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>getForObject里原本是直接写上了IP+端口的，成为了具体的服务名即可。而user-instance是上一章的遗留问题，当时没能查看到这个网页，原来是忘记写GetMapping了。最后一个log-user-instance就是拿来记录日志的，不用管。</p>
+<p>然后测试，先启动Eureka，再启动两个Provider（先启动一个，修改yml里的端口号再启动一个。这样就相当于通过两个端口启动了两个Provider。当然这有点蠢，如何在不修改配置的情况下启动多个？<a href="https://blog.csdn.net/forezp/article/details/76408139" target="_blank" rel="noopener">https://blog.csdn.net/forezp/article/details/76408139</a></p>
+<p>最后启动Consumer，这时候调用localhost:8010/user-instance等等的都是可行的，但在调用localhost:8010/user/1 的时候出现了问题，表示找不到该hostname：</p>
+<p><strong><em>I/O error on GET request for “<a href="http://user-service/hi&quot;" target="_blank" rel="noopener">http://user-service/hi&quot;</a>: user-service; nested exception is java.net.UnknownHostException: microservice-provider-user</em></strong></p>
+<p>显然，就是调用/user/{id}的时候，下面的getForObject找不到那个host。找了很多解决方法，比如是不是hostname写错了，但其实这个逻辑并不通。因为user-instance都可行了，说明确实就是这个hostname。然后网上说要导入client包，导了也不行。接着又想是不是不能同时使用构造注入跟设值注入？发现也不是，看我上面的代码，就是同时使用两种注入方式。</p>
+<p>最后的解决方法是一个我很早就看到了的错误，需要加入@LoadBalanced注解。这个参数我当然知道有何作用，而且我第一时间就加了，错在哪？因为我最后才发现，我在Application启动类就已经注入了RestTemplate，然后我改Ribbon的时候是在Controller里再注入一次RestTemplate，然后@LoadBalanced等等都是在Controller里进行的。所以，由于先启动的肯定是Application启动类，这时候就已经进行了@RestTemplate的注入操作了，后面在Controller里的其实已经是废设，自然那个@LoadBalanced也是没有任何效果的。于是我把Controller里的RestTemplate去掉了注入，在Application启动类里的注入增加了@LoadBalanced，就成功了。然后再测试了一下把Application启动类的注入彻底去掉，在Controller里重新加回注入跟@LoadBalanced，也成功。</p>
+<p>负载的效果可能不是很明显，因为我测试的方式比较stupid，就是一次一次调用，看是不是轮流调用两个Provider，确实如此。当然肯定不是严格按照1：1的，在数据很大的时候应该会有小许偏差，但总体上比例就会是在1：1左右。</p>
+<p>chapter5剩下的内容：Ribbon负载均衡的配置，包括Java类配置和属性配置（yml）两种方式。其中Java类需要注意不能放在@ComponentScan所能scan的包，不然就公用配置了。一般来说yml更简洁更方便。还有脱离Eureka使用Ribbon的方法（其实就是client包改成了ribbon，然后yml里增加一下ribbon的属性参数）。最后还有一个Lazy加载跟Hungry加载（即只要项目启动就加载，避免第一次调用时响应过慢）这些内容看起来都不难，而且现在不关键，就先不敲代码尝试了.</p>
+<h3 id="三-使用Feign实现声明式的REST调用"><a href="#三-使用Feign实现声明式的REST调用" class="headerlink" title="三.  使用Feign实现声明式的REST调用"></a>三.  使用Feign实现声明式的REST调用</h3><p>使用Feign实现声明式的REST调用，并且配置REST的部分参数。</p>
+<p>使用RestTemplate虽然已经可以满足所有功能，但比较繁琐（url高度耦合到每一个Mapping处，比如要写一遍Service名，多个参数的时候url会更加的臃肿）</p>
+<p>使用Feign的好处：让编写Web Service客户端更加简单，因为它支持Spring MVC注解，JAX-RS注解，整合了Eureka，Ribbon。也就是说，只要使用Feign注解来替代，那么就能在实现Spring MVC的同时，也自动实现负载均衡。</p>
+<p>使用步骤：</p>
+<p>①添加依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>②创建一个Feign接口，添加@FeignClient（这个FeignClient，用于注入到Controller中，替代RestTemplate进行Restful API的映射设计，以及自动实现负载均衡）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"microservice-simple-provider-user"</span>,</span><br><span class="line">            configuration = &#123;FeignConfiguration<span class="class">.<span class="keyword">class</span>, <span class="title">FooConfiguration</span>.<span class="title">class</span>&#125;)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">interface</span> <span class="title">UserFeignClient</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestLine</span>(<span class="string">"GET /&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">findById</span><span class="params">(@Param(<span class="string">"id"</span>)</span> Integer id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>③注入到Controller中：（值得注意的是，由于是接口对象，那么就没办法实现一个setter去注入了，会报错但其实是可行的，因为是通过注解自动生成的FeignClient对象）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> UserFeignClient userFeignClient;</span><br></pre></td></tr></table></figure>
+
+<p>④最后就是调用：url都已经被封装到接口里了，使得URL更加的简洁，同时后面多参数的时候会更加明显。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/user/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findById</span><span class="params">(@PathVariable Integer id)</span> </span>&#123;</span><br><span class="line">    turn userFeignClient.findById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于配置，只需要定义一些Feign的配置类，然后在接口的@FeignClient的configuration属性指明即可。</p>
+<p>（PS：配置类最好不写@Configuration注解，如果写了，那么不要放在@ComponentScan所扫描的包中，否则会成为全局配置，被所有@FeignClient共享，除非你确实想要成为全局配置。但是由于@FeignClient的configuration属性就可以直接指明，一般没有必要写这个注解）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignConfiguration</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Contract <span class="title">feignContract</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> feign.Contract.Default();</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooConfiguration</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BasicAuthRequestInterceptor <span class="title">basicAuthRequestInterceptor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BasicAuthRequestInterceptor(<span class="string">"user"</span>, <span class="string">"password"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的两个配置类都已经被添加到UserFeignClient中，第一个把contract改成了feign的原生默认契约，使得可以使用feign自带的注解（如@RequestLine），第二个相当于为Feign添加拦截器，这样                当一些接口需要进行给予Http Basic认证才能调用，就需要上面的认证信息。</p>
+<p>同时上面还有Spring cloud官网文档上写的Feign的配置属性，可以学习。</p>
+<p>除了使用Java类配置，用yml配置也是可以的，跟Ribbon一样，用yml配置更加的简洁。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line">	<span class="attr">client:</span></span><br><span class="line">		<span class="attr">config:</span></span><br><span class="line">			<span class="attr">feignName:</span>		<span class="comment"># 改成default就是全局配置</span></span><br><span class="line">				<span class="attr">connectTimeout:</span> <span class="number">5000</span></span><br><span class="line">				<span class="attr">readTimeout:</span> <span class="number">5000</span></span><br><span class="line">				<span class="attr">loggerLevel:</span> <span class="string">full</span></span><br><span class="line">				<span class="attr">decode404:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>果不其然。。目前还没看出Feign的好处，因为我们这里只是相当于用feign替代了RestTemplate的Restful设计，然后还能增加一些超时，日志的配置而已，关键还是要自定义feign，可以彻底增强Restful API的操作，比如相同的API，不同角色的用户会发生不同的行为。</p>
+<p>话说中间在Console看到了一个错误：Batch update failure with HTTP status code 401; discarding 1 replication tasks，显然就是注册服务到Eukera Server失败，网上的解决方法是在Server处的yml配置还是要在defaultZone增加那个user，password，增加了之后就可以了。</p>
+<h3 id="四-手动创建Feign"><a href="#四-手动创建Feign" class="headerlink" title="四. 手动创建Feign"></a>四. 手动创建Feign</h3><p>前面对Consumer使用了Feign，感觉也只是替代了RestTemplate的Restful设计，稍微加了一些日志配置，意义不大。但如果是手动创建，将能完成更强的逻辑。</p>
+<p>接下来对Provider服务手动创建Feign。</p>
+<p>首先，导入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-security<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>之前对于Security包，我只在Eureka Server处添加了该依赖包，但在其他地方添加感觉没有必要，不仅需要同样的用户密码，而且如果密码不同，还可能导致无法注册到Eureka的情况。所以这次需要对Provider额外再增加一个security，感觉会在认证这里出现问题，事实也是如此的。但主要问题在于对Security的配置不熟悉，知道了哪些属性起到什么作用就好。</p>
+<p>首先我们需要给Provider的Security添加配置（其实之前Eureka的Security也有配置，不过只是禁用了一下CSRF：</p>
+<p>之前的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityConfig</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        http.csrf().disable();</span><br><span class="line">        <span class="keyword">super</span>.configure(http);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（可以看出来主要是注解@EnableWebSecurity。然后配置的导入，要么@Configuration，要么在启动类里Import(xxx.class)，都是一样的）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="meta">@EnableGlobalMethodSecurity</span>(prePostEnabled = <span class="keyword">true</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityConfig</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// all request need HTTP Basic auth</span></span><br><span class="line">        http.authorizeRequests().anyRequest().authenticated().and().</span><br><span class="line">            formLogin().and().httpBasic();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PasswordEncoder <span class="title">passwordEncoder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// A password encoder that does nothing Useful for testing with plain text</span></span><br><span class="line">        <span class="keyword">return</span> getInstance();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CustomUserDetailsService userDetailsService;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Component</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CustomUserDetailsService</span> <span class="keyword">implements</span> <span class="title">UserDetailsService</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> UserDetails <span class="title">loadUserByUsername</span><span class="params">(String username)</span> </span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> UsernameNotFoundException </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"user"</span>.equals(username))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SecurityUser(<span class="string">"user"</span>, <span class="string">"password1"</span>, <span class="string">"user-role"</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"admin"</span>.equals(username))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SecurityUser(<span class="string">"admin"</span>, <span class="string">"password2"</span>, <span class="string">"admin-role"</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于这里的配置类，具体说一下。configure方法，这个其实就是登录功能。不要看起来很复杂，其实and就是起连接作用。然后authorizeRequests就是要验证request的意思，anyRequest就是每一个请求都要验证，没有例外。authenticated：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ExpressionUrlAuthorizationConfigurer&lt;H&gt;.ExpressionInterceptUrlRegistry</span><br><span class="line">    authenticated() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.access(<span class="string">"authenticated"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>大概也就是通过验证的意思，其他的还有denyAll，rememberMe等等的功能。formLogin就是以一个登录界面显示，而不是弹窗。最后就是表明要基于HTTP Basic来验证。</p>
+<p>至于passwordEncoder方法，这是一个明文编码器，因为涉及密码的时候都是要加密的，但这里只是测试，所以就用一个不作任何操作的密码编辑器就好。</p>
+<p>验证的过程需要我们根据用户账号和密码，如果通过了就返回一个UserDetails的对象，这是一个接口，所以我们需要手动创建一个实现类，重写相关方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecurityUser</span> <span class="keyword">implements</span> <span class="title">UserDetails</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> String role;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SecurityUser</span><span class="params">(String username, String password, String role)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">        <span class="keyword">this</span>.password = password;</span><br><span class="line">        <span class="keyword">this</span>.role = role;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Collection&lt;? extends GrantedAuthority&gt; getAuthorities() &#123;</span><br><span class="line">        Collection&lt;GrantedAuthority&gt; authorities = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        SimpleGratedAuthority authority = <span class="keyword">new</span> SimpleGrantedAuthority(role);</span><br><span class="line">        authorities.add(authority);</span><br><span class="line">        <span class="keyword">return</span> authorities;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAccountNonExpired</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAccountNonLocked</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isCredentialsNonExpired</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEnabled</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>（下面还有一些setter，getter就省略了。。虽然我中途有一个错误就是写错了getter，当时自动生成的getPassword方法竟然返回的是null，而不是password，使得我一直密码登录不通过。最后还是一步一步调试才发现是getter出现了问题）</p>
+<p>其实关键的方法也没什么，getAuthorities主要是对role的配置而已，因为这是需要返回Collections对象，所以看起来不太一样，其实就是一个getter。但下面这4个方法其实挺关键的，看方法名就大概知道是什么作用，是否锁定账号，是否允许登录。IDEA默认生成的这4个方法是返回false的，这会导致：即使账号密码一致，也会一直卡在登录的界面。</p>
+<p>接着的内部类CustomUserDetailsService就是注入一个自定义的Bean。这里就是登录验证的地方，首先获取登录界面的user参数（loadUserByUsername)，然后根据账号密码去进行匹配，生成一个UserDetails的对象并返回。如果这里出错（即没有预设的Username），那么就会返回一个null，登录直接失败。当我们通过了验证，返回一个UserDetails之后，这时候我们会再调用第二个configure方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    auth.userDetailsService(<span class="keyword">this</span>.userDtailsService).passwordEncoder(passwordEncoder());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里，就是将登录界面的密码与UserDetails进行匹配。如果密码一致，则登录成功。否则会显示：Not granted any authorities(我就是因为getter写错了导致一直显示Not granted any authorities)</p>
+<p>最后一切成功，Provider成功注册到Eureka，没有因为多增加一个Security而导致无法注册。同时Provider服务本身也增加了认证机制，使得可以根据不同的账号密码（一般应该是根据用户名，获取role，然后做出不同的工作，但这里只是为了演示Feign的根据情况做出不同处理的作用，所以只是print了一下role。）</p>
+<p>两个Security的配置信息关键在于：</p>
+<p>Eureka Server的配置无须做出改变：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">application:</span></span><br><span class="line">		<span class="attr">name:</span> <span class="string">microservice-discovery-eureka-ha</span></span><br><span class="line">	<span class="attr">security:</span></span><br><span class="line">		<span class="attr">user:</span></span><br><span class="line">			<span class="attr">name:</span> <span class="string">hong</span></span><br><span class="line">			<span class="attr">password:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">	<span class="attr">client:</span></span><br><span class="line">		<span class="attr">defaultZone:</span> <span class="string">http://localhost:8761/eureka/</span></span><br><span class="line">	<span class="attr">register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line">	<span class="attr">fetch-registry:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">	<span class="attr">port:</span> <span class="number">8761</span></span><br></pre></td></tr></table></figure>
+
+<p>而对于Provider服务，为了注册到Eureka的认证，还是注入Bean的方法比较好（其实yml好像也是一样的，但不要在defaultZone里乱写）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> DiscoveryClientOptionalArgs <span class="title">discoveryClientOptionalArgs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DiscoveryClientOptionalArgs discoveryClientOptionalArgs = </span><br><span class="line">        <span class="keyword">new</span> DiscoveryClientOptionalArgs();</span><br><span class="line">    List&lt;ClientFilter&gt; additionalFilters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    additionalFilters.add(<span class="keyword">new</span> HTTPBasicAuthFilter(<span class="string">"hong"</span>, <span class="string">"root"</span>));</span><br><span class="line">    discoveryClientOptionalArgs.setAdditionalFilters(additionalFilters);</span><br><span class="line">    <span class="keyword">return</span> discoveryClientOptionalArgs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后Provider服务的自身认证机制，就直接写在自己的Security配置类里就好：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CustomUserDetailsService</span> <span class="keyword">implements</span> <span class="title">UserDetailsService</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> UserDetails <span class="title">loadUserByUsername</span><span class="params">(String username)</span> </span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> UsernameNotFoundException </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"user"</span>.equals(username))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SecurityUser(<span class="string">"user"</span>, <span class="string">"password1"</span>, <span class="string">"user-role"</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"admin"</span>.equals(username))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SecurityUser(<span class="string">"admin"</span>, <span class="string">"password2"</span>, <span class="string">"admin-role"</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>给consumer service也使用自定义Feign Client。</p>
+<p>改成了使用FeignClient的默认配置，然后创建了两个Feign Client（一个UserClient，一个AdminClient），绑定到同一个service（Provider），但使用不同的账号去访问（User/Admin)，于是也会得到不同的效果，在Provider控制台也会显示出来：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">MoviewController</span><span class="params">(DiscoveryClient discoveryClient, Decoder decoder,</span></span></span><br><span class="line"><span class="function"><span class="params">                        LoadBalancerClient loadBalancerClient, Client client)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.discoveryClient = discoveryClient;</span><br><span class="line">    <span class="keyword">this</span>.loadBalancerClient = loadBalancerClient;</span><br><span class="line">    userUserFeignClient = Feign.builder().client(client).encoder(getEncoder()).</span><br><span class="line">        decoder(decoder).requestInterceptor(<span class="keyword">new</span> BasicAuthRequestInterceptor(<span class="string">"user"</span>,</span><br><span class="line">        	<span class="string">"password1"</span>)).target(UserFeignClient<span class="class">.<span class="keyword">class</span>,</span></span><br><span class="line">                                 "http://microservice-simple-provider-user");</span><br><span class="line">    adminUserFeignClient = Feign.builder().client(client).encoder(getEncoder()).</span><br><span class="line">        decoder(decoder).requestInterceptor(<span class="keyword">new</span> BasicAuthRequestInterceptor(<span class="string">"admin"</span>,</span><br><span class="line">        	<span class="string">"password2"</span>)).target(UserFeignClient<span class="class">.<span class="keyword">class</span>,</span></span><br><span class="line">                                 "http://microservice-simple-provider-user");</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/user-user/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findByIdUser</span><span class="params">(@PathVariable String id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> userUserFeignClient.findById(id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"admin-user/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findByIdAdmin</span><span class="params">(@PathVariable String id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> adminUserFeignClient.findById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于decoder，encoder这部分纠结了好久，最后甚至用到了阿里巴巴的JSONObject包自实现了一个（当然，是上网cv下来的，但搞依赖包也烦了一小会）。可是最后才发现，这部分就没意义，反正都能映射到provider服务就好了，然后在provider的控制台也是会把结果打印出来的。所以关键在于：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">requestInterceptor(new BasicAuthRequestInterceptor("xxx", "xxxx")).target(xx.class, "x");</span><br></pre></td></tr></table></figure>
+
+<p>requestInterceptor传入 一个BasicAuthRequestInterceptor，表示账号密码，target就是目标服务。</p>
+<p>PS:中途还把id改成了String，其实没什么影响，不过懒得改回去了，万物皆可String</p>
+<p>之后的日志配置跟多参数，我感觉一开始是头脑清醒的，结果中间就不知道做什么了。</p>
+<p>首先，前面是要先把自定义的FeignClient给注释掉的，然后再在controller里定义了两个，直接在controller里调用相应的FeignClient。结果我改成多参数的时候，首先要先把那个原本的FeignClient弄回来，其实那时候是注释掉了三个地方，结果我只改回了两个，然后启动类的注释忘记去掉了，于是一直在莫名其喵。最后还是还原成之前的代码，然后对比了一下才发现忘记一个注释了，所以前面做的很多就是无用功。</p>
+<p>本章节剩下的部分，主要是多参数Feign跟上传文件。其实我觉得还蛮重要的，但我认为作者这里偷懒了，它的代码根本就不能实现，只是画个饼。更关键的是，由于版本的原因，它的代码存在1.x的代码（与2.x不兼容），而我导入2.x的包却没有相关的jar包，搞得我还得上网找一个自实现的Decoder。然后也尝试就这个包换成1.x，发现更恐怖了，整个项目不兼容。总而言之，这部分真的只能搁置。但好歹，最后总算解决了那个不能识别注解的问题。网上都说是Feign默认注解有问题，那个@RequestLine不行。我怀疑他们用的都是1.x。而2.x恰恰相反，就是要使用这个默认注解，然后使用@RequestLine而不是@RequestMapping。总而言之，烦了一整天这个问题。但我觉得主要还是，一开始没有耐心地考虑问题，主要一开始我用@RequestLine确实不可行，于是我也想着改。但其实我当时出错的原因不是这个，而是其他。。所以，一开始对错误的范围认知有误，导致后面也一直错，确定问题的范围真的很关键！不过还好，最后虽然无法生成User，但还是成功将多参数传到了Provider服务。说明Feign多参数的传递还是可行的，而且多次的尝试也让我对整个微服务的架构有了更多的认识（Provider跟Consumer真的是很关键的两个角色）。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Cloud/" rel="tag"><i class="fa fa-tag"></i> Spring Cloud</a>
+          
+            <a href="/tags/Spring-Boot/" rel="tag"><i class="fa fa-tag"></i> Spring Boot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%B8%80.html" rel="next" title="Spring Cloud笔记(一)">
+                <i class="fa fa-chevron-left"></i> Spring Cloud笔记(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/%E6%88%91%E7%9A%84%E5%A4%A7%E5%AD%A6%E6%80%BB%E7%BB%93.html" rel="prev" title="大学流水账">
+                大学流水账 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/03.jpeg"
+                alt="Hong" />
+            
+              <p class="site-author-name" itemprop="name">Hong</p>
+              <p class="site-description motion-element" itemprop="description">hong</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Hongscar" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:84363715@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-添加Ribbon实现负载均衡"><span class="nav-number">2.</span> <span class="nav-text">二. 添加Ribbon实现负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-使用Feign实现声明式的REST调用"><span class="nav-number">3.</span> <span class="nav-text">三.  使用Feign实现声明式的REST调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-手动创建Feign"><span class="nav-number">4.</span> <span class="nav-text">四. 手动创建Feign</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/" rel="tag">CentOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/" rel="tag">Spring Cloud</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deprecated/" rel="tag">deprecated</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '75d5d92e717eca3c6b03',
+          clientSecret: '3ec3a4b9ee7baf1c9f4ec85b4ce8d2af9126edb3',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

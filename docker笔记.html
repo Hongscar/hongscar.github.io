@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="dOjrq8WodF" />
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+
+
+  <meta name="keywords" content="Docker," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hong's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="记录docker学习的笔记。本文主要是参考了阮一峰的Docker教程，：http:&#x2F;&#x2F;www.ruanyifeng.com&#x2F;blog&#x2F;2018&#x2F;02&#x2F;docker-tutorial.html。在阅读完这篇Docker教程的过程中所做的笔记，用我自己的语言整理了一遍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker笔记">
+<meta property="og:url" content="https://hongscar.cn/docker%E7%AC%94%E8%AE%B0.html">
+<meta property="og:site_name" content="Hong&#39;s Blog">
+<meta property="og:description" content="记录docker学习的笔记。本文主要是参考了阮一峰的Docker教程，：http:&#x2F;&#x2F;www.ruanyifeng.com&#x2F;blog&#x2F;2018&#x2F;02&#x2F;docker-tutorial.html。在阅读完这篇Docker教程的过程中所做的笔记，用我自己的语言整理了一遍。">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/docker_8.png">
+<meta property="article:published_time" content="2020-02-17T15:02:23.000Z">
+<meta property="article:modified_time" content="2020-02-17T15:24:58.428Z">
+<meta property="article:author" content="Hong">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/docker_8.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hongscar.cn/docker笔记.html"/>
+
+
+
+
+
+  <title>docker笔记 | Hong's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hong's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Like life,like coding</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/docker%E7%AC%94%E8%AE%B0.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">docker笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T23:02:23+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录docker学习的笔记。本文主要是参考了阮一峰的Docker教程，：<a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html。在阅读完这篇Docker教程的过程中所做的笔记，用我自己的语言整理了一遍。" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html。在阅读完这篇Docker教程的过程中所做的笔记，用我自己的语言整理了一遍。</a></p>
+<a id="more"></a>
+
+<h3 id="Docker出现的原因，解决了哪些问题，如何解决的，有哪些应用？"><a href="#Docker出现的原因，解决了哪些问题，如何解决的，有哪些应用？" class="headerlink" title="Docker出现的原因，解决了哪些问题，如何解决的，有哪些应用？"></a>Docker出现的原因，解决了哪些问题，如何解决的，有哪些应用？</h3><p>软件开发的一个大难题，就是环境配置，经常出现各种因为环境配置而出现的错误。（我相信你在编写maven项目的时候就已经被各种依赖包的版本给困扰到了，环境变量同样如此）比如安装一个python应用，计算机必须要有python引擎，还要有各种依赖，可能还要配置环境变量。除此之外，随着软件的迭代还有运行环境的升级，一些老旧的模块可能与当前环境不兼容。开发者常常会说：“它在我的电脑上是没有问题的”（It works on my machine)，换言之，在其他电脑能不能运行，我不确定，我也不想管。环境变量如此麻烦，换一台机器就要重来一次，十分浪费时间。于是有人在想，能不能从根本上解决问题，比如软件可是带着环境变量一起安装？也就是说，在安装的时候，把原始环境一模一样地复制过来。</p>
+<p>一种可行的解决方法，虚拟机。直接去现场对机器进行配置，或者去客户家配置电脑环境，并不现实，但使用虚拟机就可以达到模拟运行系统的效果，直接把开发时的最终环境一起打包，就可以彻底还原软件的原始环境。</p>
+<p><strong>但这个方案存在一些缺点：</strong></p>
+<p>①资源占用多。一个虚拟机是需要一定的内存和磁盘空间的，所以即使你的项目只有1MB，续集你依然要几百MB才能运行。</p>
+<p>②冗余步骤多。一个虚拟机是一个完整的操作系统，所以一些系统级别的操作步骤，往往都不能跳过，比如用户登录。</p>
+<p>③启动慢。启动的时候就跟启动一台电脑的时间一样。</p>
+<p><strong>显然，为了保存运行环境，直接copy一个虚拟机，并不可取，因为我们需要的只是一些必要的环境变量，一些组件，而非一个彻底完整的操作系统。</strong>所以，我们需要的是一个虚拟的“小型虚拟机”，里面只包含我们的程序所需要的组件即可。这种东西就叫做：Linux容器(Linux Containers,LXC)</p>
+<p>Linux容器不是模拟一个完整的操作系统，而是对进程进行隔离。或者说，在正常进程的外面套了一个保护层。对于容器里面的进程来说，它接触到的各种资源都是虚拟的，从而实现与底层系统的隔离。因为的进程级别的，相比虚拟机就有很多的优势，比如：启动快，资源占用少，体积小。因为它只需要占用需要的资源，包含要用到的组件。总而言之，有点像轻量级的虚拟机。</p>
+<p>Docker，就是一种LXC的封装，提供了简单易用的容器使用接口。Dockers将应用程序与该程序的依赖，一起打包在一个文件里面(image)。运行这个文件，就会生成一个虚拟容器(container)。程序在这个虚拟容器里运行，就好像在真实的物理机器上运行。有了Docker就无须担心环境问题。用户可以方便地创建和使用容器，把自己的应用放入容器。容器还可以进行版本管理，复制，分享，修改，就像管理普通的代码一样。</p>
+<p><strong><em>Docker的主要用途：</em></strong></p>
+<p>①提供一次性的环境。无论是开发环境，单元测试环境，还是其他，都可以轻松提供。</p>
+<p>②提供弹性的云服务。因为Docker容器可以随开随关，很适合动态扩容和缩容。</p>
+<p>③组建微服务架构。容器可以存放多个服务，还有它们的各种依赖。所以一台机器就可以跑多个服务，在本机就可以模拟出微服务架构。</p>
+<h3 id="Docker重要概念："><a href="#Docker重要概念：" class="headerlink" title="Docker重要概念："></a>Docker重要概念：</h3><p>image文件：Docker把应用程序及其依赖，都打包在image文件里面。一个image文件可以通过继承另一个image文件，进行拓展。这是一个二进制文件</p>
+<p>container：容器文件，通过image文件生成的实例，本身也是一个文件，称为容器文件。</p>
+<p>（二者的关系，image就像class，container就像是具体的对象）</p>
+<p>Dockerfile：它是一个文本文件，用于配置image。Docker根据该文件生成二进制的image文件（也就是说，我们要生成image文件，实际上是通过生成Dockerfile文件来指定依赖）</p>
+<p>(而且，Dockerfile的文件名必须就叫Dockerfile，这样也使得后续用Dockerfile构建image的时候，直接指定Dockerfile的路径即可，那个参数是【path】，所以无法指定具体的文件名）</p>
+<p>编写Dockerfile文件的过程：</p>
+<p>1.在项目的根目录，新建一个文件 .dockerignore    (就是忽略的路径），（可选）</p>
+<p>.git node_modules npm-debug.log</p>
+<p>2.创建一个文本文件Dockerfile，写入：    （举例）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FROM node:8.4 COPY . /app WORKDIR /app RUN npm install --registry=https://registry.npm.taobao.org EXPOSE 3000</span><br><span class="line"></span><br><span class="line">CMD node demos/01.js</span><br></pre></td></tr></table></figure>
+<p>每一行的含义：</p>
+<p>FROM：表明要继承哪个image，这里继承的官方的node image，版本号是8.4（默认library/…)</p>
+<p>COPY：将当前目录下的所有文件，（除了.dockerignore里提到的），都copy到image文件里的/app目录</p>
+<p>WORKDIR：指定工作路径</p>
+<p>RUN……：启动成功之后会运行的命令，这里是运行npm install安装依赖</p>
+<p>EXPOSE：将容器暴露特定的端口号，允许外部连接这个端口</p>
+<p>CMD：在容器成功启动后，会自动执行该命令</p>
+<p>（ps：RUN和CMD有什么区别？RUN命令是在image文件的构建阶段执行，执行的结果都会打包进入image文件。而CMD命令则是在容器启动成功后执行。另外，一个dockerfile可以包含多个RUN命令，但只能有一个CMD命令。同时，指定了CMD命令之后，docker container run命令就不能附加命令，否则它会覆盖掉CMD命令，也就是docker run的CMD命令把dockerfile里的覆盖了。）</p>
+<h3 id="Docker常用命令："><a href="#Docker常用命令：" class="headerlink" title="Docker常用命令："></a>Docker常用命令：</h3><p>①列出本机的所有image</p>
+<p><code>docker image ls    /     docker images</code></p>
+<p>删除image文件</p>
+<p><code>docker image rm 【imageName】</code></p>
+<p>从Docker仓库抓取具体image到本地（默认是官方仓库，可配置国内的镜像文件）</p>
+<p><code>docker image pull 【path/.../imageName】</code>    （前面默认的path是 library/，是官方仓库的默认组）</p>
+<p>②通过image生成container实例，并运行该实例</p>
+<p><code>docker container run 【imageName】</code>        （如果本地无法找到，会自动去仓库抓取，即pull）</p>
+<p>列出本地的container：</p>
+<p><code>docker container ls    [ -all ]        /    docker ps</code></p>
+<p>删除container：    </p>
+<p><code>docker container rm 【containerID】</code></p>
+<p>docker container run的一些参数：</p>
+<p>例子：<code>docker container run -p 8000:3000 -it koa-demo /bin/bash</code></p>
+<p>-p：容器的3000端口，映射到本机的8000端口</p>
+<p>-it：容器的Shell映射到当前的Shell，然后你在本机窗口输入的命令，就会传入容器中</p>
+<p>/xxx：容器启动之后，内部第一个执行的命令。这里是启动Bash，保证用户可以使用Shell</p>
+<p>退出容器：先ctrl+c停止进程，在ctrl+d退出容器。</p>
+<p><code>docker contain kill</code>：终止容器运行</p>
+<p>退出之后，容器文件并不会删除，所以需要手动rm，但应该删除，下次再由image创建。可以在运行时增加一个参数–rm，表明容器终止运行后自动删除容器文件。</p>
+<p>③使用Dockerfile文件，创建image文件：</p>
+<p><code>docker image build -t xxx .</code>(docker image build，-t表明image文件的名字，  “.”表示当前路径）</p>
+<p>（xxx可以指定版本号，格式为 xxx:yyy，放在冒号之后。如果不指定版本号，默认为latest）</p>
+<p>（ps：   docker image build == docker build）</p>
+<p>④一些有用的命令</p>
+<p><code>docker container start</code></p>
+<p>（docker container run命令是新建容器，每运行一次，就会新建一个容器，如果同样的命令运行两次，就会生成两个一模一样的容器文件。如果希望重复使用容器（当然，没有–rm参数了），那么就要使用docker container start命令，用于启动已经生成，已经停止运行的容器文件。</p>
+<p><code>docker container stop</code></p>
+<p>（docker contain kill是向容器里面的主进程发出SIGKILL信号，而docker container stop是发出SIGTERM信号，然后过一段时间再发出SIGKILL信号。这两个信号的的差别是，如果进程收到SIGTERM信号，可以自行进行收尾清理工作，但也可以不理会这个信号。而如果收到SIGKILL信号，就会强行立即终止，那么正在进行中的操作会全部丢失。也就是说，kill是强制性立即关闭，而stop会给一定的时间让container把收尾工作完成，如果超出一定时间后还没完成收尾，那么才强制结束）</p>
+<p><code>docker container logs</code></p>
+<p>用于查看容器的输出，即容器里Shell的标准输出。如果容器docker run的时候没有使用-it参数，就要用这个命令查看输出。（或者是显式指定要运行在后端的时候）</p>
+<p><code>docker container exec</code></p>
+<p>docker container exec命令用于进入一个正在运行的 docker 容器。如果docker run命令运行容器的时候，没有使用-it参数，就要用这个命令进入容器。一旦进入了容器，就可以在容器的 Shell 执行命令.</p>
+<p><code>docker container cp</code></p>
+<p>用于从正在运行的Docker容器里面，将文件拷贝到本机。</p>
+<p>写法：<code>docker container cp 【containerID】:【/path/to/file】</code></p>
+<p>-—-</p>
+<h3 id="实例：使用Docker架设WordPress网站（需要WordPress容器和MySQL容器）"><a href="#实例：使用Docker架设WordPress网站（需要WordPress容器和MySQL容器）" class="headerlink" title="实例：使用Docker架设WordPress网站（需要WordPress容器和MySQL容器）"></a>实例：使用Docker架设WordPress网站（需要WordPress容器和MySQL容器）</h3><p>方法一：自己自建WordPress容器</p>
+<p>步骤：</p>
+<p>①通过官方的PHP image，构建一个PHP container    例子：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker container run \  </span><br><span class="line">--rm \							// 停止运行后，自动删除容器文件</span><br><span class="line">--name wordpress \				// 容器的名字  </span><br><span class="line">--volume <span class="string">"<span class="variable">$PWD</span>/"</span>:/var/www/html \	</span><br><span class="line">// 将当前目录（<span class="variable">$PWD</span>)映射到/var/www/html（即Apache对外访问的默认目录）  </span><br><span class="line">php:5.6-apache			// image名，说明装的是PHP 5.6版本，并且自带apache服务器</span><br></pre></td></tr></table></figure>
+
+<p>②之后在当前目录下创建的文件，都会直接被Apache服务器提供给外界访问，所以直接把WordPress安装包拷贝到此处，就可以通过容器访问到WordPress的安装界面</p>
+<p>所以这一步很简单，wget下载，然后tar -xvf解压即可。</p>
+<p>（遇到的小问题，由于太多国人使用WordPress了，大概是导致别人服务器都炸了，于是WordPress已经默认屏蔽了大陆的IP，所以直接wget是不可行的。解决就是在windows自己找资源，再传）</p>
+<p>③使用MySQL image来构建MySQL container，例子：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker container run \  </span><br><span class="line">-d \  </span><br><span class="line">--rm \  </span><br><span class="line">--name wordpressdb \  </span><br><span class="line">--env MYSQL_ROOT_PASSWORD=123456 \ </span><br><span class="line">--env MYSQL_DATABASE=wordpress \  </span><br><span class="line">mysql:5.7</span><br></pre></td></tr></table></figure>
+
+<p>每行参数的含义：</p>
+<p>-d：容器启动后，在后台运行（这时候要查看输出就需要用logs</p>
+<p>–rm， –name：自动删除，容器名</p>
+<p>–env：向容器进程传入一个环境变量MYSQL_ROOT_PASSWORD，该变量会作为MySQL的根密码，同时还传入一个MYSQL_DATABASE，容器里面的MySQL会根据该变量创建一个同名的数据库</p>
+<p>④定制Container，也就是Dockerfile</p>
+<p>此时WordPress容器和MySQL容器都已经有了，但二者并没有链接到PHP Container中。我们需要先在PHP image的基础上，安装mysqli的拓展，然后启动Apache。Dockerfile文件如下：</p>
+<p><code>FROM php:5.6-apache RUN docker-php-ext-install mysqli CMD apache2-foreground</code></p>
+<p>然后再基于Dockerfile创建一个image文件（包含了mysqli拓展的PHP image）</p>
+<p><code>docker build -t phpwithmysql .</code>    （该image文件名为phpwithmysql）</p>
+<p>⑤WordPress容器链接mysql</p>
+<p>PHP container已经增加了mysqli的拓展，而对于WordPress，在启动的时候连接即可。启动命令如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker container run \  </span><br><span class="line">--rm \  </span><br><span class="line">--name wordpress \  </span><br><span class="line">--volume <span class="string">"<span class="variable">$PWD</span>/"</span>:/var/www/html \		// --volume  == -v  </span><br><span class="line">--link wordpressdb:mysql \					  </span><br><span class="line">phpwithmysql</span><br></pre></td></tr></table></figure>
+
+<p>新加的那行，表示WordPress容器要连接到wordpressdb容器，冒号表示该容器的别名为mysql。最后还要修改一下wordpress目录的权限，让容器可以将配置信息写入这个目录（/var/www/html)</p>
+<p><code>chmod -R 777 wordpress</code></p>
+<p>接着，在启动PHP container的时候，命令行会返回一个对外开放的IP地址，比如172.17.0.2,直接访问即可出现WordPress的安装界面。</p>
+<p>总结：PHP image（web server） + wordpress.tar.gz(到/var/www/html) + mysql链接</p>
+<p>方法二：</p>
+<p>方法一需要自己创建WordPress容器，还是有点麻烦，实际上Docker已经提供了官方的WordPress image，直接用那个即可。</p>
+<p>步骤：</p>
+<p>①新建并启动MySQL Container（跟方法1一样）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker container run \  </span><br><span class="line">-d \  </span><br><span class="line">--rm \  </span><br><span class="line">--name wordpressdb \  </span><br><span class="line">--env MYSQL_ROOT_PASSWORD=123456 \  </span><br><span class="line">--env MYSQL_DATABASE=wordpress \  </span><br><span class="line">mysql:5.7</span><br></pre></td></tr></table></figure>
+
+<p>②然后基于官方的WordPress image，创建WordPress Container</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker container run \  </span><br><span class="line">-d \  --rm \  </span><br><span class="line">--name wordpress \  </span><br><span class="line">--env WORDPRESS_DB_PASSWORD=123456 \  </span><br><span class="line">--link wordpressdb:mysql \ </span><br><span class="line">wordpress</span><br></pre></td></tr></table></figure>
+
+<p>（方法一，我们需要给php image增加mysqli拓展，然后启动php container，作为我们自己创建的WordPress image，然后再link数据库，实际上，直接一个wordpress即可（调用官方Docker）</p>
+<p>但是，上面指定了-d，也就是在后台运行，所以前台看不到输出，此时需要inspect命令查看输出。</p>
+<p><code>docker container inspect wordpress</code></p>
+<p>找到IPAddress字段，那就是对外开放的IP地址，直接访问即可。</p>
+<p>此时虽然用了官方的WordPress image，简化了很多不必要的步骤，但还是存在一些问题。比如，每次新建容器，返回的IP地址不能保证相同，导致需要更换IP地址来访问WordPress。WordPress安装在容器里面，本地无法修改文件。解决方法如下:</p>
+<p>创建WordPress Container的命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker container run \  </span><br><span class="line">-d \  </span><br><span class="line">-p 127.0.0.2:8080:80 \  </span><br><span class="line">--rm \  </span><br><span class="line">--name wordpress \  </span><br><span class="line">--env WORDPRESS_DB_PASSWORD=123456 \  </span><br><span class="line">--link wordpressdb:mysql \  </span><br><span class="line">--volume <span class="string">"<span class="variable">$PWD</span>/wordpress"</span>:/var/www/html \  </span><br><span class="line">wordpress</span><br></pre></td></tr></table></figure>
+<p>只新加了两行参数：</p>
+<ul>
+<li>-p 127.0.0.2:8080:80：将容器的 80 端口映射到127.0.0.2的8080端口。</li>
+<li>–volume “$PWD/wordpress”:/var/www/html：将容器的/var/www/html目录映射到当前目录的wordpress子目录。</li>
+</ul>
+<p>这样我们就固定了IP地址，同时还指定了一下端口的映射，还有容器的文件目录映射。（容器会把文件默认放到Apache的默认路径，然后再映射到wordpress子目录，使得本地也可以修改文件）</p>
+<p>方法三：</p>
+<p>方法二主要是，分别启动两个容器，然后在启动时，在命令行里提供容器之间的连接信息。还有一种更简单的方法，就是使用Docker Compose。关键点：定义一个YAML格式的配置文件，在里面写好多个容器之间的调用关系，只需要一个命令就可以同时启动/关闭这些容器。</p>
+<p>步骤：</p>
+<p>①安装，pass</p>
+<p>②创建yml文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mysql:</span>    </span><br><span class="line">	<span class="attr">image:</span> <span class="string">mysql:5.7</span>    </span><br><span class="line">	<span class="attr">environment:</span>     </span><br><span class="line">		<span class="bullet">-</span> <span class="string">MYSQL_ROOT_PASSWORD=123456</span>     </span><br><span class="line">		<span class="bullet">-</span> <span class="string">MYSQL_DATABASE=wordpress</span> </span><br><span class="line"><span class="attr">web:</span>    </span><br><span class="line">	<span class="attr">image:</span> <span class="string">wordpress</span>    </span><br><span class="line">	<span class="attr">links:</span>     </span><br><span class="line">		<span class="bullet">-</span> <span class="string">mysql</span>    </span><br><span class="line">	<span class="attr">environment:</span>     </span><br><span class="line">		<span class="bullet">-</span> <span class="string">WORDPRESS_DB_PASSWORD=123456</span>    </span><br><span class="line">	<span class="attr">ports:</span>    </span><br><span class="line">    	<span class="bullet">-</span> <span class="string">"127.0.0.3:8080:80"</span>    </span><br><span class="line">    <span class="attr">working_dir:</span> <span class="string">/var/www/html</span>    </span><br><span class="line">    <span class="attr">volumes:</span>     </span><br><span class="line">    	<span class="bullet">-</span> <span class="string">wordpress:/var/www/html</span></span><br></pre></td></tr></table></figure>
+
+<p>（显然，一个是mysql容器，一个是web容器）</p>
+<p>启动：<code>docker-compose up</code>        （同时启动两个容器，此时就可以访问127.0.0.3到安装界面）</p>
+<p>关闭：<code>docker-compose stop</code></p>
+<p>关闭之后，容器文件还是存在的，写在里面的数据也不会丢失。下次再启动的时候，还可以复用。如果要删除，需要先暂停两个容器，然后调用删除命令：</p>
+<p><code>docker-compose rm</code></p>
+<p>首先是自定义image，然后启动，连接。后续的改进是，可以直接用官方或者别人写好的image来进行启动，连接。最后的方法是，直接使用docker-compose，不需要在启动命令的时候写一堆参数，直接写到yml文件里即可，同时还能保存容器信息，进行复用。自此，Docker的基本示例到此结束。</p>
+<p>参考：<a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html</a></p>
+<p>PS：    （很多情况下可以省略image ， container等关键字）</p>
+<p>docker image build  == docker build</p>
+<p>docker container run == docker run（即使是run image，也是构建出container）</p>
+<p>docker container rm = docker rm</p>
+<p>docker container stop = docker stop</p>
+<p>进入容器，除了exec，还可以用attach：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/docker_8.png" alt="img"></p>
+<p>删除所有容器（包括已经结束了的）：</p>
+<p><code>docker rm -f $(docker ps -a -q)</code></p>
+<p>删除所有image：</p>
+<p><code>docker rmi -f $(docker images)</code></p>
+<p>导出容器为压缩包：</p>
+<p><code>docker export 【options】 container_id &gt; xxx.tar</code>    (&gt; xxx其实不是必须的）</p>
+<p>导入容器：</p>
+<p><code>docker import xxx.tar container_name</code></p>
+<p>Dockerfile一些常用指令：</p>
+<p>FROM：表示基本的image（一般是Docker Hub或者其他仓库别人制作好的image），在此基础上进行修改调整。FROM必须在其他指令之前。</p>
+<p>RUN：启动成功之后会执行的命令</p>
+<p>CMD：容器启动成功之后执行的（区别上面看RUN与CMD的区别，记住多条CMD只会执行一条，所以如果启动时docker run存在CMD命令，那么会直接把Dockerfile的CMD命令全部忽略掉）</p>
+<p>ADD：添加源文件到目的路径。如果路径不以斜杠结尾，被视为文件。如果源文件是可识别的压缩包格式，docker还会自动解压</p>
+<p>ARG：设置构造参数    ENV：设置环境变量</p>
+<p>（ARG与ENV的区别：ARG设置的是构建时的环境变量，在容器运行时是不会存在这些变量的。ENV主要就是运行时的环境变量）</p>
+<p>COPY：与ADD类似，但不支持URL和压缩包（ADD除了文件，还可以是URL或压缩包）</p>
+<p>EXPOSE:声明暴露的端口</p>
+<p>LABEL：为镜像添加元数据metadata</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/HashMap%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB.html" rel="next" title="HashMap源码阅读">
+                <i class="fa fa-chevron-left"></i> HashMap源码阅读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/JSON%E7%AC%94%E8%AE%B0.html" rel="prev" title="JSON笔记">
+                JSON笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/03.jpeg"
+                alt="Hong" />
+            
+              <p class="site-author-name" itemprop="name">Hong</p>
+              <p class="site-description motion-element" itemprop="description">hong</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Hongscar" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:84363715@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker出现的原因，解决了哪些问题，如何解决的，有哪些应用？"><span class="nav-number">1.</span> <span class="nav-text">Docker出现的原因，解决了哪些问题，如何解决的，有哪些应用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker重要概念："><span class="nav-number">2.</span> <span class="nav-text">Docker重要概念：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker常用命令："><span class="nav-number">3.</span> <span class="nav-text">Docker常用命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例：使用Docker架设WordPress网站（需要WordPress容器和MySQL容器）"><span class="nav-number">4.</span> <span class="nav-text">实例：使用Docker架设WordPress网站（需要WordPress容器和MySQL容器）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/" rel="tag">CentOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/" rel="tag">Spring Cloud</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deprecated/" rel="tag">deprecated</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '75d5d92e717eca3c6b03',
+          clientSecret: '3ec3a4b9ee7baf1c9f4ec85b4ce8d2af9126edb3',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
