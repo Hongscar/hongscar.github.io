@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="dOjrq8WodF" />
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+
+
+  <meta name="keywords" content="Spring Cloud,Spring Boot," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hong's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一. 前言​        随着微服务的数量越来越多，外部客户端调用起来也就越来越麻烦。一个大型的项目一般都有上百个微服务，如果像我们之前的调用方法去调用，对于客户来说是很难接受的。所以这时候需要一个微服务的网关，作为一个中间层，简化这些操作。这部分讲述的是Zuul。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud笔记(五)">
+<meta property="og:url" content="https://hongscar.cn/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%BA%94.html">
+<meta property="og:site_name" content="Hong&#39;s Blog">
+<meta property="og:description" content="一. 前言​        随着微服务的数量越来越多，外部客户端调用起来也就越来越麻烦。一个大型的项目一般都有上百个微服务，如果像我们之前的调用方法去调用，对于客户来说是很难接受的。所以这时候需要一个微服务的网关，作为一个中间层，简化这些操作。这部分讲述的是Zuul。">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_33.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_34.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_35.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_36.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_37.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_38.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_39.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_40.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_41.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_42.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_43.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_44.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_45.png">
+<meta property="article:published_time" content="2020-02-18T14:26:38.000Z">
+<meta property="article:modified_time" content="2020-02-19T03:37:52.958Z">
+<meta property="article:author" content="Hong">
+<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="Spring Boot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_33.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hongscar.cn/Spring-Cloud笔记-五.html"/>
+
+
+
+
+
+  <title>Spring Cloud笔记(五) | Hong's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hong's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Like life,like coding</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%BA%94.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring Cloud笔记(五)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-18T22:26:38+08:00">
+                2020-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring-Cloud/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring Cloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>​        随着微服务的数量越来越多，外部客户端调用起来也就越来越麻烦。一个大型的项目一般都有上百个微服务，如果像我们之前的调用方法去调用，对于客户来说是很难接受的。所以这时候需要一个微服务的网关，作为一个中间层，简化这些操作。这部分讲述的是Zuul。</p>
+<a id="more"></a>
+
+
+
+<h3 id="二-使用Zuul构建微服务网关"><a href="#二-使用Zuul构建微服务网关" class="headerlink" title="二. 使用Zuul构建微服务网关"></a>二. 使用Zuul构建微服务网关</h3><p>由于不同的微服务会有不同的网络地址/端口号（比如上面的各种微服务，虽然有相同的地址，但端口号各不相同），当微服务数量很多时，外部客户端调用起来就比较麻烦。所以这时候需要一个<strong>网关</strong>，作为客户端与服务端的中间层，由网关层负责转发，这样客户端就只需要记住网关一个地址。同时网关还有其他的作用，比如统一认证（上面的Security都是东一个西一个，比较杂乱）。下面是具体的Zuul的作用列表：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_33.png" alt="sb_33"></p>
+<p>可以看到，<strong><em>它整合了Ribbon实现了负载均衡，也整合了Hystrix实现了监控，同时也具备Security，Spring MVC（Dynamic Routing）的作用。</em></strong></p>
+<hr>
+<p><strong><em>使用Zuul微服务网关的步骤：</em></strong></p>
+<p>（Zuul作为一个新的子module）</p>
+<p><strong><em>①导入依赖：</em></strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><em>②启动类上加上<code>@EnableZuulProxy</code></em></strong></p>
+<p>（这里还有的两个方法，一个是添加hystrix.stream结点，一个是用于注册到Eureka的认证，都是前面的内容了）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableZuulProxy</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulApplication</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServletRegistrationBean <span class="title">getServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> DiscoveryClient.<span class="function">DiscoveryClientOptionalArgs <span class="title">discoveryClientOptionalArgs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(ZuulApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>③编写yml（都是端口号，服务名，注册到哪个Eureka等等的基础）</em></strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">	<span class="attr">port:</span> <span class="number">8040</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">application:</span></span><br><span class="line">		<span class="attr">name:</span> <span class="string">microservice-gateway-zuul</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">	<span class="attr">client:</span></span><br><span class="line">		<span class="attr">service-url:</span></span><br><span class="line">			<span class="attr">defaultZone:</span> <span class="string">http://localhost:8761/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候理应就完成了，确实很简单，唯一特别的就是一个注解<code>@EnableZuulProxy</code>。该注解是声明一个Zuul代理，该代理会使用Ribbon来定位注册在Eureka上的所有微服务。所以，使用该注解的Zuul，如果不添加其他配置，就是默认监控所有的其他注册在Eureka的服务。</p>
+<p>但是还是出现了bugs，也进行了很长时间的排查。遇到的问题：</p>
+<p>Zuul理应是已经代理了所有的微服务，这时候直接使用Zuul的地址，然后加上被代理的服务名，还有后面的路径应该就可以成功，比如： localhost:8040/micro…/user/1。但是显示<strong><em>404错误</em></strong>。</p>
+<p>这个错误表明没有注册成功，可是@EnableZuulProxy是默认注册的，根本不需要手动配置。一开始猜想是不是又是版本的原因？所以还尝试了一下比较含糊不清的手动配置。但由于一键配置都没搞好，于是手动配置也出错，也可能是因为这个注册就是一键配置的，手动配置的都会被discard。然后到了最后，发现错误竟然是！</p>
+<p><strong><em>①url区分大小写。</em></strong>其实直到目前为止，我都没有配置url大小写敏感的问题。这个并不是在zuul里配置，而是在整个的Spring boot，Spring MVC里配置，因为url一只是case sensitive的。</p>
+<p><strong><em>②我把服务名字记错了。。</em></strong>类名是……movie，结果yml里写成了……user</p>
+<p>把这个问题解决之后，确实就不再是404，而是<strong><em>401，也就是认证的问题。</em></strong>关于认证，也存在一个很严重的问题。无论我如何配置security，如何配置Configuration类，都无法通过认证。具体表现为，打开8040端口（Zuul端口），这时候会弹出认证框，因为我需要访问8011（Consumer服务端口）。我可以传递一次参数给8011，使得它通过认证，但是8011后续访问8001（Provider服务端口）也需要认证，而<strong>这个参数是不会继续传递的</strong>。这也很好理解，如果8011需要访问多个端口的集成，那么参数该如何传递？所以不继续传递参数应该是一个正确的设定。那么问题来了，应该如何解决这个问题？</p>
+<p>最后的解决方案是，直接把provider里的Security内容去掉。看起来很tricky，但其实很合理。因为上面就已经提到了，<strong><em>Zuul的作用之一便是Authentication。所以服务的安全性问题，应该放在Zuul里处理，而Eureka仍然是特殊独立的存在，不需要更改。所以去掉 Service的 Security是合理的。</em></strong></p>
+<p>自此，就可以通过Zuul端口来访问其他服务了。据说整合了Ribbon，但懒得测试负载均衡了。而Hystrix，应该是版本问题了，所以还是要自己手动添加了hystrix.stream端点，然后跟Dashboard等等的整合也是可以，唯一奇怪的点是，使用Dashboard的时候，Circuit的显示数据都是正常的，但Thread Pools没有数据（之前使用Turbine都有的）,看了一下书，刚好图只截到了Circuit，到了Thread Pools就没了，但这部分在后面的部分会解决，这里暂时不考虑.</p>
+<p>由于Zuul作为一个网关，管理了比较多的服务，所以使用actuator管理端点就比较重要了。</p>
+<p>导入了依赖之后，在ymll直接暴露所有的端点：（<strong>注意，不能直接用*，也不能用双引号</strong>）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line">	<span class="attr">endpoints:</span></span><br><span class="line">		<span class="attr">web:</span></span><br><span class="line">			<span class="attr">exposure:</span></span><br><span class="line">				<span class="attr">include:</span> <span class="string">'*'</span></span><br></pre></td></tr></table></figure>
+
+<p>还可以添加exclude，此处略。</p>
+<p>比较重要的端点都有routes，filters，caches等等。同时还能自定义endpoints。具体的可以参考这篇文章：<a href="https://www.cnblogs.com/baidawei/p/9183531.html" target="_blank" rel="noopener">https://www.cnblogs.com/baidawei/p/9183531.html</a></p>
+<p>关于routing的一些配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line">	<span class="attr">routes:</span></span><br><span class="line">		<span class="attr">microservice-simple-consumer-user:</span> <span class="string">/user111/**</span></span><br><span class="line">	<span class="attr">ignored-services:</span> <span class="string">microservice-simple-consumer-user</span></span><br><span class="line">	<span class="attr">ignored-patterns:</span> <span class="string">/**/user/**</span>		<span class="comment"># 忽略所有包含user的路径</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>此处就是， /user111 就相当于 /microservice-simple-consumer-user。/**是指可能有多个路径。值得注意的是，虽然ignored了consumer，但其实只是ignored了这个默认的映射，而我们手动配置了它的映射路径别名，所以仍然可以通过user111来映射到consumer服务。而且可以通过<code>ignored_patterns</code>，忽略掉包含xxx的路径，比如把敏感信息放到admin，这样忽略掉之后，就无法通过zuul访问该admin路径了。这里我用的是忽略user，可以看到下面的效果图，对于访问user1没有影响，却无法访问user。如图：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_34.png" alt="sb_34"></p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_35.png" alt="sb_35"></p>
+<p>还有一些关于actuator的端点：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_36.png" alt="sb_36"></p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_37.png" alt="sb_37"></p>
+<p>filters端点包含了error，post，pre，route四种类型的过滤器，并且包含执行顺序order，可以用于定位Zuul问题。</p>
+<p>关于routes，还可以通过<code>/routes/details</code>来获取更具体的信息</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_38.png" alt="sb_38"></p>
+<h3 id="三-Zuul的一些其他配置"><a href="#三-Zuul的一些其他配置" class="headerlink" title="三. Zuul的一些其他配置"></a>三. Zuul的一些其他配置</h3><p>Zuul的安全与Header。由于Zuul是一个代理网关，因而它可以使得同一个系统的服务之间共享Header。但有一些敏感的Header不应该外泄，因此需要指定敏感的Header列表，下面是默认的配置：（users是一个服务名）所有的服务都默认将Cookie，Set-Cookie，Authorization设为敏感。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line">	<span class="attr">routes:</span></span><br><span class="line">		<span class="attr">users:</span></span><br><span class="line">			<span class="attr">path:</span> <span class="string">/myusers/**</span></span><br><span class="line">			<span class="attr">sensitiveHeaders:</span> <span class="string">Cookie,Set-Cookie,Authorization</span></span><br><span class="line">			<span class="attr">url:</span> <span class="string">https://downstream</span></span><br></pre></td></tr></table></figure>
+
+<p>如果需要取消所有敏感Header，比如服务只在内部传递，为了共享所有的Header，包括Cookie，可以将sensitiveHeaders设为空。    （之前看过这种写法，还以为是错误的写法）</p>
+<p>上面的是对单个服务的配置，可以直接用 zuul-sensitiveHeaders 来进行全局配置。</p>
+<p><code>zuul-ignored-headers</code>。忽略Header。</p>
+<p><strong><em>ignored-headers与sensitive-headers的区别：</em></strong></p>
+<p>一个很清晰的答案：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_39.png" alt="sb_39"></p>
+<p><code>sensitive-headers</code>是指明敏感headers，避免数据泄漏。而<code>ignored-headers</code>是直接指明要忽略的headers，使得不仅是zuul传递到下游服务的request，还是下游服务的response，都会忽略掉该headers（作用不同，目的也不同，但据说sensitive也会默认添加到ignored，所以区别不大）</p>
+<p>多层路由：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line">	<span class="attr">routes:</span></span><br><span class="line">		<span class="attr">first:</span></span><br><span class="line">			<span class="attr">path:</span> <span class="string">/first/**</span></span><br><span class="line">			<span class="attr">url:</span> <span class="string">https://first.example.com</span></span><br><span class="line">		<span class="attr">second:</span></span><br><span class="line">			<span class="attr">path:</span> <span class="string">/second/**</span></span><br><span class="line">			<span class="attr">url:</span> <span class="string">forward:/second</span></span><br><span class="line">		<span class="attr">third:</span></span><br><span class="line">			<span class="attr">path:</span> <span class="string">/third/**</span></span><br><span class="line">			<span class="attr">url:</span> <span class="string">forward:/3rd</span></span><br><span class="line">		<span class="attr">legacy:</span></span><br><span class="line">			<span class="attr">path:</span> <span class="string">/**</span></span><br><span class="line">			<span class="attr">url:</span> <span class="string">https://legacy.example.com</span></span><br></pre></td></tr></table></figure>
+
+<p>看起来legacy会跟另外三个冲突，但由于另外三个更complex，所以当第一个url为first/second/third，就会优先调用前三个，其他的url才会调用legacy，很好理解。官方文档称之为：<strong><em>strangle patterns</em></strong></p>
+<hr>
+<p>实现上传文件功能：</p>
+<p><strong><em>①Controller：</em></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileUploadController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/upload"</span>, method = RequestMethod.POST)</span><br><span class="line">    <span class="keyword">public</span> <span class="meta">@ResponseBody</span> <span class="function">String <span class="title">handleFileUpload</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        @RequestParam(value = <span class="string">"file"</span>)</span> MultipartFile file) <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] bytes = file.getBytes();</span><br><span class="line">        File fileToSave = <span class="keyword">new</span> File(file.getOriginalFilename());</span><br><span class="line">        FileCopyUtils.copy(bytes, fileToSave);</span><br><span class="line">        <span class="keyword">return</span> fileToSave.getAbsolutePath();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>② yml：</em></strong>（不加单位默认是KB，单位必须两个都大写，当前版本2.2.0.RELEASE）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">	<span class="attr">port:</span> <span class="number">8050</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">	<span class="attr">client:</span></span><br><span class="line">		<span class="attr">service-url:</span></span><br><span class="line">			<span class="attr">defaultZone:</span> <span class="string">http://localhost:8761/eureka/</span></span><br><span class="line">	<span class="attr">instance:</span></span><br><span class="line">		<span class="attr">prefer-ip-address:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">application:</span></span><br><span class="line">		<span class="attr">name:</span> <span class="string">microservice-file-upload</span></span><br><span class="line">	<span class="attr">servlet:</span></span><br><span class="line">		<span class="attr">multipart:</span></span><br><span class="line">			<span class="attr">max-file-size:</span> <span class="string">200MB</span>		<span class="comment"># default 1M</span></span><br><span class="line">			<span class="attr">max-request-size:</span> <span class="string">300MB</span>		<span class="comment"># default 10M</span></span><br></pre></td></tr></table></figure>
+
+<p>需要用到的依赖包是netflix-eureka-client，启动类需要的是@SpringBootApplication, @EnableEurekaClient注解。</p>
+<p><strong><em>③使用curl测试：</em></strong></p>
+<p>（1）直接通过FileUpload服务的端口调用</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_40.png" alt="sb_40"></p>
+<p>（2）使用Zuul代理：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_41.png" alt="sb_41"></p>
+<p>值得注意的是，使用Zuul代理时，当传输超过1MB（默认）的文件时，需要增加zuul路径，否则会报错（即使没有超过yml里设定的大小）。而无论是否使用zuul，传输的文件都不能超过yml里设定的大小。而直接调用FileUpload服务时，则不需要该路径。</p>
+<p><strong><em>关于为什么要这个zuul路径，官方文档的解释：</em></strong></p>
+<p><strong><em>If you use @EnableZuulProxy, you can use the proxy paths to upload files and it should work, so long as the files are small. For large files there is an alternative path that bypasses the Spring DispatcherServlet (to avoid multipart processing) in “/zuul/</em>“. In other words, if you have zuul.routes.customers=/customers/**, then you can POST large files to /zuul/customers/<em>. The servlet path is externalized via zuul.servletPath. If the proxy route takes you through a Ribbon load balancer, extremely large files also require elevated timeout settings, as shown in the following example:</em></strong></p>
+<p>意思就是，使用zuul代理时，传递大文件时的路径会转换为<code>/zuul/xxx</code>，所以就需要/zuul路径了。</p>
+<p><strong><em>Zuul is implemented as a Servlet.For the general cases,Zuul is embedded into the Spring Dispatch mechanism.This lets Spring MVC be in control of the routing.In this case,Zuul buffers requests.If there is a need to go through Zuul without buffering requests (for example,for large file uploads), the Servlet is also installed outside of the Spring Dispatcher.By default,the servlet has an address of <code>/zuul</code>.This path can be changed with the <code>zuul.servlet-path</code>property.</em></strong></p>
+<p>关于<strong><em>查询参数的编码和解码</em></strong>，直接看官方文档:</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_42.png" alt="sb_42"></p>
+<p>简单的说就是，使用Zuul传递参数的时候，参数可能会发生变化（比如使用了JS的encodeURIComponent方法），这可能会导致一些奇怪的错误。如果需要禁止参数变化，保持查询参数不会在传递时发生改变，就需要设定<code>forceOriginalQueryStringEncoding</code>参数为true。</p>
+<p>关于这个参数，默认是false的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">boolean</span> forceOriginalQueryStringEncoding = <span class="keyword">false</span>;</span><br></pre></td></tr></table></figure>
+
+<p>GitHub上有人提出了issue，认为应该默认是true，否则容易出现奇怪的问题。管理员也认同这个观点，但项目已经进入了<strong>Maintenance Mode</strong>，所以基本不会再维护了。所以只能手动配置参数。</p>
+<p>（同理的还有Request URI Encoding，是否对URI进行decode，默认是true。而URI包含“/”的时候，decode会出现意想不到的错误，此时可以设定zuul-decodeUrl为false，避免decode。）</p>
+<p><strong><em>关于@EnableZuulServer与@EnableZuulProxy</em></strong></p>
+<p>二者区别：</p>
+<p>Spring Cloud Netflix installs a number of filters,depending on which annotation was used to enabled Zuul.<strong>@EnableZuulProxy</strong> is a superset of <strong>@EnableZuulServer</strong>.In other words,<strong>@EnableZuulProxy *<em>contains all the filters installed by *</em>@EnableZuulServer</strong>.The additional filters in the “proxy” enable routing functionality.If you want a “blank” Zuul,you should use <strong>@EnableZuulServer</strong>.</p>
+<p>二者都可以启用Zuul，并且都会包含以下过滤器：</p>
+<p><strong><em>① Pre filters：</em></strong></p>
+<p><strong>ServletDetectionFilter</strong>: Detects whether the request is through the Spring Dispatcher.Sets a boolean with a key of <code>FilterConstants.IS_DISPATCHER_SERVLET_REQUEST_KEY</code>.</p>
+<p><strong>FormBodyWrapperFilter</strong>: Parses form data and re-encodes it for downstream requests.</p>
+<p><strong>DebugFilter</strong>: If the debug request parameter is set,sets<code>RequestContext.setDebugRouting()</code>and <code>RequestContext.setDebugRequest()</code>to true.</p>
+<p><strong><em>② Route filters:</em></strong></p>
+<p><strong>SendForwardFilter</strong>: Forwards requests by using the Servlet <code>RequestDispatcher</code>.The forwarding location is stored in the <code>RequestContext</code> attribute,<code>FilterConstants.FORWARD_TO_KEY</code>.This is useful for forwarding to endpoints in the current application.</p>
+<p><strong><em>③ Post filters:</em></strong></p>
+<p><strong>SendResponseFilter</strong>: Writes responses from proxied requests to the current response.</p>
+<p><strong><em>④ Error filters:</em></strong></p>
+<p><strong>SendErrorFilter</strong>: Forward to <code>/error</code> (by default) if <code>RequestContext.getThrowable()</code>is not null.You can change the default forwarding path (<code>/error</code>) by setting the ``error.path` property.</p>
+<p><strong><em>而EnableZuulProxy还包含以下过滤器：</em></strong></p>
+<p><strong><em>① Pre filters：</em></strong></p>
+<p><strong>PreDecorationFilter</strong>: Determines where and how to route,depending on the supplied <code>RouteLocator</code>.It also sets various proxy-related headers for downstream requests.</p>
+<p><strong><em>② Route filters:</em></strong></p>
+<p><strong>RibbonRoutingFilter</strong>: User Ribbon,Hystrix,and pluggable HTTP clients to send requests.Service IDs are found in the <code>RequestContext</code> attribute,<code>FilterConstants.SERVICE_ID_KEY</code>.This filter can user different HTTP clients:</p>
+<p>​    (1) Apache <code>HttpClient</code>: The default client.</p>
+<p>​    (2) Squareup <code>OkHttpClient</code> v3: Enable by having the <code>com.squareup.okhttp3:okhttp</code> library on the classpath and setting<code>ribbon.okhttp.enabled = true</code>.</p>
+<p>​    (3) Netflix Ribbon HTTP client: Enabled by setting <code>ribbon.restclient.enabled=true</code>.This client has limitations,including that it does not support the PATCH method,but also has built-in retry.</p>
+<p><strong>SimpleHostRoutingFilter</strong>: Sends requests to predetermined URLs through an Apache HttpClient.URLs are found in <code>RequestContext.getRouteHost( )</code>.</p>
+<p>测试，本来想把@EnableZuulProxy注解换成@EnableZuulServer的，理论上项目不会有任何出错，确实也没有出错，但是却找不到filters端点。一开始以为是没有启动actuator端点，但实际上其他的各种env，health，caches，beans等等的都有，唯独只少了一个filters端点。而且我在yml里是有配置具体的URL映射的：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line">	<span class="attr">routes:</span></span><br><span class="line">		<span class="attr">microservice-simple-consumer-user:</span> <span class="string">/user111/**</span></span><br></pre></td></tr></table></figure>
+
+<p>使用EnableZuulServer的时候，没有报错，如果映射失败，应该会出现404错误。但是没有报错，也没有任何界面。所以还是用Proxy吧。</p>
+<hr>
+<p>禁用filters：</p>
+<p>Zuul for Spring Cloud comes with a number of <strong>ZuulFilter</strong> beans enabled by default in both proxy and server mode.See the Zuul filters package for the list of filters that you can enable.If you want to disable one,set<code>zuul.\&lt;SimpleClassName&gt;.\&lt;filterType&gt;.disable=true</code>.By convention,thepackage after <code>filters</code>is the Zuul filter type.For exapmple to disable <code>org.springframework.cloud.netflix.zuul.filters.post.SendResponseFilter</code>,set <code>zuul.SendResponseFilter.post.disable=true</code>.</p>
+<p>包括自定义的filters和系统预定义的filters都可以，类型就是pre，post，route，error。</p>
+<p>（PS：具体的过滤器内容，还是得看源码才能更清晰，现在大概直到是什么个情况就好。关于过滤器这一块，还能配合Spring的过滤器机制一起看，毕竟像BeanPostProcessor等等的，一直没有去研究，到时可以专门再写一个叫做《阅读Spring&amp;Spring boot的interceptor机制源码》）</p>
+<p>关于Zuul的高可用：创建多个Zuul实例，并且使用Nginx，F5等等的负载均衡器来实现负载均衡。</p>
+<p>给Zuul的hystrix添加fallback方法：</p>
+<p>创建一个FallbackProvider的Bean（也就是这个接口/抽象类的具体类），然后注入（@Component)即可。书上1.5用的是ZuulFallbackProvider，2.x应该是没有这个东西了，直接换成<code>FallbackProvder</code>。</p>
+<p><strong><em>Providing Hystrix Fallbacks For Routes</em></strong></p>
+<p>When a circuit for a given route in Zuul is tripped,you can provide a fallback response by creating a bean of type <strong>FallbackProvider</strong>.Within this bean,you need to specify the route ID the fallback is for and provide a <strong>ClientHttpResponse</strong> to return as a fallback.The following example shows a relatively simple <strong>FallbackProvider</strong> implementation.</p>
+<p>需要指明要为哪个/哪些服务进行fallback功能，以及回退的逻辑。这里就是简单地几个文字：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserFallbackProvider</span> <span class="keyword">implements</span> <span class="title">FallbackProvider</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getRoute</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"*"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ClientHttpResponse <span class="title">fallbackResponse</span><span class="params">(String route, Throwable cause)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ClientHttpResponse() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HttpStatus <span class="title">getStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> HttpStatus.OK;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getRawStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.getStatusCode().value();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">getStatusText</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.getStatusCode().getReasonPhrase();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> InputStream <span class="title">getBody</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ByteArrayInputStream(<span class="string">"用户微服务不可使用"</span>.getBytes());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HttpHeaders <span class="title">getHeaders</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</span><br><span class="line">                MediaType mt = <span class="keyword">new</span> MediaType(<span class="string">"application"</span>, <span class="string">"json"</span>, Charset.forName(<span class="string">"UTF-8"</span>));</span><br><span class="line">                headers.setContentType(mt);</span><br><span class="line">                <span class="keyword">return</span> headers;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样子之后，当调用的service出现问题，会显示：用户微服务不可使用。</p>
+<p>关于Dashboard监控Zuul的Hystrix。</p>
+<p>前面有提到Zuul的Hystrix，在Dashboard并没有Thread pools的数据，一开始还以为是作者偷懒，其实是把坑留到后面了。因为Zuul里的Hystrix的隔离策略默认是SEMAPHORE，所以自然就没有Thread pools的数据了。可以使用：<code>zuul.ribbon-isolation-strategy = thread</code>设置为THREAD。</p>
+<p>（PS：这样默认会所有的服务都公用一个线程池，需要额外的配置来使得每一个路由/服务使用一个独立的线程池，<code>zuul.threadPool.useSeparateThreadPools : true</code></p>
+<p>关于Zuul整合非JVM服务。上文提到的Zuul管理的服务，都是基于JVM的服务，在一些特定的情况可能不太方便，比如我们可能需要一些其他的诸如python，node.js等等的webservice。然而Zuul是可以整合非JVM服务的，只需要使用Sidecar，这样除了JVM服务，还能注册非JVM服务。</p>
+<p>步骤：</p>
+<p>①先写一个非JVM微服务，这里用<strong>Node.js</strong>为例。(即使不懂Node，也能大致看懂功能)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="keyword">var</span> url = <span class="built_in">require</span>(<span class="string">'url'</span>);</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="comment">// 创建Server</span></span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 获取请求的路径</span></span><br><span class="line">    <span class="keyword">var</span> pathname = url.parse(req.url).pathname;</span><br><span class="line">    res.writeHead(<span class="number">200</span>, &#123;<span class="string">'Content-Type'</span> : <span class="string">'application/json; charset=utf-8'</span>&#125;);</span><br><span class="line">    <span class="comment">// 访问http://localhost:8060/, 将会返回&#123;"index": "欢迎来到首页"&#125;</span></span><br><span class="line">    <span class="keyword">if</span> (pathname === <span class="string">'/'</span>) &#123;</span><br><span class="line">        res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="string">"index"</span> : <span class="string">"欢迎来到首页"</span>&#125;));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 访问http://localhost:8060/health,将会返回&#123;"status": "UP"&#125;</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pathname === <span class="string">'/health.json'</span>) &#123;</span><br><span class="line">        res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="string">"status"</span> : <span class="string">"UP"</span>&#125;));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        res.end(<span class="string">"404"</span>);		<span class="comment">// 其他情况返回404</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 创建监听，并打印日志</span></span><br><span class="line">server.listen(<span class="number">8060</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'listening on localhost:8060'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>②给Zuul添加<strong>Sidecar</strong>的依赖包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-netflix-sidecar<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>③启动类添加<strong>@EnableSidecar</strong>注解。<strong><em>This annotation includes @EnableCircuitBreaker, @EnableDiscoveryClient, and @EnableZuulProxy。</em></strong></p>
+<p>④yml里配置sidecar参数，表示要代理的sidecar（非JVM）的uri地址和端口号等等：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sidecar:</span></span><br><span class="line">	<span class="attr">port:</span> <span class="number">8060</span></span><br><span class="line">	<span class="attr">health-uri:</span> <span class="string">http://localhost:8060/health.json</span></span><br></pre></td></tr></table></figure>
+
+<p>⑤controller里写一下调用该sidecar服务的逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">testController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> RestTemplate restTemplate;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">testController</span><span class="params">(RestTemplate restTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.restTemplate = restTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/test/&#123;string&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">findById</span><span class="params">(@PathVariable string string)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://localhost:8060/"</span> + string,String<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/test11/&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">test</span><span class="params">(@PathVariable String id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://localhost:8001/"</span> + id, User<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>⑥启动node.js的微服务，启动Eureka，Zuul等等，使用：localhost:8040/test/health.json，调用成功.</p>
+<p>中途遇到的问题：其实对于web的基本架构都很了解了，所以虽然书上是在IDEA里一起写的非JVM服务，但我确信在cmd也是一样的，结果却不行。后来发现只是controller的注解，不小心写成了@Controller，导致无法处理JSON数据，因为Node.js里写的返回数据类型是JSON。所以一切其实都很顺理成章。虽然这里调用的是简单的非JVM微服务，但调用其他的webservice其实也是如此罢了。</p>
+<p>关于使用Zuul整合多个微服务，其实就是客户端一次调用，然后Zuul端会调用多个微服务。书上使用了RxJava，但我现在还不会，先搁置吧。其实我觉得这个需求直接在service层里编写逻辑也可以完成。当然，至于RxJava的异步优势，后面再考虑。</p>
+<p>最后还学习了一下<strong>OkHttp3。OkHttp3是一个优秀的HTTP客户端，可以更加高效地使用HTTP。</strong></p>
+<p>写了两个简单的GET例子和POST例子，感觉都可行。</p>
+<p>依赖包：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.squareup.okhttp3<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>okhttp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.11.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>GetExample:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GetExample</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">run</span><span class="params">(String url)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Request request = <span class="keyword">new</span> Request.Builder().url(url).build();</span><br><span class="line">        <span class="keyword">try</span> (Response response = client.newCall(request).execute()) &#123;</span><br><span class="line">            <span class="keyword">return</span> Objects.requireNonNull(response.body()).string();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        GetExample example = <span class="keyword">new</span> GetExample();</span><br><span class="line">        String response = </span><br><span class="line">            example.run(<span class="string">"https://github.com/Hongscar/blog/blob/master/README.md"</span>);</span><br><span class="line">        System.out.println(response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PostExample:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PostExample</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> MediaType JSON = MediaType.get(<span class="string">"application/json; charset=utf-8"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">post</span><span class="params">(String url, String json)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        RequestBody body = RequestBody.create(JSON, json);</span><br><span class="line">        Request request = <span class="keyword">new</span> Request.Builder().url(url).post(body).build();</span><br><span class="line">        <span class="keyword">try</span> (Response response = client.newCall(request).execute()) &#123;</span><br><span class="line">            <span class="keyword">return</span> Objects.requireNonNull(response.body()).string();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">bowlingJson</span><span class="params">(String player1, String player2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"&#123;'winCondition':'HIGH_SCORE',"</span></span><br><span class="line">                + <span class="string">"'name':'Bowling',"</span></span><br><span class="line">                + <span class="string">"'round':4,"</span></span><br><span class="line">                + <span class="string">"'lastSaved':1367702411696,"</span></span><br><span class="line">                + <span class="string">"'dateStarted':1367702378785,"</span></span><br><span class="line">                + <span class="string">"'players':["</span></span><br><span class="line">                + <span class="string">"&#123;'name':'"</span> + player1 + <span class="string">"','history':</span></span><br><span class="line"><span class="string">            [10,8,6,7,8],'color':-13388315,'total':39&#125;,"</span></span><br><span class="line">                + <span class="string">"&#123;'name':'"</span> + player2 + <span class="string">"','history':</span></span><br><span class="line"><span class="string">        [6,10,5,10,10],'color':-48060,'total':41&#125;"</span></span><br><span class="line">                + <span class="string">"]&#125;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        PostExample example = <span class="keyword">new</span> PostExample();</span><br><span class="line">        String json = example.bowlingJson(<span class="string">"Jesse"</span>, <span class="string">"Jake"</span>);</span><br><span class="line">        String response = example.post(<span class="string">"http://www.roundsapp.com/post"</span>, json);</span><br><span class="line">        System.out.println(response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>逻辑也是很清晰，GET方法就是最简单的，获取指定URL的内容，然后把Response的body转换成字符串作为return值。POST方法，需要先传递一个RequestBody到服务端，可以看到在post方法里是先构造了一个RequestBody，再把这个body设置到Request当中，最后再返回Response。服务端获取到了RequestBody之后（在这里是一个JSON字符串），它会根据这个JSON字符串进行生成页面操作（这里的代码是在服务端完成的），生成的结果就作为Response返回。GET方法就是获取了哪个github的README.md的内容，POST方法的结果如下:（可以看到内容就是根据RequestBody生成的</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_43.png" alt="sb_43"></p>
+<p>中间还遇到了一个比较麻烦的问题（一开始认为是strange error）。</p>
+<p>在使用OkHttp3的时候，其实Maven仓库的最新版本是4.2.2，理应使用最新版本。下载也没有问题，写代码也不会报错。但是当我写代码看到new Request.Builder ……其实我大概也知道这是一个内部类，但我就是很想去看一下它的代码，可是跳转过去之后的class文件，并没有代码。它每一个方法的内容都是complied code，还有open等我不认识的关键字，如下：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_44.png" alt="sb_44"></p>
+<p>当时显示了一个错误，我没有在意，但后面问题就很大了。我点了run项目，然后项目右下角说没有找到xxx文件（其实就是Request.class文件），但console处没有任何输出，就像是run键没有任何反应。这时候更关键的是，其他的module也无法run。当时以为是IDEA抽风了，还打算从GitHub重新把项目导入一遍。结果不小心点到了debug，发现其他module的debug可用，而run不可用，其实这时候我大概就应该猜到是什么原因了。后面过了许久，其他项目的run也可行了。我再次对GetExample进行run，又是一样的毫无反应，然后其他项目也变得无法run，但可以debug。紧接着我对GetExample进行debug，也是毫无反应。这时候其他的项目不仅无法run，而且无法debug。那么这个看似是“IDEA抽风”的问题就找到了，<strong><em>这个Maven导入的依赖包有问题，虽然没有任何报错，但就是会出错，而且甚至把整个run / debug功能都会卡住。以往如果是项目卡住，好歹还是会有红色的running的显示符，这次真的就像是完全没有反应，不得不说确实还是算IDEA跟Maven的bug吧，但至少知道了是什么原因造成的。</em></strong>于是我就把OkHttp3的版本换成了3.11.0，因为网上有文章的源码解读是使用这个版本的。确实，改了版本之后，跳转到Request就有具体的代码了：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_45.png" alt="sb_45"></p>
+<p>然后就不再出现问题，而且也成功运行。那么<strong><em>为什么4.2.2版本不可用？因为OkHttp是适用于Android，Kotlin和Java的HTTP客户端，而且在4.x版本开始，使用了Kotlin重写，从上面的4.2.2的源码其实就可以看到有Kotlin的字样。那么到底Java中能否使用Kotlin编写的OkHttp4.x？估计是可以的，但要配置一些其他东西，但已经超出太远的范围了，所以这里还是就用OkHttp3吧。而且看起来，3跟4的区别好像就只是用Kotlin重新写了一遍而已，并没有什么新的特性，只是更适用于Android开发而已，所以这里不需要考虑了。</em></strong></p>
+<p>至此，Zuul章节完毕。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Cloud/" rel="tag"><i class="fa fa-tag"></i> Spring Cloud</a>
+          
+            <a href="/tags/Spring-Boot/" rel="tag"><i class="fa fa-tag"></i> Spring Boot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Spring-Cloud%E7%AC%94%E8%AE%B0-%E5%9B%9B.html" rel="next" title="Spring Cloud笔记(四)">
+                <i class="fa fa-chevron-left"></i> Spring Cloud笔记(四)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Spring-Cloud%E7%AC%94%E8%AE%B0-%E5%85%AD.html" rel="prev" title="Spring Cloud笔记(六)">
+                Spring Cloud笔记(六) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/03.jpeg"
+                alt="Hong" />
+            
+              <p class="site-author-name" itemprop="name">Hong</p>
+              <p class="site-description motion-element" itemprop="description">hong</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Hongscar" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:84363715@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-使用Zuul构建微服务网关"><span class="nav-number">2.</span> <span class="nav-text">二. 使用Zuul构建微服务网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-Zuul的一些其他配置"><span class="nav-number">3.</span> <span class="nav-text">三. Zuul的一些其他配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/" rel="tag">CentOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/" rel="tag">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deprecated/" rel="tag">deprecated</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '75d5d92e717eca3c6b03',
+          clientSecret: '3ec3a4b9ee7baf1c9f4ec85b4ce8d2af9126edb3',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -290,6 +290,611 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%9C%8D%E5%8A%A1%E5%99%A8CPU100%25%E7%9A%84%E9%97%AE%E9%A2%98.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%9C%8D%E5%8A%A1%E5%99%A8CPU100%25%E7%9A%84%E9%97%AE%E9%A2%98.html" itemprop="url">记一次服务器CPU100%的问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:13:34+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>PS：写在前面，这篇文章最后<strong>并没有解决</strong>服务器CPU100%的问题，仅仅是记录在尝试过程中学到的知识点。</p>
+<p>​    今天原本打算使用redis连接项目，正好网站备案通过了，正打算先测试一下域名是否可用，结果反而整个项目都不可用了。想着应该又是tomcat那边的问题，先上服务器看了一下，感觉服务器的卡顿越来越厉害了，时不时就会卡住然后断开连接。想想腾讯云也不至于这么烂，于是查了一下原因。虽说最后没有解决，但当中的过程还是学习到了很多。目前先把出错的服务器保存了一个snapshot，然后对服务器进行重载。先把这个问题放下，以后再回去解决。（主要是我数据库没有进行备份，数据还在上面，而数据库也出问题了，完全无法connect，自然也无法备份了。但保存了snapshot，那么数据库文件还在里面，等到需要那部分数据的时候，就对snapshot进行载入，然后再修复错误去获取数据吧，现在先放下这个问题）</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%9C%8D%E5%8A%A1%E5%99%A8CPU100%25%E7%9A%84%E9%97%AE%E9%A2%98.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/%E5%85%B3%E4%BA%8E%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/%E5%85%B3%E4%BA%8E%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91.html" itemprop="url">关于链表的一些疑惑</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:13:20+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Datastructure/" itemprop="url" rel="index">
+                    <span itemprop="name">Datastructure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>​        链表想通的时候，感觉很简单，比数组还简单，只需要维护一个next指针，然后对指针进行操作即可。但有的时候也会遇到想不通的情况，这时候即便是非常简单的问题，都很难解决。所以这篇文章总结一下链表可能遇到的疑惑，下次遇到的时候查阅即可，无须每次都进行艰难的debug。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/%E5%85%B3%E4%BA%8E%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%96%91%E6%83%91.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/%E5%85%B3%E4%BA%8EMysql%E7%9A%84optimize%E8%AF%AD%E5%8F%A5.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/%E5%85%B3%E4%BA%8EMysql%E7%9A%84optimize%E8%AF%AD%E5%8F%A5.html" itemprop="url">关于Mysql的optimize语句</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:13:08+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>看到了一个optimize的语句，想尝试一下，但发现这个语句默认只在MyISAM引擎的表上执行，在InnoDB可能会出现错误，于是的确出现了错误：<br><em>Table does not support optimize, doing recreate + analyze instead</em></p>
+<p>查找网上的解法，看到了这篇文章:<a href="https://blog.csdn.net/e421083458/article/details/39522513" target="_blank" rel="noopener">https://blog.csdn.net/e421083458/article/details/39522513</a><br>看样子是只需要在启动mysqld进程的时候，增加—skip-new参数即可。但下面还要一个shell脚本一键完成，因此想先尝试shell脚本。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/%E5%85%B3%E4%BA%8EMysql%E7%9A%84optimize%E8%AF%AD%E5%8F%A5.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/Redis%E7%AC%94%E8%AE%B0.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/Redis%E7%AC%94%E8%AE%B0.html" itemprop="url">Redis笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:12:55+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>chapter1.</p>
+<p>Redis没有表和Schema（Schema就是数据库对象的集合，这个集合包含了各种对象如：表、视图、存储过程、索引等</p>
+<p>Redis用 key-value存储数据，所有的key必须是string类型</p>
+<p>Redis的命令不区分大小写，但存储的数据区分（包括key-value）</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/Redis%E7%AC%94%E8%AE%B0.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hongscar.cn/Swing%E7%AC%94%E8%AE%B0.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -584,466 +1189,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/03.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html" itemprop="url">Linux常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:12:21+08:00">
-                2020-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>​        此文用于记录一些常用的Linux命令。主要记录每一个命令的作用，参数的作用。</p>
-<h4 id="①ls-英语全文：list。列出目录下的文件。-语法：-ls-选项-文件名或目录名"><a href="#①ls-英语全文：list。列出目录下的文件。-语法：-ls-选项-文件名或目录名" class="headerlink" title="①ls  英语全文：list。列出目录下的文件。  语法： ls [选项] [文件名或目录名]"></a>①ls  英语全文：list。列出目录下的文件。  语法： ls [选项] [文件名或目录名]</h4><p>-a：显示所有文件    –color=when(颜色输出。默认为always。 never：从不  auto：自动)<br>-d：显示目录信息，而非文件<br>-h：文件大小显示为k，M,G<br>-i：显示iNode<br>#####-l：长格式显示（ <strong>ll &lt;==&gt; ls -l</strong>）</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    <div>
-      
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/Linux%E5%AE%89%E8%A3%85Apache.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/03.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Linux%E5%AE%89%E8%A3%85Apache.html" itemprop="url">Linux安装Apache</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:12:12+08:00">
-                2020-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>记录一下第一次在Linux上安装Apache遇到的问题以及解决过程。</p>
-<p>具体步骤可以参考此博文：<br><a href="https://blog.csdn.net/u010297957/article/details/50751656" target="_blank" rel="noopener">https://blog.csdn.net/u010297957/article/details/50751656</a></p>
-<p>1.安装有两种方法，<strong>第一种是手动安装</strong>，</p>
-<p>步骤：<br>①<strong><em>先下载相关的源码包</em></strong>，包括：Apache HTTP Server（这个就是我们要安装的Apache Server，但它还需要其他依赖包，所以仅有这个并不足够），APR（Apache Server的依赖包，然而这个APR本身又依赖APR-Util和PCRE），APR-Util，PCRE。一共4个源码包。此处用到了wget命令，wget url，下载相应的源码包。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/Linux%E5%AE%89%E8%A3%85Apache.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    <div>
-      
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/centos%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/03.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/centos%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95.html" itemprop="url">centos环境配置记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T11:11:19+08:00">
-                2020-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>（Tomcat + MySQL + Redis的配置，以及连通性测试）</p>
-<p>写在前面:<br>其实大概半年前就已经配置好了Tomcat跟MySQL，项目也部署好了，能够正常的运行。但自从8月底的时候加上了redis，就开始出现了问题。从那时候开始，服务器的CPU一直停留在100，似乎是MySQL与Redis之间出现了冲突。但我当时装了好了Redis，大概只是简单学习了几天就搁置了，所以等到我意识到服务器出现问题的时候，已经是9月下旬的时候了。（中途域名拿去网站备案了，所以项目也是一直搁置的。但中途在研究MySQL的锁机制的时候，确实已经觉得服务器出现了问题，时不时会掉线）对于问题的排查，持续了一整天都没有解决，使用TOP命令，会发现CPU idle space是0，要么是0，要么是100，两个数字之间刷新，但下面的所有进程，就没有CPU超过5%的进程。除了top，诸如netstat，vmstat，df -h，uptime，等等的各种命令都尝试过了，还是没有找出问题。倒是发现在/var/crash中出现了高达25G的系统崩溃碎片，删除了也未果。甚至，一怒之下把这个基础的服务器升级了（1核2G，直接升级为4核8G），结果还是显示100。。说实话，我就那么一个项目，能够把这种升级后的配置也用到CPU100，唯一的可能也只是出现了deadlock了吧。但我排查了许久都失败了，服务器上的数据库也崩溃了无法访问，而且我对于数据库也没有备份的习惯（以后一定要对数据库进行定时备份）。导致只好先对这个出了问题的系统进行snapshot，等待以后需要那部分数据，或者有时间的时候，再回去排查问题吧，至少也要把那部分数据拿回来。<br>然后呢，就是直接把系统重装了，那么就需要重新配置一遍环境。其实因为之前配置这三个的时候都比较轻松，所以心里觉得应该很快能解决的。但没想到遇到了各种各样的问题，所以这次把整个成功的配置过程都写出来记录，包括中间出现了错误如何解决等等。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/centos%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    <div>
-      
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
  <nav class="pagination">
-   <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="accessibility.prev_page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+   <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="accessibility.prev_page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="accessibility.next_page"></i></a>
  </nav>
 
 
@@ -1093,7 +1243,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1115,7 +1265,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1172,7 +1322,7 @@
     <h3 class="widget-title">Tag Cloud</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/" rel="tag">CentOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/" rel="tag">Spring Cloud</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deprecated/" rel="tag">deprecated</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/" rel="tag">CentOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/" rel="tag">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deprecated/" rel="tag">deprecated</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>

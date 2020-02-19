@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="dOjrq8WodF" />
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+
+
+  <meta name="keywords" content="Spring Cloud,Spring Boot," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hong's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一. 前言​        上一部分添加了Ribbon实现了负载均衡，并且使用了Feign实现声明式的REST调用。微服务架构中还有很多其他组件，让我们继续学习其他有用的微服务架构的组件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud笔记(三)">
+<meta property="og:url" content="https://hongscar.cn/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%B8%89.html">
+<meta property="og:site_name" content="Hong&#39;s Blog">
+<meta property="og:description" content="一. 前言​        上一部分添加了Ribbon实现了负载均衡，并且使用了Feign实现声明式的REST调用。微服务架构中还有很多其他组件，让我们继续学习其他有用的微服务架构的组件。">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_11.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_12.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_13.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_14.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_15.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_16.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_17.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_18.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_19.png">
+<meta property="og:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_20.png">
+<meta property="article:published_time" content="2020-02-18T08:48:11.000Z">
+<meta property="article:modified_time" content="2020-02-19T03:27:11.160Z">
+<meta property="article:author" content="Hong">
+<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="Spring Boot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_11.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hongscar.cn/Spring-Cloud笔记-三.html"/>
+
+
+
+
+
+  <title>Spring Cloud笔记(三) | Hong's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hong's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Like life,like coding</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%B8%89.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/03.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring Cloud笔记(三)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-18T16:48:11+08:00">
+                2020-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring-Cloud/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring Cloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>​        上一部分添加了Ribbon实现了负载均衡，并且使用了Feign实现声明式的REST调用。微服务架构中还有很多其他组件，让我们继续学习其他有用的微服务架构的组件。</p>
+<a id="more"></a>
+
+
+
+<h3 id="二-使用熔断器Hystrix"><a href="#二-使用熔断器Hystrix" class="headerlink" title="二.  使用熔断器Hystrix"></a>二.  使用熔断器Hystrix</h3><p>微服务架构是由多个微服务组成的系统。虽然架构更加清晰，分工更加明确，但也存在相应的问题：出现问题难以排查（到底是哪个服务出现问题？）。而且还会存在微服务所特有的问题：<strong><em>雪崩效应</em></strong>。当其中一个微服务出现故障时，由于微服务之间会存在依赖关系，所以其他服务也会渐渐地受到影响，最后影响到整个系统。如果这时候放任不管，那么请求就会堆积，导致系统彻底瘫痪。（有理论分析，即使每个系统的正常运行时间是99.9%，仍然会因为雪崩效应导致很严重的效果）所以我们需要一个组件来管理微服务，监控微服务，当组件发现（认为）服务出现故障，会把系统调到<strong><em>降级模式</em></strong>，拒绝继续接受请求，避免请求堆积。等到一定时间之后再申请一个请求，如果请求通过，解除降级模式，否则，继续拒绝。这个就是Hystrix，熔断器。逻辑也很简单，其实就相当于电路里的断路器。</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_11.png" alt="sb_11"></p>
+<p><strong><em>正常情况下，断路器关闭，可正常请求依赖的服务。</em></strong></p>
+<p><strong><em>当一段时间内，请求失败率达到一定阈值（例如错误率达到50%，或100次/分钟等），断路器就会打开。此时，不会再去请求依赖的服务。</em></strong></p>
+<hr>
+<h4 id="使用步骤："><a href="#使用步骤：" class="headerlink" title="使用步骤："></a>使用步骤：</h4><p>①导入依赖包<code>spring-cloud-starter-netflix-hystrix</code></p>
+<p>②启动类添加注解:<code>@EnableHystrix, @EnableCircuitBreaker</code></p>
+<p>③给Controller里的RequestMapping方法添加一个<code>@HystrixCommand(fallback = &quot;xxx&quot;)</code>的注解，xxx就是一个fallback方法名。当降级模式触发的时候，停止请求，改为调用fallback方法。</p>
+<p>（HystrixCommand上可以进行很多配置）</p>
+<p>一两次失败的request并不会导致断路器打开，而多次之后可以看到断路器确实已经开启：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_12.png" alt="sb_12"></p>
+<p>Hystrix的隔离策略：<strong><em>线程隔离</em></strong> 和 <strong><em>信号量隔离</em></strong>。</p>
+<p>一般推荐HystrixCommand使用线程隔离，而HystrixObservableCommand使用信号量隔离。</p>
+<p><strong>HystrixCommand和HystrixObservableCommand的区别：</strong></p>
+<p>①HystrixCommand用在依赖服务返回单个操作结果的时候。有两种执行方式</p>
+<p>　　  -execute():同步执行。从依赖的服务返回一个单一的结果对象，或是在发生错误的时候抛出异常。</p>
+<p>　　  -queue();异步执行。直接返回一个Future对象，其中包含了服务执行结束时要返回的单一结果对象。</p>
+<p>　　　　</p>
+<p>②HystrixObservableCommand 用在依赖服务返回多个操作结果的时候。它也实现了两种执行方式</p>
+<p>　　  -observe():返回Obervable对象，他代表了操作的多个结果，他是一个HotObservable</p>
+<p>　　  -toObservable():同样返回Observable对象，也代表了操作多个结果，但它返回的是一个Cold Observable。</p>
+<p>参考链接：<a href="https://www.cnblogs.com/happyflyingpig/p/8079308.html" target="_blank" rel="noopener">https://www.cnblogs.com/happyflyingpig/p/8079308.html</a></p>
+<p><strong>线程隔离和信号量隔离的区别：</strong></p>
+<p><em>THREAD —— it executes on a separate thread and concurrent requests are limited by the number of threads in the thread-pool</em></p>
+<p><em>SEMAPHORE—— it executes on the calling thread and concurrent requests are limited by the semaphore count.</em></p>
+<p>简单地说，就是线程隔离就是HystrixCommand会在单独的线程上执行（new一个线程），受到线程池的线程数量限制。</p>
+<p>而信号量隔离，仍然在调用的线程上执行，隔离等级由线程缩小为信号量。</p>
+<p>显然，线程更安全，开销也更高，而信号量可以更高效，开销较低，但限制也较大（信号量个数限制</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_13.png" alt="sb_13"></p>
+<h4 id="Feign使用Hystrix："><a href="#Feign使用Hystrix：" class="headerlink" title="Feign使用Hystrix："></a>Feign使用Hystrix：</h4><p>前面使用Hystrix是手动定义一个fallback方法，如果需要为Feign整合Hystrix，那么也很简单，为自定义的FeignClient接口提供一个实现类，然后接口的定义@FeignClient增加一个fallback属性即可。</p>
+<p>看起来是没有任何问题的，但却出错了，而且一直解决不了，差点直接弃坑。</p>
+<p><strong>当中可能存在的问题：</strong></p>
+<p><strong><em>①没有配置Hystrix？</em></strong></p>
+<p>网上一堆互联网垃圾互抄都是说这个问题，但并不是，我第一时间就在yml里设置好了</p>
+<p><strong><em>②Feign已经包含了Hystrix，所以把启动类的@EnableHystrix去掉？</em></strong></p>
+<p>难得看到一个不是提①的帖子，表示了是这个问题，但我去掉了还是存在500的问题</p>
+<p><strong><em>③CustomizeFeignClientImpl的问题？路径?另外两个方法？</em></strong></p>
+<p>都无关</p>
+<p><strong><em>④@EnableFeignClients注解的问题？@EnableHystrix的影响?</em></strong></p>
+<p>没有影响。</p>
+<p><strong><em>⑤primary = false ？ @primary等等的原因？</em></strong></p>
+<p>都不是关键，如果是注入出错的时候，Spring启动的时候就会抛出注入失败的错误。显式给fallback类使用@primary其实就是直接调用它的方法了，那样虽然可以fallback但已经失去了意义。</p>
+<p><strong><em>⑥上一章节Feign的decoder，encoder，contract的问题？</em></strong></p>
+<p>有可能，换了一个全新的Controller（简化了各种东西），并且把自定义FeignConfiguration也去掉了，RequestLine也换回了RequestMapping。但这时报错无法Autowire，因为它不知道要注入的是CustomizeFeignClient，还是CustomizeFeignClientImpl（注入类型是CustomizeFeignClient，所以两个都是可行的）。这时候我不懂为什么之前没有这个问题，就因为之前有自定义FeignConfiguration?</p>
+<p>但是这时候我给CustomizeFeignClient设置了primary = false（官方文档里的解法），还是不行。只能给Impl添加@Primary，可这时候又有问题了，因为优先是Impl，所以无论如何都是fallback，那么就失去了原本的意义。而如果是给接口设置@Primary，那么就是继续500错误。而且之前把Configuration去掉，那么Feign会直接失效的，也可能是这个问题。关于这部分，只好先用着Hystrix，而不是Feign整合Hystrix，具体还得看文档才能解决。</p>
+<hr>
+<h4 id="Feign使用Hystrix：（解决篇"><a href="#Feign使用Hystrix：（解决篇" class="headerlink" title="Feign使用Hystrix：（解决篇"></a>Feign使用Hystrix：（解决篇</h4><p>问题原因：</p>
+<p><strong><em>①Feign依赖包已经包括了Ribbon包，所以需要把Ribbon包去掉。</em></strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">&lt;dependency&gt;</span></span><br><span class="line"><span class="comment">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span></span><br><span class="line"><span class="comment">    &lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;</span></span><br><span class="line"><span class="comment">    &lt;version&gt;2.2.0.RELEASE&lt;/version&gt;</span></span><br><span class="line"><span class="comment">&lt;/dependency&gt;</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>（Feign整合了很多内容，包括Eureka，Ribbon，Hystrix，但这里只有Ribbon起到了冲突，具体原因不明。其他的诸如spring-cloud-starter-netflix-hystrix等包，不去掉也没有影响。</p>
+<p><strong><em>②上一节在创建FeignClient实例的时候，用到了Feign.builder( )，然后认证内容都直接写在里面了，导致后面fallback是没有认证的。从而会导致401错误，最后变成500错误。</em></strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">userUserFeignClient = HystrixFeign.builder().client(client).decoder(decoder).</span><br><span class="line">    requestInterceptor(<span class="keyword">new</span> BasicAuthRequestInterceptor(<span class="string">"user"</span>, <span class="string">"password1"</span>)).</span><br><span class="line">    	target(UserFeignClient.class, "http://microservice-simple-provider-user");</span><br><span class="line">adminUserFeignClient = HystrixFeign.builder().client(client).decoder(decoder).</span><br><span class="line">    requestInterceptor(<span class="keyword">new</span> BasicAuthRequestInterceptor(<span class="string">"admin"</span>, <span class="string">"password2"</span>)).</span><br><span class="line">    	target(UserFeignClient.class, "http：//microservice-simple-provider-user");</span><br></pre></td></tr></table></figure>
+
+<p>改成：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> UserFeignClient userFeignClient;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TestController</span><span class="params">(Client client, Decoder decoder, UserFeignClient userFeign)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userFeignClient = userFeign;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/user1/&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">findById</span><span class="params">(@PathVariable String id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.userFeignClient.findById(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（无须decoder，encoder等等，也不需要那版本烦人的xxx.FeignClientsConfiguration.class了。</p>
+<p>如何确定是这里的关键问题？如何看到401错误？</p>
+<p>把上述代码改了之后，访问URL，会返回401错误，因为这时候其实已经可以访问到fallback了，但因为是最后的findById的时候没有认证，所以导致出错。之前写Feign刚好有一个搁置的配置文件，用于对Feign的认证，把它加上，问题彻底解决：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// when we need to add Interceptor for Feign, we need it to add the Http Basic auth.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FooConfiguration</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BasicAuthRequestInterceptor <span class="title">basicAuthRequestInterceptor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BasicAuthRequestInterceptor(<span class="string">"admin"</span>, <span class="string">"password2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"microservice-simple-provider-user"</span>,</span><br><span class="line">            configuration = &#123;FeignConfiguration<span class="class">.<span class="keyword">class</span>, <span class="title">FooConfiguration</span>.<span class="title">class</span>&#125;</span></span><br><span class="line"><span class="class">            <span class="title">fallbackFactory</span> </span>= FeignClientFallbackFactory<span class="class">.<span class="keyword">class</span>, <span class="title">primary</span> </span>= <span class="keyword">false</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserFeignClient</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestLine</span>(<span class="string">"GET /&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">findById</span><span class="params">(@Param(<span class="string">"id"</span>)</span> String id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用fallbackFactory而不是fallback类，使得可以打印错误日志（fallback类实现FallbackFactory&lt;xx&gt;接口，实现create方法即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignClientFallbackFactory</span> <span class="keyword">implements</span> <span class="title">FallbackFactory</span>&lt;<span class="title">UserFeignClient</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = </span><br><span class="line">        LoggerFactory.getLogger(FeiginClientFallbackFactory<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserFeignClient <span class="title">create</span><span class="params">(Throwable meg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserFeignClient() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> User <span class="title">findById</span><span class="params">(String id)</span> </span>&#123;</span><br><span class="line">                FeignClientFallback.LOGGER.info(<span class="string">"fallback;reason was "</span> + meg.toString());</span><br><span class="line">                meg.printStackTrace();</span><br><span class="line">                User user = <span class="keyword">new</span> User();</span><br><span class="line">                user.setId(<span class="string">"-1"</span>);</span><br><span class="line">                user.setName(<span class="string">"Default user"</span>);</span><br><span class="line">                user.setAge(-<span class="number">1</span>);</span><br><span class="line">                user.setBalance(-<span class="number">111</span>);</span><br><span class="line">                user.setUsername(<span class="string">"default"</span>);</span><br><span class="line">                <span class="keyword">return</span> user;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样当前消费者service也能通过printStackTrace查看提供者service的错误信息（值得注意的是直接LOGGER.info(throwable)并没什么用，不会打印出任何东西。。至此，问题解决。</p>
+<hr>
+<h4 id="对某个Feign禁用Hystrix："><a href="#对某个Feign禁用Hystrix：" class="headerlink" title="对某个Feign禁用Hystrix："></a>对某个Feign禁用Hystrix：</h4><p>（先编写一个配置类，然后在@FeignClient中导入即可）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignDisableHystrixConfiguration</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@Scope</span>(<span class="string">"prototype"</span>)</span><br><span class="line">    <span class="keyword">public</span> Feign.<span class="function">Builder <span class="title">feignBuilder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Feign.builder();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>想要禁用Hystrix的@FeginClient引用该配置类即可，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"user"</span>, configuration = FeignDisableHystrixConfiguration<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">interface</span> <span class="title">UserFeignClient</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以直接全局禁用Hystrix，在yml里，一般不会使用。</p>
+<h3 id="三-使用Hystrix的监控"><a href="#三-使用Hystrix的监控" class="headerlink" title="三. 使用Hystrix的监控"></a>三. 使用Hystrix的监控</h3><p>Hystrix除了实现容错，还有强大的实时监控功能。</p>
+<h4 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h4><p><strong>①首先，给Consumer服务添加Hystrix监控节点。</strong></p>
+<p>并不需要再导入依赖包了，因为<code>spring-cloud-starter-netflix-hystrix</code>就已经足够。另外，书上的例子是根据<code>@HystrixCommand</code>的继续的，它直接就拥有了hystrix.stream节点，不清楚为何。但我觉得可能是版本的原因，也可能是@HystrixCommand和Feign的区别，总而言之，上网查了一下，发现最可靠的办法还是：自己亲手创建者一个节点。这个过程很简单，而且也能对节点有更具体的认识，而不是像之前的，为什么会有info节点，health节点，到现在的hystrix.stream节点？都是系统自带的么?最好还是自己创建。</p>
+<p>参考:<a href="https://blog.csdn.net/dangshushu/article/details/80416042" target="_blank" rel="noopener">https://blog.csdn.net/dangshushu/article/details/80416042</a></p>
+<p>当然，这里添加的是``/actuator/hystrix.stream`，自己改一下就好，很简单。</p>
+<p>这里当时遇到过问题，无法打开这个节点，忘了是什么原因了。一开始以为是@EnableHystrix或者@EnableCircuitBreaker跟@EnableHystrixDashboard冲突，因为删掉前面两个就可以了。但其实并不是，主要原因是，我没有导入Hystrix依赖包！可能是一开始以为Hystrix依赖包跟Hystrix-dashboard依赖包冲突，然后去掉了Hystrix依赖包。所以当时的原因是：没有加Hystrix依赖包，导致前两个注解出现问题而已，这同属一个包的注解如果不兼容，那一般不可能。</p>
+<p>然后无论是打开浏览器查看hystrix.stream节点，还是直接查看hystrix查看dashboard界面，都可行了。这里又有一个问题，hystrix.stream一直ping，但没有内容。因为需要先在服务里执行至少一次操作，这里才会有信息，所以使用服务一次，比如xxx:8010/user/1，然后再看hystrix.stream节点就好。</p>
+<p><strong>②关于可视化监控Dashboard</strong></p>
+<p>首先需要导入依赖的：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>只需要在启动类加上<code>@EnableHystrixDashboard</code>即可。</p>
+<p>对了，这里没有把Dashboard注册到Eureka上，一开始想着就在本身上监控，所以不注册也OK。</p>
+<p><strong>③Dashboard可以监控多个服务实例，但当存在很多个实例的时候，只能一次一次地在hystrix节点上修改url，比较麻烦，而且不能对比。这时候就需要Turbine来聚合监控数据，其实也就是一次显示所有的/hystrix.stream节点，更方便，而且可以横向对比了。</strong></p>
+<p>然后这时候发现前面的错了，我的架构搞错了，因为之前无论是Ribbon还是Feign等都直接在Consumer上添加，所以我也就直接都加到Consumer上了。原来Consumer上只需要添加一个Hystrix.stream节点即可（就是那个只有文字的Hystrix监控信息），然后对于dashboard跟Turbine，最好另外分别起两个modules，所以现在的项目架构应该是这样的：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_14.png" alt="sb_14"></p>
+<p>这时就遇到了一个问题，太久没有创建子module，都忘了哪些是必须要添加的了，大概如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.h2database<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>h2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>Hoxton.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>PS：我觉得&lt;dependencies&gt;这部分应该是要放到父项目的，但现在懒得搞，后面重构再说。但h2数据库为什么也要导入我也不是很清楚。而且&lt;dependencyManagement&gt;也是必须的。还有启动类记得不能放在默认的package，不然无法scan。</p>
+<p>然后Dashboard项目还好，其实跟上面说的是一样的，只是我们把consumer的那些内容都去掉了而已。然后刚刚又不小心解除了技能，之前在project左方找文件的时候，尤其是External Libraries，一堆文件找得头疼，各种快捷键也没有。刚刚才发现，无须快捷键，指到那个区域，直接输入便是搜索，无语了，一下就能把什么jackson，commonxxx揪出来了。</p>
+<p>整个Dashboard项目结构：</p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_15.png" alt="sb_15"></p>
+<p>Dashboard启动类前除了@SpringBootApplication，还要增加一个<code>@EnableHystrixDashboard</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableHystrixDashboard</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HystrixDashboardApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(HystrixDashboardApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>yml只需要配置一个端口号即可：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">	<span class="attr">port:</span> <span class="number">8030</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Turbine项目的结构同理，只是除了上面Dashboard要导入的资源，还有：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-turbine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>yml：（这个Turbine需要注册到Eureka，所以还要配置一下Eureka相关属性。但Eureka的依赖包前面是直接放在父项目了，所以是无须在这个module特别导入的）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">	<span class="attr">port:</span> <span class="number">8031</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">application:</span></span><br><span class="line">		<span class="attr">name:</span> <span class="string">microservice-hystrix-turbine</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">	<span class="attr">client:</span></span><br><span class="line">		<span class="attr">service-url:</span></span><br><span class="line">			<span class="attr">defaultZone:</span> <span class="string">http://localhost:8761/eureka</span></span><br><span class="line">	<span class="attr">instance:</span></span><br><span class="line">		<span class="attr">prefer-ip-address:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">turbine:</span></span><br><span class="line">	<span class="attr">app-config:</span> <span class="string">microservice-simple-consumer-user</span></span><br><span class="line">	<span class="attr">cluster-name-expression:</span> <span class="string">"'default'"</span></span><br><span class="line">	<span class="attr">instanceUrlSuffix:</span> <span class="string">/hystrix.stream</span>	<span class="comment"># 没有的话会出现异常</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的app-config就是指定要监控哪些服务，可以指定多个，逗号分隔开即可，甚至同一个实例的不同端口号启动也可以一起监控。由于我没有编写多个consumer，后面就直接拿双端口号实例来测试了。</p>
+<p>而且，因为Turbine需要注册到Eureka，所以启动类应该是这样的：（exclude也是必须的，否则它会去yml里找，找不到就又生成了默认密钥了！ PS：去掉Turbine的security就不需要exclude了）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span>(exclude &#123;org.springframework.boot.autoconfigure.security.</span><br><span class="line">    servlet.SecurityAutoConfiguration<span class="class">.<span class="keyword">class</span>, <span class="title">org</span>.<span class="title">springframework</span>.<span class="title">boot</span>.<span class="title">actuate</span>.</span></span><br><span class="line"><span class="class">        <span class="title">autoconfigure</span>.<span class="title">security</span>.<span class="title">servlet</span>.<span class="title">ManagementWebSecurityAutoConfiguration</span>.<span class="title">class</span>&#125;)</span></span><br><span class="line"><span class="class">@<span class="title">EnableTurbine</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">TurbineApplication</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> DiscoveryClient.<span class="function">DiscoveryClientOptionalArgs <span class="title">discoveryClientOptionalArgs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DiscoveryClient.DiscoveryClientOptionalArgs discoveryClientOptionalArgs = </span><br><span class="line">            <span class="keyword">new</span> DiscoveryClient.DiscoveryClientOptionalArgs();</span><br><span class="line">        List&lt;ClientFilter&gt; additionalFilters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        additionalFilters.add(<span class="keyword">new</span> HTTPBasicAuthFilter(<span class="string">"hong"</span>, <span class="string">"root"</span>));</span><br><span class="line">        discoveryClientOptionalArgs.setADditionalFilters(additionalFilters);</span><br><span class="line">        <span class="keyword">return</span> discoveryClientOptionalArgs;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(TurbineApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="填坑"><a href="#填坑" class="headerlink" title="填坑"></a>填坑</h4><p>然后启动类加上@EnableTurbine，启动，理论上应该就OK了，但果然还是踩坑了，然后下面开始讲述<strong><em>填坑</em></strong>的过程：</p>
+<p>①首先必须清晰这几个项目之间是如何工作的，不能只知道它这样写work，而不清楚为何这样写，不求甚解的结果都懂的，后面稍微出现了点状况你也不知道是哪里出现问题，错误得不到正确的定位，就会花费极多的事件去做无用功（这里又要吐槽一次前面的Feign使用Hystrix，定位错误两天，解决一小时）</p>
+<p>首先，给Consumer添加了<code>Hystrix.stream</code>节点。这个节点就是可被后面的Dashboard跟Turbine检测的，而且我们看一下配置节点的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ServletRegistrationBean <span class="title">getServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    HystrixMetricsStreamServlet streamServlet = <span class="keyword">new</span> HystrixMetricsStreamServlet();</span><br><span class="line">    ServletRegistrationBean regisBean = <span class="keyword">new</span> ServletRegistrationBean(streamServlet);</span><br><span class="line">    regisBean.setLoadOnStartup(<span class="number">1</span>);</span><br><span class="line">    regisBean.addUrlMappings(<span class="string">"/hystrix.stream"</span>);</span><br><span class="line">    regisBean.setName(<span class="string">"HystrixMetricsStreamServlet"</span>);</span><br><span class="line">    <span class="keyword">return</span> regisBean;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即使不清楚它的源码，但看了也大概知道是啥了，addUrlMappings就是添加节点的URL路径，然后设置了一个BeanName。而且这个Bean也不是瞎创建的，使用了HystrixMetricsStreamServlet来创建，所以很自然地，我们在8010/hystrix.stream里就可以看到一些关于Hystrix监控的信息了，尽管现在还不清楚到底是啥。</p>
+<p>然后，Dashboard是一个单独的结点，不需要配置Eureka信息，它也确实无须注册到Eureka，毕竟它是在主页里手动输入url来获取Hystrix信息的（如localhost:8010/hystrix.stream)。PS：启动的时候可能会报错，说无法注册到服务器，不需要管，因为本来就不打算注册到Eureka，不影响。</p>
+<p>最后，Turbine是需要注册到Eureka的，因为它不是单独地输入一个URL，然后就检测这一个，它是检测Eureka里所有具备了某个结点的服务（一开始以为默认就是hystrix.stream结点），然后Turbine本身又是一个结点，/turbine.stream,最后只需要把这个结点放到Dashboard里查询，那么就可以在Dashboard里显示所有的Turbine检测到的Hystrix.stream结点。总体逻辑就是这样。</p>
+<p><strong><em>②Dashboard can not connect xxx：</em></strong></p>
+<p>输入了某个hystrix.stream的URL之后，发现无法connect。这时候看一下日志就知道：401，未授权。所以这里也直接很简单粗暴了，URL前面加上xxx:yyy@即可 （这个好像叫OAuth协议，后面再说）。前面最开始为什么没有这个问题？因为当时Dashboard直接就在Consumer服务里，而Consumer服务是有配置这个认证的代码的，所以自然它也自动认证了。</p>
+<p><strong><em>③在Dashboard里输入turbine.stream的时候，一直loading。</em></strong></p>
+<p>一开始直接打开turbine.stream，发现一直在打印:”reportingHostsLast10Seconds”:0 ……</p>
+<p>很显然，它没有发现到任何的Host，自然也没有信息。这时候再回看turbine的yml配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">turbine:</span></span><br><span class="line">	<span class="attr">app-config:</span> <span class="string">microservice-simple-consumer-user</span></span><br><span class="line">	<span class="attr">cluster-name-expression:</span> <span class="string">"'default'"</span></span><br><span class="line">	<span class="attr">instanceUrlSuffix:</span> <span class="string">/hystrix.stream</span>		<span class="comment"># 没有的话会出现异常</span></span><br></pre></td></tr></table></figure>
+
+<p>我当时consumer偷懒，一直没有给它加名字，所以consumer服务在Eureka里是叫UNKNOWN的。于是我把这里改成了UNKNOWN，确实就找到了。然后我给consumer加回这个正常的名字：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">	<span class="attr">application:</span></span><br><span class="line">		<span class="attr">name:</span> <span class="string">microservice-simple-consumer-user</span></span><br></pre></td></tr></table></figure>
+
+<p>发现是发现到了，但仍然是loading，这时候日志就看到错误原因了:401</p>
+<p>仍然是未授权。这时候应该怎么解决？我前面是直接在Dashboard里的URL添加了认证信息，但这里显然是不行的，为什么？因为Dashboard里的URL直接就是我要监控的那个URL的地址，它具体地调用了某个Provider，然后这个Provider需要认证信息，所以我直接在URL里添加认证信息就可以了。但这里我在Dashboard里输入的URL是turbine.stream的URL，如果我在这个URL里加入了认证信息，那么只是传递给了Turbine。但后续Turbine还要自己去监控各种的服务，显然因为Turbine是连接多个服务的，如果不同的服务认证信息不一致，那么这种在URL前缀加认证信息其实就没必要，所以Turbine也很聪明地直接就不会把这个参数传递到服务（尽管我这里用的是同一个服务实例，如果它传是可以通过认证的，但显然它直接不这么尝试，我认为这个设计是合理的）</p>
+<p>最标准的解法应该是，<strong><em>给Turbine增加一个配置类，然后通过认证</em></strong>，但我前面的认证都是针对注册到Eureka 的，而Consumer里的认证是使用Feign的，不可能给Turbine为了认证也加这么一个不需要的东西吧。不清楚如何解决，最后直接在源头：在Provider上配置例外，这样Turbine就不需要认证了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="meta">@EnableGlobalMethodSecurity</span>(prePostEnabled = <span class="keyword">true</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityConfig</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(WebSecurity web)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.configure(web);</span><br><span class="line">        web.ignoring().</span><br><span class="line">            antMatchers(<span class="string">"/hystrix.stream"</span>, <span class="string">"turbine.stream"</span>, <span class="string">"/actuator/hystrix.stream"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果还是不行，一开始说找不到/actuator/hystrix.stream。然后加上了这个ignoring也不行。其实当时就猜到了，默认路径应该是/actuator/hystrix.stream，而不是/hystrix.stream（可能是2.x改的）</p>
+<p>所以正确的做法，<strong><em>给yml手动配置Turbine要监控的结点</em></strong>（不知道默认是什么，最好就直接自己配置)：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">turbine:</span></span><br><span class="line">	<span class="attr">app-config:</span> <span class="string">microservice-simple-consumer-user</span></span><br><span class="line">	<span class="attr">cluster-name-expression:</span> <span class="string">"'default'"</span></span><br><span class="line">	<span class="attr">instanceUrlSuffix:</span> <span class="string">/hystrix.stream</span>		<span class="comment"># 没有的话会出现异常(验证了这个不可或缺)</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的turbine:instanceUrlSuffix: 就是配置了要监控的后缀。果然401问题解决了，就全部都解决了。</p>
+<h4 id="效果图："><a href="#效果图：" class="headerlink" title="效果图："></a>效果图：</h4><p><strong>①Eureka：一共启动了6个项目。其中一个Provider，两个Consumer（通过不同端口启动的），一个Turbine，剩下的就是Eureka，还有没注册到Eureka的Dashboard。</strong></p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_16.png" alt="sb_16"></p>
+<p><strong>②Turbine.stream可以监控到数据：</strong></p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_17.png" alt="sb_17"></p>
+<p><strong>③Dashboard的界面：</strong></p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_18.png" alt="sb_18"></p>
+<p><strong>④给Dashboard输入我们要访问的URL，随便起一个Title（URL可以是单个的hystrix.stream，也可以是监控多个的turbine.stream，这里直接看turbine.stream）</strong></p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_19.png" alt="sb_19"></p>
+<p><strong>可以看到监控了两个Host，说明成功了。如果是多个不同的实例，会有多个图：</strong></p>
+<p><img src="https://my-blog-1253941628.cos.ap-guangzhou.myqcloud.com/2020-02-14/images/20200217/new_images/sb_20.png" alt="sb_20"></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Cloud/" rel="tag"><i class="fa fa-tag"></i> Spring Cloud</a>
+          
+            <a href="/tags/Spring-Boot/" rel="tag"><i class="fa fa-tag"></i> Spring Boot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Spring-Cloud%E7%AC%94%E8%AE%B0-%E4%BA%8C.html" rel="next" title="Spring Cloud笔记(二)">
+                <i class="fa fa-chevron-left"></i> Spring Cloud笔记(二)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Spring-Cloud%E7%AC%94%E8%AE%B0-%E5%9B%9B.html" rel="prev" title="Spring Cloud笔记(四)">
+                Spring Cloud笔记(四) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/03.jpeg"
+                alt="Hong" />
+            
+              <p class="site-author-name" itemprop="name">Hong</p>
+              <p class="site-description motion-element" itemprop="description">hong</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Hongscar" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:84363715@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一. 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-使用熔断器Hystrix"><span class="nav-number">2.</span> <span class="nav-text">二.  使用熔断器Hystrix</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用步骤："><span class="nav-number">2.1.</span> <span class="nav-text">使用步骤：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Feign使用Hystrix："><span class="nav-number">2.2.</span> <span class="nav-text">Feign使用Hystrix：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Feign使用Hystrix：（解决篇"><span class="nav-number">2.3.</span> <span class="nav-text">Feign使用Hystrix：（解决篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对某个Feign禁用Hystrix："><span class="nav-number">2.4.</span> <span class="nav-text">对某个Feign禁用Hystrix：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-使用Hystrix的监控"><span class="nav-number">3.</span> <span class="nav-text">三. 使用Hystrix的监控</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#步骤："><span class="nav-number">3.1.</span> <span class="nav-text">步骤：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#填坑"><span class="nav-number">3.2.</span> <span class="nav-text">填坑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#效果图："><span class="nav-number">3.3.</span> <span class="nav-text">效果图：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/" rel="tag">CentOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/" rel="tag">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deprecated/" rel="tag">deprecated</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '75d5d92e717eca3c6b03',
+          clientSecret: '3ec3a4b9ee7baf1c9f4ec85b4ce8d2af9126edb3',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
