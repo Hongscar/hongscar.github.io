@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<meta name="baidu-site-verification" content="dOjrq8WodF" />
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+
+
+  <meta name="keywords" content="LeetCode,algorithm," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hong's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一. 贪心算法​          贪心算法的实质就是，直接解决问题太难，于是寻找一个看起来比较tricky的解法，核心思想是先寻找局部最优解，进而整合起来的结果仍然是整体最优解。因为寻找局部最优解的过程，可以忽略很多情况条件（因为它考虑的是局部，而非整体），因此才显得比较“贪心”。但要注意的是，每一个地方都是局部最优解，最终的全局并不一定是整体的最优解，所以贪心算法只有在特定的题目才可以使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode-贪心算法">
+<meta property="og:url" content="https://hongscar.cn/LeetCode-%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95.html">
+<meta property="og:site_name" content="Hong&#39;s Blog">
+<meta property="og:description" content="一. 贪心算法​          贪心算法的实质就是，直接解决问题太难，于是寻找一个看起来比较tricky的解法，核心思想是先寻找局部最优解，进而整合起来的结果仍然是整体最优解。因为寻找局部最优解的过程，可以忽略很多情况条件（因为它考虑的是局部，而非整体），因此才显得比较“贪心”。但要注意的是，每一个地方都是局部最优解，最终的全局并不一定是整体的最优解，所以贪心算法只有在特定的题目才可以使用。">
+<meta property="article:published_time" content="2020-02-21T08:50:04.000Z">
+<meta property="article:modified_time" content="2020-02-21T16:19:32.731Z">
+<meta property="article:author" content="Hong">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="algorithm">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hongscar.cn/LeetCode-贪心算法.html"/>
+
+
+
+
+
+  <title>LeetCode-贪心算法 | Hong's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hong's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Like life,like coding</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hongscar.cn/LeetCode-%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/04.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LeetCode-贪心算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-21T16:50:04+08:00">
+                2020-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/interview/" itemprop="url" rel="index">
+                    <span itemprop="name">interview</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-贪心算法"><a href="#一-贪心算法" class="headerlink" title="一. 贪心算法"></a>一. 贪心算法</h3><p>​          贪心算法的实质就是，直接解决问题太难，于是寻找一个看起来比较tricky的解法，核心思想是先寻找<strong><em>局部最优解</em></strong>，进而整合起来的结果仍然是<strong><em>整体最优解</em></strong>。因为寻找局部最优解的过程，可以忽略很多情况条件（因为它考虑的是局部，而非整体），因此才显得比较“贪心”。但要注意的是，每一个地方都是局部最优解，最终的全局并不一定是整体的最优解，所以贪心算法只有在特定的题目才可以使用。</p>
+<p>​          那么什么题目才可以使用贪心算法？自然是具体问题具体分析。贪心算法有点像直觉上的不成形算法，关键在于这个局部最优解最后是否能演变成整体最优解，一般可以通过反证法来判断是否能得到整体最优解。接下来，我们通过几道LeetCode的题目来进行操作。</p>
+<a id="more"></a>
+
+
+
+<h3 id="二-LeetCode-455-分配饼干"><a href="#二-LeetCode-455-分配饼干" class="headerlink" title="二. LeetCode 455. 分配饼干"></a>二. LeetCode 455. 分配饼干</h3><p>455.Assign Cookies (Easy)</p>
+<p><a href="https://leetcode.com/problems/assign-cookies/description/" target="_blank" rel="noopener">Leetcode</a> / <a href="https://leetcode-cn.com/problems/assign-cookies/description/" target="_blank" rel="noopener">力扣</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: grid[1,3], size[1,2,4]</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>题目描述</em></strong>：每个孩子都有一个满足度 grid，每个饼干都有一个大小 size，只有饼干的大小大于等于一个孩子的满足度，该孩子才会获得满足。求解最多可以获得满足的孩子数量。</p>
+<p><strong><em>分析</em></strong>：一个饼干只能分配给一个小孩子。这道题，直觉上的思路：优先分配给满足度最小的孩子，并且给一个小孩子分配饼干的时候，应该分配尽量小但又能满足那个小孩子的饼干，留着更大的饼干用于给满足度比较大的孩子。这个思想应该很好理解，其实这就已经是<strong><em>贪心算法</em></strong>，为什么？因为优先给当前满足度最小的孩子分配尽量小的饼干，这就是一个<strong><em>局部最优解</em></strong> 的情况。那么，虽然直觉上是认为这样就是正确答案，也就是这个局部最优解，最后会演化成<strong><em>整体最优解</em></strong>，但如果要专业的证明，如何证明？答案就是开头所说的，<strong><em>反证法</em></strong>。</p>
+<p><strong><em>证明</em></strong>：假设在某次选择中，我们的贪心策略选择：给当前满足度最小的孩子分配第m个饼干，并且第m个饼干是可以满足该孩子的最小饼干。假设这并不一定是全局最优解，也就是存在一种更优的策略，可以给该孩子分配第n个饼干，并且m &lt; n。我们可以发现，经过这一轮的分配，贪心策略可以剩下一个饼干n，而假设的更优策略，留下的是饼干m。又由于m &lt; n，所以在后续的分配中，贪心策略一定能满足更多的孩子。所以不存在比贪心策略更优的策略，即贪心策略是最优策略。</p>
+<p><strong><em>总结</em></strong>：贪心算法看起来确实就是一种直觉上的算法，根据具体问题分析，得出局部最优解，进而获得全局最优解。所以后续的题目直接忽略证明，讲述贪心算法的思路即可。(这道题还用到了双指针)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 优先给满足度最小的分配尽量小的饼干，局部最优达到全局最优</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findContentChildren</span><span class="params">(<span class="keyword">int</span>[] g, <span class="keyword">int</span>[] s)</span> </span>&#123;</span><br><span class="line">        Arrays.sort(g);</span><br><span class="line">        Arrays.sort(s);</span><br><span class="line">        <span class="keyword">int</span> gIndex = <span class="number">0</span>, sIndex = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (gIndex &lt; g.length &amp;&amp; sIndex &lt; s.length) </span><br><span class="line">            <span class="keyword">if</span> (g[gIndex] &lt;= s[sIndex++])</span><br><span class="line">                gIndex++;</span><br><span class="line">        <span class="keyword">return</span> gIndex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三-LeetCode-435-不重叠的区间个数"><a href="#三-LeetCode-435-不重叠的区间个数" class="headerlink" title="三. LeetCode 435. 不重叠的区间个数"></a>三. LeetCode 435. 不重叠的区间个数</h3><p>\435. Non-overlapping Intervals (Medium)</p>
+<p><a href="https://leetcode.com/problems/non-overlapping-intervals/description/" target="_blank" rel="noopener">Leetcode</a> / <a href="https://leetcode-cn.com/problems/non-overlapping-intervals/description/" target="_blank" rel="noopener">力扣</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [ [1,2], [1,2], [1,2] ]</span><br><span class="line">Output: 2</span><br><span class="line"></span><br><span class="line">Explanation: You need to remove two [1,2] to make the rest of intervals non-overlapping.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [ [1,2], [2,3] ]</span><br><span class="line">Output: 0</span><br><span class="line"></span><br><span class="line">Explanation: You don&#39;t need to remove any of the intervals since they&#39;re already non-overlapping.</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>题目描述</em></strong>：给定一个区间的集合，找到需要移除区间的最小数量，使剩余区间互不重叠。</p>
+<p><strong><em>分析</em></strong>：给数组排序，然后从左到右逐个选择，如果重叠（冲突）就去掉。记录选择的区间个数，最后得到的就是结果。那么这个排序的逻辑是什么？答案是：根据右区间进行排序。试想存在两个区间，[1, 2], [1, 3]，应该选择哪个？显然是[1, 2]，因为它右区间更小，进而后面能容纳的范围也更大。那么左区间不需要考虑吗？虽然左区间比自己的右区间更小，但并不一定比其他的左区间更小，比如[0, 2], [1, 3]。这时候我们可能会钻牛角尖，这种情况肯定是选[0, 2]，但如果前面还有一个区间怎么样？比如： [-2, 1], [0, 2], [1, 3]。实际上“如果前面还有一个区间”，这种假设是不可能存在的，因为我们是<strong><em>从左到右</em></strong> 进行选择的。所以不存在我们先选取了[0, 2]，再因为前面还有区间而导致出错的情况。我们只会先选择[-2, 1]，然后读到[0, 2]的时候，发现冲突，继续向前。读到[1, 3]，没有冲突，于是最后的答案就是2。所以这种排序得到的确实是最优解。</p>
+<p><strong><em>总结</em></strong>：贪心算法最关键的是寻找局部最优解，并且要确保这是否真的为局部最优解。在验证的过程中，我们会使用测试用例，但不能忘记自己算法的规则（比如上面的从左到右，依次选择右区间最小的元素，如果忽略了从左到右，那么可能会在一些测试用例上浪费时间）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">eraseOverlapIntervals</span><span class="params">(<span class="keyword">int</span>[][] intervals)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (intervals.length &lt;= <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 排序, 取右区间最小的区间，可以确保后续能容纳更多区间</span></span><br><span class="line">        Arrays.sort(intervals, <span class="keyword">new</span> Comparator&lt;<span class="keyword">int</span>[]&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">int</span>[] o1, <span class="keyword">int</span>[] o2)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> o1[<span class="number">1</span>] - o2[<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> prev = intervals[<span class="number">0</span>][<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; intervals.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (intervals[i][<span class="number">0</span>] &lt; prev) &#123;</span><br><span class="line">                <span class="comment">// 这些不符合的，重叠的，都需要去掉</span></span><br><span class="line">                res++;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            prev = intervals[i][<span class="number">1</span>];		<span class="comment">// 记录当前的最右区间</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="四-LeetCode-452-投飞镖刺破气球"><a href="#四-LeetCode-452-投飞镖刺破气球" class="headerlink" title="四. LeetCode 452. 投飞镖刺破气球"></a>四. LeetCode 452. 投飞镖刺破气球</h3><p>452.Minimum Number of Arrows to Burst Balloons (Medium)</p>
+<p><a href="https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/" target="_blank" rel="noopener">Leetcode</a> / <a href="https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/description/" target="_blank" rel="noopener">力扣</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">[[10,16], [2,8], [1,6], [7,12]]</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>题目描述</em></strong>：气球在一个水平数轴上摆放，可以重叠，飞镖垂直投向坐标轴，使得路径上的气球都被刺破。求解最小的投飞镖次数使所有气球都被刺破。</p>
+<p><strong><em>分析</em></strong>：其实跟上一题很相似，就是选择一定数量的数字，使得这些数字一起覆盖上面的区间。同理，进行排序，从左到右进行覆盖（也就是题目中的投飞镖刺气球）。同样是根据右区间排序，然后从左到右选择右区间的位置进行投飞镖。比如区间[1, 6]，到底是在1~6哪个位置投最合适？答案是6，也就是右区间，因为更容易同时刺中后面的气球。如果你又要问“如果前面还有一个[3,4]的区间怎么办，建议回看上一题。。）所以这一题的思路跟上一题是一模一样的，只是处理的逻辑稍微有一点区别。</p>
+<p><strong><em>总结</em></strong>： 跟上一题一样。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findMinArrowShots</span><span class="params">(<span class="keyword">int</span>[][] points)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (points.length == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        Arrays.sort(points, <span class="keyword">new</span> Comparator&lt;<span class="keyword">int</span>[]&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">int</span>[] o1, <span class="keyword">int</span>[] o2)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> o1[<span class="number">1</span>] - o2[<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> current = points[<span class="number">0</span>][<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; points.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (current &gt;= points[i][<span class="number">0</span>] &amp;&amp; current &lt;= points[i][<span class="number">1</span>])	<span class="comment">// 同时刺破的气球</span></span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            res++;</span><br><span class="line">            current = points[i][<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="五-LeetCode-406-根据身高和序号重组队列"><a href="#五-LeetCode-406-根据身高和序号重组队列" class="headerlink" title="五. LeetCode 406. 根据身高和序号重组队列"></a>五. LeetCode 406. 根据身高和序号重组队列</h3><p>406.Queue Reconstruction by Height(Medium)</p>
+<p><a href="https://leetcode.com/problems/queue-reconstruction-by-height/description/" target="_blank" rel="noopener">Leetcode</a> / <a href="https://leetcode-cn.com/problems/queue-reconstruction-by-height/description/" target="_blank" rel="noopener">力扣</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">[[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">[[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>题目描述</em></strong>：一个学生用两个分量 (h, k) 描述，h 表示身高，k 表示排在前面的有 k 个学生的身高比他高或者和他一样高。</p>
+<p><strong><em>分析</em></strong>：首先，毫无疑问重组的队列是一个一个身高insert进去的，不可能一下全部丢进去，然后再重排。如果重排，那就是暴力法，把所有情况都列出来，毫无疑问，时间复杂度很高，而且不推荐。那么关键就是这个依次添加的每一个学生，如何不受后面的学生影响，或者说，后面的学生如何insert到恰当的位置？这就是每一步都寻求的最优解，也就是局部最优，所以也属于贪心算法的范畴。思考了之后，最不容易受影响的学生，就是最高的学生，因为比它们矮的学生，无论怎么排，都不会影响第二个数字（排在前面比它们高或者一样高的学生数量）。所以排序的第一个规则，h越大，就排在越前。那么如果h相同的情况应该怎么处理？答案是，先考虑k较小的情况，只要把该h，放在队列里的第k个位置，那么前面的学生就不会受到影响。拿这里举例：[7, 0], [6, 1], [7, 1]。[7, 0]先入队，放在队列的第0个位置，此时队列为{7}。然后[7, 1]进队，放在队列的第1个位置，此时队列为{7，7}。然后关键的[6, 1]来了，应该放在哪个位置？就是放在队列的第1个位置，这样队列为{7，6，7}。为什么是第0个位置？看起来很巧妙，很难思考，其实也是局部最优的原因。因为前面的放法都是局部最优，所以后面这样加的位置也是正确解。比如前面放置[7, 0]和[7, 1]的时候，不会怀疑这个放法，因为它前面也是局部最优（初始化当然是最优，只加一个的时候当然也是最优）。所以，关键是：身高h降序，个数k升序。</p>
+<p><strong><em>总结</em></strong>：贪心算法的核心是寻找局部最优，并非找到合适的排序就已经结束，以哪种顺序insert，这些都是要考虑的方面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[][] reconstructQueue(<span class="keyword">int</span>[][] people) &#123;</span><br><span class="line">        <span class="comment">// 排序, h降序, k升序, 使得后续的insert不会改变先前的相对位置</span></span><br><span class="line">        Arrays.sort(people, <span class="keyword">new</span> Comparator&lt;<span class="keyword">int</span>[]&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">int</span>[] o1, <span class="keyword">int</span>[] o2)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">int</span> tmp = o2[<span class="number">0</span>] - o1[<span class="number">0</span>];</span><br><span class="line">                <span class="keyword">if</span> (tmp != <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">return</span> tmp;</span><br><span class="line">                <span class="keyword">return</span> o1[<span class="number">1</span>] - o2[<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">// 按顺序insert, 每一个都insert到当前people[i][1]的位置</span></span><br><span class="line">        List&lt;<span class="keyword">int</span>[]&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] p: people)</span><br><span class="line">            list.add(p[<span class="number">1</span>], p);</span><br><span class="line">        <span class="keyword">return</span> list.toArray(<span class="keyword">new</span> <span class="keyword">int</span>[list.size()][]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="六-LeetCode-121-买卖股票最大的利益"><a href="#六-LeetCode-121-买卖股票最大的利益" class="headerlink" title="六.  LeetCode 121. 买卖股票最大的利益"></a>六.  LeetCode 121. 买卖股票最大的利益</h3><p>121.Best Time to Buy and Sell Stock (Easy)</p>
+<p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/" target="_blank" rel="noopener">Leetcode</a> / <a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/description/" target="_blank" rel="noopener">力扣</a></p>
+<p><strong><em>题目描述</em></strong>：一次股票交易包含买入和卖出，只进行一次交易，求最大收益。</p>
+<p><strong><em>分析</em></strong>：假设我们要在第i天出售，此时的最大利润是什么？是在前面(i - 1)天寻找一个最小值，然后用prices[i]减去第i天之前的最小值。这就是每一天的最优解（每一天出售时候的最大利益），全部取max，就是答案。</p>
+<p><strong><em>总结</em></strong>：一开始觉得这题跟贪心算法没联系，其实这题再翻译一下就是，在n天内，可以买卖股票，只进行一次交易，那么最大的利益是多少？里面隐含了一个条件，n天之内。实际上，我们只需要求出每一天出售时候的最大利益，最后就能通过每一天出售的最大利益，求得n天之内买卖的最大利益，也就是局部最优到全局最优。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (prices.length &lt;= <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> min = prices[<span class="number">0</span>];    <span class="comment">// 记录当前的min</span></span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> tmp = prices[i] - min;  <span class="comment">// 今天卖, 与min的差价</span></span><br><span class="line">            <span class="keyword">if</span> (tmp &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                min = prices[i];</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            res = res &gt;= tmp ? res : tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="七-LeetCode-122-买卖股票的最大利益Ⅱ"><a href="#七-LeetCode-122-买卖股票的最大利益Ⅱ" class="headerlink" title="七. LeetCode 122.买卖股票的最大利益Ⅱ"></a>七. LeetCode 122.买卖股票的最大利益Ⅱ</h3><p>122.Best Time to Buy and Sell Stock II (Easy)</p>
+<p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/" target="_blank" rel="noopener">Leetcode</a> / <a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/description/" target="_blank" rel="noopener">力扣</a></p>
+<p><strong><em>题目描述</em></strong>：可以进行多次交易，多次交易之间不能交叉进行，可以进行多次交易。</p>
+<p><strong><em>分析</em></strong>：因为可以多次交易，所以上一题的方法无效。这道题很容易让人想太多，比如到底应该什么时候买，什么时候卖（<del>仿佛就回到了现实的纠结当中</del>）。其实有一个最关键的点：对于 [a, b, c, d]，如果有 a &lt;= b &lt;= c &lt;= d ，那么最大收益为 d - a。正确的做法应该是，第一天的时候买进a，第四天的时候以d的价格卖出去，所以中间的b和c都是干扰项，这么想就会把问题复杂化。而实际上，<strong><em>d - a = (d - c) + (c - b) + (b - a)</em></strong>，因此当访问到一个 prices[i] 且 prices[i] - prices[i-1] &gt; 0，那么就把 prices[i] - prices[i-1] 添加到收益中。如果是c &lt;= a &lt;= b &lt;= d应该怎么办？同样的： <strong><em>d - a  = (d - b) + ( b - a)</em></strong>。一天只能买，或者卖，其实这就是干扰项，你第二天可以以b的价格卖掉，此时利润为（b - a），就当做是，你又以b的价格拿回来了，随时可以出售（<del>当然这个现实做不到</del>）。当后面没有比b更好的情况，你的利润就是(b - a)，如果有更好的，那么就是继续上面的<strong><em>d - a = (d - c) + (c - b) + (b - a)</em></strong>。所以核心的关键是，只要prices[i] &gt; prices[i - 1]，这一部分的利润就可以赚取。这就是这道题的局部最优。</p>
+<p><strong><em>总结</em></strong>：局部最优解并不容易想，但只要想出来，并且能达到整体最优，那么贪心算法很把问题迅速解决。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> profit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; i++)</span><br><span class="line">            <span class="keyword">if</span> (prices[i] &gt; prices[i - <span class="number">1</span>])</span><br><span class="line">                profit += prices[i] - prices[i - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> profit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="八-LeetCode-605-种植花朵"><a href="#八-LeetCode-605-种植花朵" class="headerlink" title="八.  LeetCode 605. 种植花朵"></a>八.  LeetCode 605. 种植花朵</h3><p>605.Can Place Flowers (Easy)</p>
+<p><a href="https://leetcode.com/problems/can-place-flowers/description/" target="_blank" rel="noopener">Leetcode</a> / <a href="https://leetcode-cn.com/problems/can-place-flowers/description/" target="_blank" rel="noopener">力扣</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: flowerbed &#x3D; [1,0,0,0,1], n &#x3D; 1</span><br><span class="line">Output: True</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>题目描述</em></strong>：flowerbed 数组中 1 表示已经种下了花朵。花朵之间至少需要一个单位的间隔，求解是否能种下 n 朵花。</p>
+<p><strong><em>分析</em></strong>：这道题很显然，只要从左到右种，那么就一定是最优（只要当前的格子符合要求，就可以种）。应该很直观吧，不会有人觉得在某些特定的情况，左边不能种，应该种在稍右的地方吧。这个用反证法也很好证明，过程估计就跟第一题的证明一样，种在最左，右边能遗留的空间会更多。</p>
+<p><strong><em>总结</em></strong>：即使不知道这是贪心算法，也知道是这么回事，但确实这也是局部最优到整体最优的过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canPlaceFlowers</span><span class="params">(<span class="keyword">int</span>[] flowerbed, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; flowerbed.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (n == <span class="number">0</span>)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span> (flowerbed[i] == <span class="number">1</span>)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">int</span> left = i - <span class="number">1</span>, right = i + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">boolean</span> flag1 = (left &lt; <span class="number">0</span>) || flowerbed[left] == <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">boolean</span> flag2 = (right == flowerbed.length) || flowerbed[right] == <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (flag1 &amp;&amp; flag2) &#123;</span><br><span class="line">                flowerbed[i] = <span class="number">1</span>;</span><br><span class="line">                n--;</span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="九-总结"><a href="#九-总结" class="headerlink" title="九. 总结"></a>九. 总结</h3><p>​          只要是找局部最优解，进而演变成整体最优解，那么就是贪心算法。但是贪心算法的适用性其实并不广，所以并不能频繁考虑。可是贪心算法比较像直观上思考的算法，所以只要直观上觉得可行，就该考虑这是不是局部最优，是不是属于贪心算法，进而再进行解题。值得注意的是，局部最优解虽然暂时不用考虑整体，但有些情况下也并不容易找到，如果当前的局部解并不是最优解，最后的结果自然也是错的。总而言之，这是一个在特定情况下很好用的方法。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LeetCode/" rel="tag"><i class="fa fa-tag"></i> LeetCode</a>
+          
+            <a href="/tags/algorithm/" rel="tag"><i class="fa fa-tag"></i> algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/LeetCode-%E5%8F%8C%E6%8C%87%E9%92%88.html" rel="next" title="LeetCode-双指针">
+                <i class="fa fa-chevron-left"></i> LeetCode-双指针
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/LeetCode-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html" rel="prev" title="LeetCode-二分查找">
+                LeetCode-二分查找 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="gitalk-container"></div>
+    </div>
+
+  
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/04.jpeg"
+                alt="Hong" />
+            
+              <p class="site-author-name" itemprop="name">Hong</p>
+              <p class="site-description motion-element" itemprop="description">hong</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Hongscar" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:84363715@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-贪心算法"><span class="nav-number">1.</span> <span class="nav-text">一. 贪心算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-LeetCode-455-分配饼干"><span class="nav-number">2.</span> <span class="nav-text">二. LeetCode 455. 分配饼干</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-LeetCode-435-不重叠的区间个数"><span class="nav-number">3.</span> <span class="nav-text">三. LeetCode 435. 不重叠的区间个数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-LeetCode-452-投飞镖刺破气球"><span class="nav-number">4.</span> <span class="nav-text">四. LeetCode 452. 投飞镖刺破气球</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-LeetCode-406-根据身高和序号重组队列"><span class="nav-number">5.</span> <span class="nav-text">五. LeetCode 406. 根据身高和序号重组队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-LeetCode-121-买卖股票最大的利益"><span class="nav-number">6.</span> <span class="nav-text">六.  LeetCode 121. 买卖股票最大的利益</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-LeetCode-122-买卖股票的最大利益Ⅱ"><span class="nav-number">7.</span> <span class="nav-text">七. LeetCode 122.买卖股票的最大利益Ⅱ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八-LeetCode-605-种植花朵"><span class="nav-number">8.</span> <span class="nav-text">八.  LeetCode 605. 种植花朵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九-总结"><span class="nav-number">9.</span> <span class="nav-text">九. 总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CentOS/" rel="tag">CentOS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/" rel="tag">IDE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/" rel="tag">JSON</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/" rel="tag">LeetCode</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/" rel="tag">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deprecated/" rel="tag">deprecated</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/" rel="tag">life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+  <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="noopener">粤ICP备19122452号-1</a> 
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '961df9fc27435b99efba',
+          clientSecret: 'da542d897edca9957720bf84a16948e70548973c',
+          repo: 'hongscar.github.io',
+          owner: 'hongscar',
+          admin: ['hongscar'],
+          id:'_20200221165004',
+          perPage: 5,
+          distractionFreeMode: true
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
